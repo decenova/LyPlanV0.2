@@ -23,9 +23,11 @@ namespace LyPlan
         public MainWindow()
         {
             InitializeComponent();
-            Task task = new Task() { Name = "Hay" };
-            task.Items.Add(new Task() { Name = "The" });
-            Todolist.Items.Add(task);
+            Task task = new Task() { Name = "Reading book" };
+            tvTodolist.Items.Add(task);
+            tvTodolist.Items.Add(new Task() { Name = "Play game" });
+            tvTodolist.Items.Add(new Task() { Name = "Learn" });
+            tvTodolist.Items.Add(new Task() { Name = "Vu vu" });
         }
     }
 }

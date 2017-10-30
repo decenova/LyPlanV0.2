@@ -4,6 +4,9 @@
              xmlns:local="clr-namespace:LyPlan"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        
+        <!--Grid-->
+        
         <Style TargetType="Grid" x:Key="background-light">
             <Setter Property="Background" Value="#ffffffff"></Setter>
         </Style>
@@ -28,6 +31,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        
+        <!--Button-->
+        
         <Style TargetType="Button" x:Key="button">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
@@ -51,9 +57,8 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
-        <Style TargetType="ToggleButton" x:Key="button-rectangle">
-            <!--<Setter Property="Height" Value="48"></Setter>
-            <Setter Property="Width" Value="48"></Setter>-->
+
+        <Style TargetType="ToggleButton" x:Key="toggle-button">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
             <Setter Property="Foreground" Value="#ffffffff"></Setter>
@@ -66,19 +71,30 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+        <Style TargetType="ToggleButton" x:Key="toggle-button-todolist" BasedOn="{StaticResource toggle-button}">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#9900A2DE"/>
+                    <Setter Property="Foreground" Value="#9900A2DE"/>
                 </Trigger>
-                <Trigger Property="IsChecked" Value="True">
-                    <Setter Property="Background" Value="#ff00A2DE"/>
-                </Trigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=tabTodolist, Path=IsSelected}" Value="true"></Condition>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Value="true"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="FontStyle" Value="Normal"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="Image" x:Key="button-icon">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+
+        <!--Tab-->
+
         <Style TargetType="TabControl">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
@@ -118,6 +134,9 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!--TreeView-->
+
         <Style TargetType="TreeView">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
@@ -130,7 +149,7 @@
                         <Grid Height="24" HorizontalAlignment="Stretch">
                             <ToggleButton Content="{Binding Name}" VerticalAlignment="Center" 
                                     HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
-                                    Style="{StaticResource button-rectangle}"></ToggleButton>
+                                    Style="{StaticResource toggle-button-todolist}"></ToggleButton>
                         </Grid>
                     </HierarchicalDataTemplate>
                 </Setter.Value>
