@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace BussinessObject.Entities
         private string description;
         private int typeId;
         private int superTask; //Lưu id của task cha
+        private ObservableCollection<Task> items;
 
         public int Id
         {
@@ -61,6 +63,14 @@ namespace BussinessObject.Entities
 
             //Chưa kiểm tra task tầng thứ 3
             set { superTask = value; }
+        }
+
+        public ObservableCollection<Task> Items
+        {
+            get { return items; }
+
+            //Không cho vào vì làm j có set
+            //set { items = value; }
         }
     }
 }
