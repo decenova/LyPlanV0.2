@@ -57,7 +57,7 @@
                     <TabControl>
                         <TabItem Header="To do list">
                             <TreeView x:Name="Todolist">
-                                <TreeViewItem HorizontalContentAlignment="Stretch"></TreeViewItem>
+
                             </TreeView>
                         </TabItem>
                         <TabItem Header="Weeky plan">

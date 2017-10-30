@@ -51,6 +51,30 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="ToggleButton" x:Key="button-rectangle">
+            <!--<Setter Property="Height" Value="48"></Setter>
+            <Setter Property="Width" Value="48"></Setter>-->
+            <Setter Property="Background" Value="#00000000"></Setter>
+            <Setter Property="BorderBrush" Value="#00000000"></Setter>
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{x:Null}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#9900A2DE"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="#ff00A2DE"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="Image" x:Key="button-icon">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -99,11 +123,14 @@
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
             <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
             <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <HierarchicalDataTemplate DataType="{x:Type local:Task}" ItemsSource="{Binding Items}">
-                        <Grid Height="24">
-                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" FontSize="16"/>
+                        <Grid Height="24" HorizontalAlignment="Stretch">
+                            <ToggleButton Content="{Binding Name}" VerticalAlignment="Center" 
+                                    HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
+                                    Style="{StaticResource button-rectangle}"></ToggleButton>
                         </Grid>
                     </HierarchicalDataTemplate>
                 </Setter.Value>
@@ -115,9 +142,7 @@
             <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
             <Setter Property="Foreground" Value="#ffffffff"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-        </Style>
-        <Style TargetType="TextBlock">
-
+            <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
         </Style>
     </Application.Resources>
 </Application>
