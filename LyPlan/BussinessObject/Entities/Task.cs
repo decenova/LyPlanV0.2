@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BussinessObject.Entities
 {
-    class Task
+    public class Task
     {
         private int id;
         private string title;

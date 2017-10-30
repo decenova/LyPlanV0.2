@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BussinessObject.DataAccess
 {
-    class TodoTask
+    public class TodoTask
     {
         public TodoTask()
         {
