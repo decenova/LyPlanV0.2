@@ -28,32 +28,35 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtConn = new System.Windows.Forms.TextBox();
+            this.dgvTask = new System.Windows.Forms.DataGridView();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTask)).BeginInit();
             this.SuspendLayout();
             // 
-            // txtConn
+            // dgvTask
             // 
-            this.txtConn.Location = new System.Drawing.Point(30, 51);
-            this.txtConn.Name = "txtConn";
-            this.txtConn.Size = new System.Drawing.Size(202, 22);
-            this.txtConn.TabIndex = 0;
+            this.dgvTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvTask.Location = new System.Drawing.Point(12, 12);
+            this.dgvTask.Name = "dgvTask";
+            this.dgvTask.RowTemplate.Height = 24;
+            this.dgvTask.Size = new System.Drawing.Size(486, 235);
+            this.dgvTask.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(282, 253);
-            this.Controls.Add(this.txtConn);
+            this.ClientSize = new System.Drawing.Size(510, 393);
+            this.Controls.Add(this.dgvTask);
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.dgvTask)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.TextBox txtConn;
+        private System.Windows.Forms.DataGridView dgvTask;
     }
 }
 

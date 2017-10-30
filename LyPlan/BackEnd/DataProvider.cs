@@ -19,5 +19,7 @@ namespace DataProvider
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
             return strConnection;
         }
+
+
     }
 }
