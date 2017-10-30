@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,9 +24,8 @@ namespace LyPlan
         public MainWindow()
         {
             InitializeComponent();
-            Task task = new Task() { Name = "Hay" };
-            task.Items.Add(new Task() { Name = "The" });
-            Todolist.Items.Add(task);
         }
+
+
     }
 }
