@@ -5,8 +5,69 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LyPlan"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="LyPlanV0.3" 
+        MinWidth="768" MinHeight="535" Height="600" Visibility="Visible" 
+        WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid x:Name="bgr" Style="{StaticResource background-image}">
+            <Grid.Background>
+                <ImageBrush ImageSource="resource/ori.jpg" Stretch="UniformToFill"/>
+            </Grid.Background>
+        </Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="48"></ColumnDefinition>
+                <ColumnDefinition MinWidth="300" Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="5"></ColumnDefinition>
+                <ColumnDefinition MinWidth="400" Width="3*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Width="48" Grid.Column="0">
+                <Grid Style="{StaticResource background-dark-transparent}"></Grid>
+                <StackPanel>
+                    <Button Style="{StaticResource button-square}">
+                        <Image Source="resource/ic_menu_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                    </Button>
+                    <Button Style="{StaticResource button-square}">
+                        <Image Source="resource/ic_schedule_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                    </Button>
+                    <Button Style="{StaticResource button-square}">
+                        <Image Source="resource/ic_timeline_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel VerticalAlignment="Bottom">
+                    <Button Style="{StaticResource button-square}">
+                        <Image Source="resource/ic_settings_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                    </Button>
+                </StackPanel>
+            </Grid>
+            <Grid Style="{StaticResource background-dark}" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="48"></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource button-square}">
+                        <Image Source="resource/ic_add_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                    </Button>
+                </StackPanel>
+                <Grid Grid.Row="1">
+                    <Grid Height="51" VerticalAlignment="Top">
+                        <Border BorderBrush="#E5000000" BorderThickness="0,0,0,1"></Border>
+                    </Grid>
+                    <TabControl>
+                        <TabItem Header="To do list">
+                            <TreeView x:Name="Todolist">
+                                <TreeViewItem HorizontalContentAlignment="Stretch"></TreeViewItem>
+                            </TreeView>
+                        </TabItem>
+                        <TabItem Header="Weeky plan">
+
+                        </TabItem>
+                    </TabControl>
+                </Grid>
+            </Grid>
+            <GridSplitter Grid.Column="2" HorizontalAlignment="Stretch" Background="#FF1A1A1A" ></GridSplitter>
+            <Grid Style="{StaticResource background-light-transparent}"  Grid.Column="3"/>
+        </Grid>
     </Grid>
 </Window>

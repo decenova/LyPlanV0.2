@@ -54,6 +54,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Task.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -92,6 +93,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\ic_add_white_24px.png" />
+    <Resource Include="resource\ic_menu_white_24px.png" />
+    <Resource Include="resource\ic_schedule_white_24px.png" />
+    <Resource Include="resource\ic_search_white_24px.png" />
+    <Resource Include="resource\ic_settings_white_24px.png" />
+    <Resource Include="resource\ic_timeline_white_24px.png" />
+    <Resource Include="resource\ic_today_white_24px.png" />
+    <Resource Include="resource\ic_view_comfy_white_24px.png" />
+    <Resource Include="resource\ic_view_day_white_24px.png" />
+    <Resource Include="resource\ic_view_week_white_24px.png" />
+    <Resource Include="resource\ori.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
