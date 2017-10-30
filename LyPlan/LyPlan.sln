@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LyPlan", "LyPlan\LyPlan.csproj", "{C02E18E3-CFFA-4B00-8F2F-14C23E141B91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LyPlanV1", "..\..\..\ThangCoder\FU\C#\LyPlan\LyPlanV1\LyPlanV1.csproj", "{5C0BA903-2133-4ABE-B36A-C9A25839E463}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataProvider", "BackEnd\DataProvider.csproj", "{89272942-2D7F-4DBD-AA6E-7898A84D0DD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testing", "Testing\Testing.csproj", "{C4E13BCB-67DD-4277-9CC0-4B9BA55DA2F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +19,14 @@ Global
 		{C02E18E3-CFFA-4B00-8F2F-14C23E141B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C02E18E3-CFFA-4B00-8F2F-14C23E141B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C02E18E3-CFFA-4B00-8F2F-14C23E141B91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5C0BA903-2133-4ABE-B36A-C9A25839E463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5C0BA903-2133-4ABE-B36A-C9A25839E463}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5C0BA903-2133-4ABE-B36A-C9A25839E463}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5C0BA903-2133-4ABE-B36A-C9A25839E463}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89272942-2D7F-4DBD-AA6E-7898A84D0DD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89272942-2D7F-4DBD-AA6E-7898A84D0DD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89272942-2D7F-4DBD-AA6E-7898A84D0DD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89272942-2D7F-4DBD-AA6E-7898A84D0DD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4E13BCB-67DD-4277-9CC0-4B9BA55DA2F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4E13BCB-67DD-4277-9CC0-4B9BA55DA2F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4E13BCB-67DD-4277-9CC0-4B9BA55DA2F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4E13BCB-67DD-4277-9CC0-4B9BA55DA2F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

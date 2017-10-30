@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BackEnd
+namespace BussinessObject
 {
     public class Class1
     {
