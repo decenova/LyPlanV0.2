@@ -125,10 +125,12 @@ namespace BussinessObject.DataAccess
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
 
-            string SQL = string.Format($"insert into Task (Title) values ({title})");
+            string SQL = $"insert into Task (Title, TypeId) output Inserted.Id values ('{title}', 1)";
 
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
 
             try
             {
@@ -136,6 +138,14 @@ namespace BussinessObject.DataAccess
                 {
                     cnn.Open();
                 }
+
+                da.Fill(dt);
+
+                int newId = int.Parse(dt.Rows[0]["Id"].ToString());
+
+                SQL = $"insert into Work (TaskId, Description, StartTime, StatusId) values ({newId}, '{todo.Description}', '{DateTime.Now.ToString("yyyy-MM-dd")}', 1)";
+
+                cmd = new SqlCommand(SQL, cnn);
 
                 result = cmd.ExecuteNonQuery() > 0;
             }

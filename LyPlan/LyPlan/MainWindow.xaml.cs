@@ -28,11 +28,6 @@ namespace LyPlan
             InitializeComponent();
             SetTodo();
             SetWeeky();
-
-            //testing
-            //save todo task
-            TodoTask tt = new TodoTask();
-            tt.SaveTodoTask(new Todo() { Title = "Learning", Description = "Learn c#" });
         }
 
         private void SetWeeky()
