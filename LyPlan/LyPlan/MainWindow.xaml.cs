@@ -5,7 +5,6 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,7 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-//using BussinessObject.Entities;
+using BussinessObject.Entities;
 
 namespace LyPlan
 {
@@ -27,24 +26,41 @@ namespace LyPlan
         public MainWindow()
         {
             InitializeComponent();
-            //TodoTask tdtask = new TodoTask();
-            //tvTodolist.Items.Add(new TaskDemo() { Name = "aha" });
-            //SetTodoTask(tdtask.getTodoTasks());
-            TaskDemo taskDemo = new TaskDemo() { Name = "Haha" };
-            taskDemo.Items.Add(new TaskDemo() { Name = "vl" });
-            tvTodolist.ItemsSource = taskDemo.Items;
+            SetTodo();
+            SetWeeky();
         }
 
-        private void SetTodoTask(DataTable dt)
+        private void SetWeeky()
         {
-            
-            foreach (DataRow row in dt.Rows)
+            WeekyTask weekyTask = new WeekyTask();
+
+            foreach (DataRow rootRow in weekyTask.GetListRootWeekyTask().Rows)
             {
-                //BussinessObject.Entities.Task task = new BussinessObject.Entities.Task();
-                //task.Id = int.Parse(row["Id"].ToString());
-                //task.Title = row["Title"].ToString();
-                //task.Description = row["Description"].ToString();
-                //tvTodolist.Items.Add(task);
+                Task rootTask = new Task();
+                rootTask.Id = int.Parse(rootRow["Id"].ToString());
+                rootTask.Title = rootRow["Title"].ToString();
+                rootTask.Description = rootRow["Description"].ToString();
+                
+                foreach (DataRow nodeRow in weekyTask.GetListNodeWeekyTaskByTaskId(rootTask.Id).Rows)
+                {
+                    Task nodeTask = new Task();
+                    nodeTask.Id = int.Parse(nodeRow["Id"].ToString());
+                    nodeTask.Title = nodeRow["Title"].ToString();
+                    nodeTask.Description = nodeRow["Description"].ToString();
+
+                    rootTask.Items.Add(nodeTask);
+                }
+
+                tvWeekylist.Items.Add(rootTask);
+            }
+        }
+
+        private void SetTodo()
+        {
+            TodoTask todoTask = new TodoTask();
+            foreach (Todo todo in todoTask.GetTodoListForShow()) 
+            {
+                tvTodolist.Items.Add(todo);
             }
         }
 

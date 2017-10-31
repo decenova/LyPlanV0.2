@@ -5,9 +5,11 @@ insert into Type (Name) values ('Todo')
 insert into Type (Name) values ('Daily')
 go
 
+insert into Status (Name) values ('NotDone')
 insert into Status (Name) values ('Early')
 insert into Status (Name) values ('Doing')
 insert into Status (Name) values ('Later')
+insert into Status (Name) values ('Done')
 go
 
 insert into Task (Title, [Description], TypeId, SuperTask) values ('Cleaning house', 'Cleaning the house becasue it is too dirty', 1, null)

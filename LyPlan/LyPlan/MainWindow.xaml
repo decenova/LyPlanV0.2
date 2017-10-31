@@ -56,12 +56,14 @@
                     </Grid>
                     <TabControl>
                         <TabItem Header="To do list" Name="tabTodolist">
-                            <TreeView x:Name="tvTodolist">
+                            <TreeView x:Name="tvTodolist" Style="{StaticResource todoListStyle}">
 
                             </TreeView>
                         </TabItem>
-                        <TabItem Header="Weeky plan">
+                        <TabItem Header="Weeky plan" Name="tabWeekylist">
+                            <TreeView x:Name="tvWeekylist" Style="{StaticResource weekyListStyle}">
 
+                            </TreeView>
                         </TabItem>
                     </TabControl>
                 </Grid>
