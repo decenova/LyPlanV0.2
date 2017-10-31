@@ -26,6 +26,13 @@ namespace LyPlan
         public MainWindow()
         {
             InitializeComponent();
+
+            //testing
+            //test insert root task
+            WeekyTask weekyTask = new WeekyTask();
+            //weekyTask.SaveRootTask(new Task() { Title = "Lalaland", Description = "Lalaland is a movie" });
+            weekyTask.SaveNodeTask(new Task() { Title = "Chapter 1", Description = "Chapter1", SuperTask = 20 });
+
             SetTodo();
             SetWeeky();
         }
