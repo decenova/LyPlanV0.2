@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BussinessObject.Entities;
+using System.Collections.ObjectModel;
 
 namespace LyPlan
 {
@@ -27,7 +28,13 @@ namespace LyPlan
         {
             InitializeComponent();
             SetTodo();
-            //SetWeeky();
+            SetWeeky();
+            DayInWeek monday = new DayInWeek("Monday");
+            monday.MorningTask.Add("Lala");
+            monday.MorningTask.Add("Lala");
+            cMonday.DataContext = monday;
+            DayInWeek tuesday = new DayInWeek("Tuesday");
+            cTuesday.DataContext = tuesday;
         }
 
         private void SetWeeky()
@@ -65,5 +72,17 @@ namespace LyPlan
         }
 
 
+    }
+    public class DayInWeek
+    {
+        public string Day { get; set; }
+        public List<Object> MorningTask { get; set; }
+        public List<Object> NightTask { get; set; }
+        public DayInWeek(string day)
+        {
+            Day = day;
+            MorningTask = new List<Object>();
+            NightTask = new List<Object>();
+        }
     }
 }

@@ -20,6 +20,9 @@
         <Style TargetType="Grid" x:Key="background-dark-transparent">
             <Setter Property="Background" Value="#aa000000"></Setter>
         </Style>
+        <Style TargetType="Grid" x:Key="background-day-in-week" BasedOn="{StaticResource background-light}">
+            <Setter Property="Margin" Value="5"></Setter>
+        </Style>
         <Style TargetType="Grid" x:Key="background-image">
             <Setter Property="Background">
                 <Setter.Value>
@@ -32,6 +35,43 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        <!--Content Control-->
+        <Style TargetType="{x:Type ContentControl}" x:Key="content-day-in-week">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ContentControl}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48"></RowDefinition>
+                                <RowDefinition Height="1"></RowDefinition>
+                                <RowDefinition Height="1*"></RowDefinition>
+                                <RowDefinition Height="1"></RowDefinition>
+                                <RowDefinition Height="1*"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <TextBlock Text="{Binding Day}" Foreground="#FF00A2DE" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Border BorderBrush="#FF0066AA" BorderThickness="0,0,0,1" Margin="15,0">
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <ListView ItemsSource="{Binding MorningTask}" BorderBrush="{x:Null}"></ListView>
+                            </Grid>
+                            <Grid Grid.Row="3">
+                                <Border BorderBrush="#FF0066AA" BorderThickness="0,0,0,1" Margin="15,0">
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="4">
+                                <ListView ItemsSource="{Binding NightTask}" BorderBrush="{x:Null}"></ListView>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
 
         <!--Button-->
 
@@ -63,22 +103,16 @@
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
             <Setter Property="Foreground" Value="#ffffffff"></Setter>
+        </Style>
+        <Style TargetType="ToggleButton" x:Key="toggle-button-todolist" BasedOn="{StaticResource toggle-button}">
             <Setter Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="ToggleButton">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="{x:Null}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                        </Border>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
-        <Style TargetType="ToggleButton" x:Key="toggle-button-todolist" BasedOn="{StaticResource toggle-button}">
             <Style.Triggers>
-                <Trigger Property="Button.IsDefaulted" Value="True"/>
-                <Trigger Property="IsPressed" Value="True"/>
-                <Trigger Property="IsEnabled" Value="False">
-                </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="#9900A2DE"/>
                 </Trigger>
@@ -88,7 +122,30 @@
                         <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Value="true"></Condition>
                     </MultiDataTrigger.Conditions>
                     <MultiDataTrigger.Setters>
-                        <Setter Property="FontStyle" Value="Strikethrough"/>
+                        <Setter Property="Foreground" Value="#ff888888"/>
+                    </MultiDataTrigger.Setters>
+                </MultiDataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="ToggleButton" x:Key="toggle-button-weeky" BasedOn="{StaticResource toggle-button}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="#9900A2DE"/>
+                </Trigger>
+                <MultiDataTrigger>
+                    <MultiDataTrigger.Conditions>
+                        <Condition Binding="{Binding ElementName=tabWeekylist, Path=IsSelected}" Value="true"></Condition>
+                        <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Value="true"></Condition>
+                    </MultiDataTrigger.Conditions>
+                    <MultiDataTrigger.Setters>
+                        <Setter Property="Foreground" Value="#9900A2DE"/>
                     </MultiDataTrigger.Setters>
                 </MultiDataTrigger>
             </Style.Triggers>
@@ -152,14 +209,12 @@
                 <Setter.Value>
                     <HierarchicalDataTemplate DataType="{x:Type bo:Todo}" ItemsSource="{Binding Path=Items}">
                         <Grid Height="24" HorizontalAlignment="Stretch">
-                            <ToggleButton VerticalAlignment="Center" 
-                                    HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
+                            <ToggleButton Content="{Binding Path=Title}"
+                                    VerticalAlignment="Center" 
+                                    HorizontalAlignment="Stretch" FontSize="16"
                                     Style="{StaticResource toggle-button-todolist}">
-                                <ToggleButton.Content>
-                                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                                </ToggleButton.Content>
                             </ToggleButton>
-                            <TextBlock Text="{Binding Path=Title}"></TextBlock>
+                            <!--<TextBlock Text="{Binding Path=Title}"></TextBlock>-->
                         </Grid>
                     </HierarchicalDataTemplate>
                 </Setter.Value>
@@ -175,14 +230,12 @@
                 <Setter.Value>
                     <HierarchicalDataTemplate DataType="{x:Type bo:Task}" ItemsSource="{Binding Path=Items}">
                         <Grid Height="24" HorizontalAlignment="Stretch">
-                            <!--<ToggleButton VerticalAlignment="Center" 
-                                    HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
-                                    Style="{StaticResource toggle-button-todolist}">
-                                <ToggleButton.Content>
-                                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
-                                </ToggleButton.Content>
-                            </ToggleButton>-->
-                            <TextBlock Text="{Binding Path=Title}"></TextBlock>
+                            <ToggleButton Content="{Binding Path=Title}" 
+                                            VerticalAlignment="Center" 
+                                            HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
+                                            Style="{StaticResource toggle-button-weeky}">
+                            </ToggleButton>
+                            <!--<TextBlock Text="{Binding Path=Title}"></TextBlock>-->
                         </Grid>
                     </HierarchicalDataTemplate>
                 </Setter.Value>
@@ -195,6 +248,7 @@
             <Setter Property="Foreground" Value="#ffffffff"></Setter>
             <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
             <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
+            <Setter Property="IsExpanded" Value="True"></Setter>
         </Style>
     </Application.Resources>
 </Application>
