@@ -35,30 +35,13 @@ namespace BussinessObject.Entities
         public string Title
         {
             get { return title; }
-            set
-            {
-                if (value.Length >= 225)
-                {
-                    throw new Exception("Title is too long (<= 255 character)");
-                }
-
-                title = value;
-            }
+            set { title = value; }
         }
 
         public string Description
         {
             get { return description; }
-            set
-            {
-                //Nếu description là rỗng thì đưa vào database là null
-                if (value.Equals(string.Empty))
-                {
-                    value = null;
-                }
-
-                description = value;
-            }
+            set { description = value; }
         }
 
         public int TypeId

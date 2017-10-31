@@ -17,7 +17,7 @@ namespace BussinessObject.DataAccess
         }
 
         //lấy về 1 datatable các Task gồm (id, title)
-        public DataTable GetTodoTasks()
+        private DataTable GetTodoTasks()
         {
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
             string SQL = "select Id, Title from Task where TypeId = 1";
@@ -48,7 +48,7 @@ namespace BussinessObject.DataAccess
         }
 
         //Lấy ra WorkId và Description
-        public Work GetTodoWorkForShow(int taskId)
+        private Work GetTodoWorkForShow(int taskId)
         {
             Work result = null;
 
@@ -116,41 +116,39 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //public Boolean SaveTodoTask(Task task)
-        //{
-        //    Boolean result = false;
+        public Boolean SaveTodoTask(Todo todo)
+        {
+            Boolean result = false;
 
-        //    //string title = task.Title;
-        //    //string description = task.Description;
-        //    int typeId = 1;
-        //    string superTask = "null";
+            string title = todo.Title;
+            string description = todo.Description;
 
-        //    string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
 
-        //    //string SQL = string.Format("insert into Task (Title, Description, TypeId, SuperTask) values ({0}, {1}, {2}, {3})", title, description, typeId, superTask);
+            string SQL = string.Format($"insert into Task (Title) values ({title})");
 
-        //    SqlConnection cnn = new SqlConnection(strConnection);
-        //    //SqlCommand cmd = new SqlCommand(SQL, cnn);
-            
-        //    try
-        //    {
-        //        if (cnn.State == ConnectionState.Closed)
-        //        {
-        //            cnn.Open();
-        //        }
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
 
-        //        //result = cmd.ExecuteNonQuery() > 0;
-        //    }
-        //    catch (SqlException se)
-        //    {
-        //        throw new Exception("Error: " + se.Message);
-        //    }
-        //    finally
-        //    {
-        //        cnn.Close();
-        //    }
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
 
-        //    return result;
-        //}
+                result = cmd.ExecuteNonQuery() > 0;
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
     }
 }

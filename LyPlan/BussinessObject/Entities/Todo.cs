@@ -34,32 +34,13 @@ namespace BussinessObject.Entities
         public String Title
         {
             get { return title; }
-            set
-            {
-                if (value.Equals(string.Empty))
-                {
-                    throw new Exception("Title can't be blank");
-                } else if (value.Length > 255)
-                {
-                    throw new Exception("Title is too long");
-                }
-
-                title = value;
-            }
+            set { title = value; }
         }
 
         public String Description
         {
             get { return description; }
-            set
-            {
-                if (value.Equals(string.Empty))
-                {
-                    value = null;
-                }
-
-                description = value;
-            }
+            set { description = value; }
         }
 
         public int StatusId
