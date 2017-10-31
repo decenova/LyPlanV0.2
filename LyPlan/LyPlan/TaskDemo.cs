@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace LyPlan
 {
-    class Task
+    class TaskDemo
     {
         public string Name { get; set; }
-        public ObservableCollection<Task> Items { get; set; }
-        public Task()
+        public ObservableCollection<TaskDemo> Items { get; set; }
+        public TaskDemo()
         {
-            Items = new ObservableCollection<Task>();
+            Items = new ObservableCollection<TaskDemo>();
         }
     }
 }

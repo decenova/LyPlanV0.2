@@ -55,7 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Task.cs" />
+    <Compile Include="TaskDemo.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -107,6 +107,12 @@
     <Resource Include="resource\ic_view_day_white_24px.png" />
     <Resource Include="resource\ic_view_week_white_24px.png" />
     <Resource Include="resource\ori.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BussinessObject\BussinessObject.csproj">
+      <Project>{5296eb30-ec73-4933-9515-e17dbc72d404}</Project>
+      <Name>BussinessObject</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

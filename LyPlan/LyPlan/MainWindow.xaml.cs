@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BussinessObject.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+//using BussinessObject.Entities;
 
 namespace LyPlan
 {
@@ -25,11 +27,12 @@ namespace LyPlan
         public MainWindow()
         {
             InitializeComponent();
-            Task task = new Task() { Name = "Reading book" };
-            tvTodolist.Items.Add(task);
-            tvTodolist.Items.Add(new Task() { Name = "Play game" });
-            tvTodolist.Items.Add(new Task() { Name = "Learn" });
-            tvTodolist.Items.Add(new Task() { Name = "Vu vu" });
+            //TodoTask tdtask = new TodoTask();
+            //tvTodolist.Items.Add(new TaskDemo() { Name = "aha" });
+            //SetTodoTask(tdtask.getTodoTasks());
+            TaskDemo taskDemo = new TaskDemo() { Name = "Haha" };
+            taskDemo.Items.Add(new TaskDemo() { Name = "vl" });
+            tvTodolist.ItemsSource = taskDemo.Items;
         }
 
         private void SetTodoTask(DataTable dt)
@@ -37,10 +40,11 @@ namespace LyPlan
             
             foreach (DataRow row in dt.Rows)
             {
-                BussinessObject.Entities.Task task = new BussinessObject.Entities.Task();
-                task.Id = int.Parse(row["Id"].ToString());
-                task.Title = row["Title"].ToString();
-                task.Description = row["Description"].ToString();
+                //BussinessObject.Entities.Task task = new BussinessObject.Entities.Task();
+                //task.Id = int.Parse(row["Id"].ToString());
+                //task.Title = row["Title"].ToString();
+                //task.Description = row["Description"].ToString();
+                //tvTodolist.Items.Add(task);
             }
         }
 

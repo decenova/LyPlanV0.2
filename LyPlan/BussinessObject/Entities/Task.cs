@@ -3,74 +3,84 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace BussinessObject.Entities
 {
    public class Task
     {
-        private int id;
-        private string title;
-        private string description;
-        private int typeId;
-        private int superTask; //Lưu id của task cha
-        private ObservableCollection<Task> items;
-
-        public int Id
+        public string Name { get; set; }
+        public ObservableCollection<Task> Items { get; set; }
+        public Task()
         {
-            get { return id; }
-            set { id = value; }
+            Items = new ObservableCollection<Task>();
         }
-        
-        public string Title
-        {
-            get { return title; }
-            set
-            {
-                if (value.Length >= 225)
-                {
-                    throw new Exception("Title is too long (<= 255 character)");
-                }
+                                           //private int id;
+                                           //private string title;
+                                           //private string description;
+                                           //private int typeId;
+                                           //private int superTask; //Lưu id của task cha
+                                           //private ObservableCollection<Task> items;
 
-                title = value;
-            }
-        }
+        //public Task()
+        //{
+        //    items = new ObservableCollection<Task>();
+        //}
 
-        public string Description
-        {
-            get { return description; }
-            set
-            {
-                //Nếu description là rỗng thì đưa vào database là null
-                if (value.Equals(string.Empty))
-                {
-                    value = null;
-                }
+        //public int Id
+        //{
+        //    get { return id; }
+        //    set { id = value; }
+        //}
 
-                description = value;
-            }
-        }
+        //public string Title
+        //{
+        //    get { return title; }
+        //    set
+        //    {
+        //        if (value.Length >= 225)
+        //        {
+        //            throw new Exception("Title is too long (<= 255 character)");
+        //        }
 
-        public int TypeId
-        {
-            get { return typeId; }
-            set { typeId = value; }
-        }
+        //        title = value;
+        //    }
+        //}
 
-        public int SuperTask
-        {
-            get { return superTask; }
+        //public string Description
+        //{
+        //    get { return description; }
+        //    set
+        //    {
+        //        //Nếu description là rỗng thì đưa vào database là null
+        //        if (value.Equals(string.Empty))
+        //        {
+        //            value = null;
+        //        }
 
-            //Chưa kiểm tra task tầng thứ 3
-            set { superTask = value; }
-        }
+        //        description = value;
+        //    }
+        //}
 
-        public ObservableCollection<Task> Items
-        {
-            get { return items; }
+        //public int TypeId
+        //{
+        //    get { return typeId; }
+        //    set { typeId = value; }
+        //}
 
-            //Không cho vào vì làm j có set
-            //set { items = value; }
-        }
+        //public int SuperTask
+        //{
+        //    get { return superTask; }
+
+        //    //Chưa kiểm tra task tầng thứ 3
+        //    set { superTask = value; }
+        //}
+
+        //public ObservableCollection<Task> Items
+        //{
+        //    get { return items; }
+
+        //    //Không cho vào vì làm j có set
+        //    set { items = value; }
+        //}
     }
 }
