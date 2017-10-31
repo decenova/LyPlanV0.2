@@ -75,6 +75,10 @@
         </Style>
         <Style TargetType="ToggleButton" x:Key="toggle-button-todolist" BasedOn="{StaticResource toggle-button}">
             <Style.Triggers>
+                <Trigger Property="Button.IsDefaulted" Value="True"/>
+                <Trigger Property="IsPressed" Value="True"/>
+                <Trigger Property="IsEnabled" Value="False">
+                </Trigger>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="#9900A2DE"/>
                 </Trigger>
