@@ -27,7 +27,7 @@ namespace LyPlan
         {
             InitializeComponent();
             SetTodo();
-            SetWeeky();
+            //SetWeeky();
         }
 
         private void SetWeeky()

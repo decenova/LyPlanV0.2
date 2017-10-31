@@ -152,13 +152,13 @@
                 <Setter.Value>
                     <HierarchicalDataTemplate DataType="{x:Type bo:Todo}" ItemsSource="{Binding Path=Items}">
                         <Grid Height="24" HorizontalAlignment="Stretch">
-                            <!--<ToggleButton VerticalAlignment="Center" 
+                            <ToggleButton VerticalAlignment="Center" 
                                     HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
                                     Style="{StaticResource toggle-button-todolist}">
                                 <ToggleButton.Content>
                                     <TextBlock Text="{Binding Path=Name}"></TextBlock>
                                 </ToggleButton.Content>
-                            </ToggleButton>-->
+                            </ToggleButton>
                             <TextBlock Text="{Binding Path=Title}"></TextBlock>
                         </Grid>
                     </HierarchicalDataTemplate>
