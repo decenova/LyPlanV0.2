@@ -49,7 +49,7 @@ namespace BussinessObject.Entities
         public DateTime AlertTime
         {
             get { return alertTime; }
-            set { alertTime = value }
+            set { alertTime = value; }
         }
 
         public int StatusId
