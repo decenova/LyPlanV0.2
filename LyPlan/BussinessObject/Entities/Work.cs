@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BussinessObject.Entities
 {
-    class Work
+    public class Work
     {
         private int id;
         private int taskId;
@@ -19,9 +19,7 @@ namespace BussinessObject.Entities
         public int Id
         {
             get { return id; }
-
-            //vì id k có set mà tự động tăng
-            //set { id = value; }
+            set { id = value; }
         }
 
         public int TaskId
