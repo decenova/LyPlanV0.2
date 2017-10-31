@@ -54,7 +54,7 @@ namespace BussinessObject.DataAccess
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
 
-            string SQL = "select Id, Description from Work where TaskId = " + taskId + " and StatusId = 1";
+            string SQL = "select Id, [Description] from Work where TaskId = " + taskId + " and StatusId = 1";
 
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);

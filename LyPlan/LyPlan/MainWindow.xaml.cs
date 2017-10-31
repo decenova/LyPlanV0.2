@@ -5,7 +5,6 @@ using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -27,16 +26,33 @@ namespace LyPlan
         public MainWindow()
         {
             InitializeComponent();
-            //tvTodolist.Items.Add(new TaskDemo() { Name = "aha" });
-
-
-            //TaskDemo taskDemo = new TaskDemo() { Name = "Haha" };
-            //taskDemo.Items.Add(new TaskDemo() { Name = "vl" });
-            //tvTodolist.Items.Add(taskDemo);
-
             SetTodo();
+            SetWeeky();
+        }
 
-            //tvTodolist.Items.Add(new Todo() { Title = "Lalaland" });
+        private void SetWeeky()
+        {
+            WeekyTask weekyTask = new WeekyTask();
+
+            foreach (DataRow rootRow in weekyTask.GetListRootWeekyTask().Rows)
+            {
+                Task rootTask = new Task();
+                rootTask.Id = int.Parse(rootRow["Id"].ToString());
+                rootTask.Title = rootRow["Title"].ToString();
+                rootTask.Description = rootRow["Description"].ToString();
+                
+                foreach (DataRow nodeRow in weekyTask.GetListNodeWeekyTaskByTaskId(rootTask.Id).Rows)
+                {
+                    Task nodeTask = new Task();
+                    nodeTask.Id = int.Parse(nodeRow["Id"].ToString());
+                    nodeTask.Title = nodeRow["Title"].ToString();
+                    nodeTask.Description = nodeRow["Description"].ToString();
+
+                    rootTask.Items.Add(nodeTask);
+                }
+
+                tvWeekylist.Items.Add(rootTask);
+            }
         }
 
         private void SetTodo()

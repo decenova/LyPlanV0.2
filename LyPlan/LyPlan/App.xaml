@@ -138,7 +138,7 @@
 
         <!--TreeView-->
 
-        <Style TargetType="TreeView">
+        <Style TargetType="TreeView" x:Key="todoListStyle">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
             <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
@@ -147,6 +147,29 @@
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <HierarchicalDataTemplate DataType="{x:Type bo:Todo}" ItemsSource="{Binding Path=Items}">
+                        <Grid Height="24" HorizontalAlignment="Stretch">
+                            <!--<ToggleButton VerticalAlignment="Center" 
+                                    HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
+                                    Style="{StaticResource toggle-button-todolist}">
+                                <ToggleButton.Content>
+                                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                                </ToggleButton.Content>
+                            </ToggleButton>-->
+                            <TextBlock Text="{Binding Path=Title}"></TextBlock>
+                        </Grid>
+                    </HierarchicalDataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TreeView" x:Key="weekyListStyle">
+            <Setter Property="Background" Value="#00000000"></Setter>
+            <Setter Property="BorderBrush" Value="#00000000"></Setter>
+            <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <HierarchicalDataTemplate DataType="{x:Type bo:Task}" ItemsSource="{Binding Path=Items}">
                         <Grid Height="24" HorizontalAlignment="Stretch">
                             <!--<ToggleButton VerticalAlignment="Center" 
                                     HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
