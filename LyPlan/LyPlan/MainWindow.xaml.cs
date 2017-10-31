@@ -44,12 +44,18 @@ namespace LyPlan
             //    DeadLine = DateTime.Now.AddDays(2)                
             //});
             //test update todo
-            todoTask.UpdateTodo(new Todo()
+            //todoTask.UpdateTodo(new Todo()
+            //{
+            //    TaskId = 1,
+            //    WorkId = 1,
+            //    Title = "clean cai con cac",
+            //    Description = "clean con cacccccccc"
+            //});
+            //test check todo
+            todoTask.CheckTodo(new Todo()
             {
                 TaskId = 1,
-                WorkId = 1,
-                Title = "clean cai con cac",
-                Description = "clean con cacccccccc"
+                StatusId = 5
             });
 
             SetTodo();

@@ -20,7 +20,7 @@ namespace BussinessObject.DataAccess
         private DataTable GetTodoTasks()
         {
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = "select Id, Title from Task where TypeId = 1";
+            string SQL = "select t.Id as Id, t.Title as Title, w.Description, w.StatusId from Task t inner join Work w on t.Id = w.TaskId where TypeId = 1 and StatusId = 1";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -182,6 +182,36 @@ namespace BussinessObject.DataAccess
                 SQL = $"update Work set [Description] = '{newTodo.Description}' where TaskId = {newTodo.TaskId}";
 
                 cmd = new SqlCommand(SQL, cnn);
+
+                result = cmd.ExecuteNonQuery() > 0;
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+
+        public Boolean CheckTodo(Todo newTodo)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = $"update Work set StatusId = {newTodo.StatusId} where TaskId = {newTodo.TaskId}";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
 
                 result = cmd.ExecuteNonQuery() > 0;
             }
