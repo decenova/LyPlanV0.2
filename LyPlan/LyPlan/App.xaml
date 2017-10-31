@@ -116,7 +116,7 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="#9900A2DE"/>
                 </Trigger>
-                <MultiDataTrigger>
+                <!--<MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding ElementName=tabTodolist, Path=IsSelected}" Value="true"></Condition>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Value="true"></Condition>
@@ -147,7 +147,7 @@
                     <MultiDataTrigger.Setters>
                         <Setter Property="Foreground" Value="#9900A2DE"/>
                     </MultiDataTrigger.Setters>
-                </MultiDataTrigger>
+                </MultiDataTrigger>-->
             </Style.Triggers>
         </Style>
         <Style TargetType="Image" x:Key="button-icon">
