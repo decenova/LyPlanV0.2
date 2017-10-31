@@ -40,7 +40,6 @@ namespace LyPlan
                 BussinessObject.Entities.Task task = new BussinessObject.Entities.Task();
                 task.Id = int.Parse(row["Id"].ToString());
                 task.Title = row["Title"].ToString();
-                task.Description = row["Description"].ToString();
             }
         }
 
