@@ -160,5 +160,41 @@ namespace BussinessObject.DataAccess
 
             return result;
         }
+
+        public Boolean UpdateTodo(Todo newTodo)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = $"update Task set Title = '{newTodo.Title}' where Id = {newTodo.TaskId}";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() > 0;
+
+                SQL = $"update Work set [Description] = '{newTodo.Description}' where TaskId = {newTodo.TaskId}";
+
+                cmd = new SqlCommand(SQL, cnn);
+
+                result = cmd.ExecuteNonQuery() > 0;
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
     }
 }

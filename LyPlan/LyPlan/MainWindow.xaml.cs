@@ -28,10 +28,13 @@ namespace LyPlan
             InitializeComponent();
 
             //testing
-            //test insert root task
             WeekyTask weekyTask = new WeekyTask();
-            //weekyTask.SaveRootTask(new Task() { Title = "Lalaland", Description = "Lalaland is a movie" });
+            TodoTask todoTask = new TodoTask();
+            //test insert root task
+            //weekyTask.SaveRootTask(new Task() { Title = "Lalaland", Description = "Lalaland is a movie" 
+            //test insert node task
             //weekyTask.SaveNodeTask(new Task() { Title = "Chapter 1", Description = "Chapter1", SuperTask = 20 });
+            //test make work from weeky task
             //weekyTask.MakeWorkFromWeekyTask(new Work()
             //{
             //    TaskId = 23,
@@ -40,6 +43,14 @@ namespace LyPlan
             //    AlertTime = DateTime.Now.AddDays(1),
             //    DeadLine = DateTime.Now.AddDays(2)                
             //});
+            //test update todo
+            todoTask.UpdateTodo(new Todo()
+            {
+                TaskId = 1,
+                WorkId = 1,
+                Title = "clean cai con cac",
+                Description = "clean con cacccccccc"
+            });
 
             SetTodo();
             SetWeeky();
