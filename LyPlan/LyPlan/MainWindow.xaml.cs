@@ -31,7 +31,15 @@ namespace LyPlan
             //test insert root task
             WeekyTask weekyTask = new WeekyTask();
             //weekyTask.SaveRootTask(new Task() { Title = "Lalaland", Description = "Lalaland is a movie" });
-            weekyTask.SaveNodeTask(new Task() { Title = "Chapter 1", Description = "Chapter1", SuperTask = 20 });
+            //weekyTask.SaveNodeTask(new Task() { Title = "Chapter 1", Description = "Chapter1", SuperTask = 20 });
+            //weekyTask.MakeWorkFromWeekyTask(new Work()
+            //{
+            //    TaskId = 23,
+            //    Description = "Monday",
+            //    StartTime = DateTime.Now,
+            //    AlertTime = DateTime.Now.AddDays(1),
+            //    DeadLine = DateTime.Now.AddDays(2)                
+            //});
 
             SetTodo();
             SetWeeky();
