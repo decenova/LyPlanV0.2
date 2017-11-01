@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="DataAccess\TodoTask.cs" />
     <Compile Include="DataAccess\WeekyTask.cs" />
+    <Compile Include="Entities\DayInWeek.cs" />
     <Compile Include="Entities\Task.cs" />
     <Compile Include="Entities\Todo.cs" />
     <Compile Include="Entities\Work.cs" />

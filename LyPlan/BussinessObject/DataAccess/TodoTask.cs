@@ -93,7 +93,8 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        public List<Todo> GetTodoListForShow()
+        //lấy ra tất cả các todo để show
+        public List<Todo> GetAllTodoListForShow()
         {
             List<Todo> result = new List<Todo>();
 
@@ -116,6 +117,7 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
+        //Lưu todo task và work
         public Boolean SaveTodoTask(Todo todo)
         {
             Boolean result = false;
@@ -161,6 +163,7 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
+        //Update todo task và work
         public Boolean UpdateTodo(Todo newTodo)
         {
             Boolean result = false;
@@ -197,6 +200,7 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
+        //Thay đổi trạng thái todo work
         public Boolean CheckTodo(Todo newTodo)
         {
             Boolean result = false;

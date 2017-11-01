@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using BussinessObject.Entities;
 using System.Collections.ObjectModel;
 
+
 namespace LyPlan
 {
     /// <summary>
@@ -53,51 +54,74 @@ namespace LyPlan
             //    Description = "clean con cacccccccc"
             //});
             //test check todo
-            todoTask.CheckTodo(new Todo()
-            {
-                TaskId = 1,
-                StatusId = 5
-            });
+            //todoTask.CheckTodo(new Todo()
+            //{
+            //    TaskId = 1,
+            //    StatusId = 5
+            //});
 
+            
             SetTodo();
             SetWeeky();
-            DayInWeek monday = new DayInWeek("Monday");
-            monday.MorningTask.Add("Lala");
-            monday.MorningTask.Add("Lala");
-            cMonday.DataContext = monday;
-            DayInWeek tuesday = new DayInWeek("Tuesday");
-            cTuesday.DataContext = tuesday;
+            SetWeekyWork();
+
+            //DayInWeek monday = new DayInWeek("Monday");
+            //monday.MorningTask.Add("Lala");
+            //monday.MorningTask.Add("Lala");
+            //cMonday.DataContext = monday;
+            //DayInWeek tuesday = new DayInWeek("Tuesday");
+            //cTuesday.DataContext = tuesday;
+        }
+
+        private void SetWeekyWork()
+        {
+            WeekyTask weekyTask = new WeekyTask();
+
+            List<DayInWeek> listDayInWeek = weekyTask.GetListDayInWeekForShow();
+            
+            foreach (DayInWeek day in listDayInWeek)
+            {
+                switch (day.DayName)
+                {
+                    case "Monday":
+                        cMonday.DataContext = day;
+                        break;
+                    case "Tuesday":
+                        cTuesday.DataContext = day;
+                        break;
+                    case "Wednesday":
+                        cWednesday.DataContext = day;
+                        break;
+                    case "Thursday":
+                        cThursday.DataContext = day;
+                        break;
+                    case "Friday":
+                        cFriday.DataContext = day;
+                        break;
+                    case "Saturday":
+                        cSaturday.DataContext = day;
+                        break;
+                    case "Sunday":
+                        cSunday.DataContext = day;
+                        break;
+                }
+            }
         }
 
         private void SetWeeky()
         {
             WeekyTask weekyTask = new WeekyTask();
 
-            foreach (DataRow rootRow in weekyTask.GetListRootWeekyTask().Rows)
+            foreach (Task task in weekyTask.GetListRootWeekyTaskForShow())
             {
-                Task rootTask = new Task();
-                rootTask.Id = int.Parse(rootRow["Id"].ToString());
-                rootTask.Title = rootRow["Title"].ToString();
-                rootTask.Description = rootRow["Description"].ToString();
-                
-                foreach (DataRow nodeRow in weekyTask.GetListNodeWeekyTaskByTaskId(rootTask.Id).Rows)
-                {
-                    Task nodeTask = new Task();
-                    nodeTask.Id = int.Parse(nodeRow["Id"].ToString());
-                    nodeTask.Title = nodeRow["Title"].ToString();
-                    nodeTask.Description = nodeRow["Description"].ToString();
-
-                    rootTask.Items.Add(nodeTask);
-                }
-
-                tvWeekylist.Items.Add(rootTask);
+                tvWeekylist.Items.Add(task);
             }
         }
 
         private void SetTodo()
         {
             TodoTask todoTask = new TodoTask();
-            foreach (Todo todo in todoTask.GetTodoListForShow()) 
+            foreach (Todo todo in todoTask.GetAllTodoListForShow()) 
             {
                 tvTodolist.Items.Add(todo);
             }
@@ -105,16 +129,5 @@ namespace LyPlan
 
 
     }
-    public class DayInWeek
-    {
-        public string Day { get; set; }
-        public List<Object> MorningTask { get; set; }
-        public List<Object> NightTask { get; set; }
-        public DayInWeek(string day)
-        {
-            Day = day;
-            MorningTask = new List<Object>();
-            NightTask = new List<Object>();
-        }
-    }
+    
 }

@@ -50,7 +50,7 @@
                                 <RowDefinition Height="1*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                <TextBlock Text="{Binding Day}" Foreground="#FF00A2DE" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding DayName}" Foreground="#FF00A2DE" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
                             </Grid>
                             <Grid Grid.Row="1">
                                 <Border BorderBrush="#FF0066AA" BorderThickness="0,0,0,1" Margin="15,0">
@@ -116,7 +116,7 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="#9900A2DE"/>
                 </Trigger>
-                <!--<MultiDataTrigger>
+                <MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding ElementName=tabTodolist, Path=IsSelected}" Value="true"></Condition>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Value="true"></Condition>
@@ -147,7 +147,7 @@
                     <MultiDataTrigger.Setters>
                         <Setter Property="Foreground" Value="#9900A2DE"/>
                     </MultiDataTrigger.Setters>
-                </MultiDataTrigger>-->
+                </MultiDataTrigger>
             </Style.Triggers>
         </Style>
         <Style TargetType="Image" x:Key="button-icon">
