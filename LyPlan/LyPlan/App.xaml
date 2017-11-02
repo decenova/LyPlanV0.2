@@ -57,21 +57,35 @@
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="2">
-                                <ListView ItemsSource="{Binding MorningTask}" BorderBrush="{x:Null}"></ListView>
+                                <ListView ItemsSource="{Binding MorningTask}" BorderBrush="{x:Null}"
+                                          Style="{DynamicResource listview-day-in-week}">
+                                   
+                                </ListView>
                             </Grid>
                             <Grid Grid.Row="3">
                                 <Border BorderBrush="#FF0066AA" BorderThickness="0,0,0,1" Margin="15,0">
                                 </Border>
                             </Grid>
                             <Grid Grid.Row="4">
-                                <ListView ItemsSource="{Binding NightTask}" BorderBrush="{x:Null}"></ListView>
+                                <ListView ItemsSource="{Binding NightTask}" BorderBrush="{x:Null}"
+                                          Style="{DynamicResource listview-day-in-week}"></ListView>
                             </Grid>
                         </Grid>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
-
+        <Style TargetType="ListView" x:Key="listview-day-in-week">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type bo:WeekyWork}">
+                        <Grid>
+                            <TextBlock Text="{Binding Title}" Foreground="Black"/>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <!--Button-->
 
