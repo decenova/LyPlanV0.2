@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BussinessObject.DataAccess;
+using BussinessObject.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
@@ -18,30 +20,43 @@ namespace Testing
         {
             InitializeComponent();
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = "select * from Task";
-            SqlConnection cnn = new SqlConnection(strConnection);
-            SqlCommand cmd = new SqlCommand(SQL, cnn);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataTable dtTask = new DataTable();
-            try
-            {
-                if (cnn.State == ConnectionState.Closed)
-                {
-                    cnn.Open();
-                }
-                da.Fill(dtTask);
-            }
-            catch (SqlException se)
-            {
-                throw new Exception(se.Message);
-            }
-            finally
-            {
-                cnn.Close();
-            }
+            //testing
 
-            dgvTask.DataSource = dtTask;
+            TodoTask todoTask = new TodoTask();
+            WeekyTask weekyTask = new WeekyTask();
+
+            //Create Update Check Todo
+            //------------------------------------
+            //Create TodoTask and TodoWork
+            //todoTask.SaveTodoTask(new TodoWork()
+            //{
+            //    Title = "Đi chợ cho mẹ"
+            //});
+            //dgvTask.DataSource = todoTask.GetAllTodoWorkForShow();
+            //------------------------------------
+            //Update TodoTask and TodoWork
+            //todoTask.UpdateTodo(new TodoWork()
+            //{
+            //    Title = "Đi chợ cho ba",
+            //    Description = "Mua 5 con chó",
+            //    TaskId = 32
+            //});
+            //dgvTask.DataSource = todoTask.GetAllTodoWorkForShow();
+            //------------------------------------
+            //Check TodoWork
+            //todoTask.CheckTodo(new TodoWork()
+            //{
+            //    StatusId = weekyTask.STATUS_DONE,
+            //    TaskId = 32
+            //});
+            //dgvTask.DataSource = todoTask.GetAllTodoWorkForShow();
+            
+
+        }
+
+        private void dgvTask_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

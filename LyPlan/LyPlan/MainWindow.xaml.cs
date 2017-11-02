@@ -64,13 +64,6 @@ namespace LyPlan
             SetTodo();
             SetWeeky();
             SetWeekyWork();
-
-            //DayInWeek monday = new DayInWeek("Monday");
-            //monday.MorningTask.Add("Lala");
-            //monday.MorningTask.Add("Lala");
-            //cMonday.DataContext = monday;
-            //DayInWeek tuesday = new DayInWeek("Tuesday");
-            //cTuesday.DataContext = tuesday;
         }
 
         private void SetWeekyWork()
@@ -121,7 +114,7 @@ namespace LyPlan
         private void SetTodo()
         {
             TodoTask todoTask = new TodoTask();
-            foreach (TodoWork todo in todoTask.GetAllTodoListForShow()) 
+            foreach (TodoWork todo in todoTask.GetAllTodoWorkForShow()) 
             {
                 tvTodolist.Items.Add(todo);
             }
@@ -129,8 +122,8 @@ namespace LyPlan
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AddWork addWork = new AddWork();
-            addWork.ShowDialog();
+            
+            
         }
     }
     

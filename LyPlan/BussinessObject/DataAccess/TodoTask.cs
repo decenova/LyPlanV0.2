@@ -16,7 +16,10 @@ namespace BussinessObject.DataAccess
 
         }
 
-        //lấy về 1 datatable các Task gồm (id, title)
+        /// <summary>
+        /// Lấy DataTable
+        /// </summary>
+        /// <returns>1 datatable các Task gồm (id, title)</returns>
         private DataTable GetTodoTasks()
         {
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
@@ -47,7 +50,11 @@ namespace BussinessObject.DataAccess
             return dtTodoTask;
         }
 
-        //Lấy ra WorkId và Description
+        /// <summary>
+        /// Lấy ra 1 Work xác định
+        /// </summary>
+        /// <param name="taskId">taskId</param>
+        /// <returns>1 Work gồm Id và Description</returns>
         private Work GetTodoWorkForShow(int taskId)
         {
             Work result = null;
@@ -93,8 +100,11 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //lấy ra tất cả các todo để show
-        public List<TodoWork> GetAllTodoListForShow()
+        /// <summary>
+        /// Lấy ra tất cả các TodoWork để show lên
+        /// </summary>
+        /// <returns>List các TodoWork</returns>
+        public List<TodoWork> GetAllTodoWorkForShow()
         {
             List<TodoWork> result = new List<TodoWork>();
 
@@ -117,7 +127,11 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //Lưu todo task và work
+        /// <summary>
+        /// Lưu todo task và work
+        /// </summary>
+        /// <param name="todo">Title và Description</param>
+        /// <returns>Success: True</returns>
         public Boolean SaveTodoTask(TodoWork todo)
         {
             Boolean result = false;
@@ -163,7 +177,11 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //Update todo task và work
+        /// <summary>
+        /// Update todo task và work
+        /// </summary>
+        /// <param name="newTodo">Title, Description, TaskId</param>
+        /// <returns>Success: True</returns>
         public Boolean UpdateTodo(TodoWork newTodo)
         {
             Boolean result = false;
@@ -200,7 +218,17 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //Thay đổi trạng thái todo work
+        /// <summary>
+        /// Thay đổi trạng thái todo work
+        /// 1: Not Done
+        /// 2: Early
+        /// 3: Doing
+        /// 4: Late
+        /// 5: Done
+        /// 6: Removed
+        /// </summary>
+        /// <param name="newTodo">StatusId, TaskId</param>
+        /// <returns>Success: true</returns>
         public Boolean CheckTodo(TodoWork newTodo)
         {
             Boolean result = false;
