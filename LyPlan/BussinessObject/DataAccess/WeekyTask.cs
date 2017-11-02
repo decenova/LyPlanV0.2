@@ -143,7 +143,7 @@ namespace BussinessObject.DataAccess
                     cnn.Open();
                 }
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
@@ -178,7 +178,7 @@ namespace BussinessObject.DataAccess
                     cnn.Open();
                 }
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
@@ -213,7 +213,7 @@ namespace BussinessObject.DataAccess
                     cnn.Open();
                 }
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
@@ -326,16 +326,17 @@ namespace BussinessObject.DataAccess
         }
 
         /// <summary>
-        /// Check Done cho 1 WeekyWork
+        /// Change status cho WeekyWok
         /// </summary>
         /// <param name="workId">workId</param>
+        /// <param name="statusId">statusId</param>
         /// <returns>Success: true</returns>
-        public Boolean CheckDoneWeekyWork(int workId)
+        public Boolean ChangeWeekyWorkStatus(int workId, int statusId)
         {
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"update Work set StatusId = {STATUS_DONE} where Id = {workId}";
+            string SQL = $"update Work set StatusId = {statusId} where Id = {workId}";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             
@@ -359,5 +360,78 @@ namespace BussinessObject.DataAccess
 
             return result;
         }
+
+
+        /// <summary>
+        /// Update Task
+        /// </summary>
+        /// <param name="task">Title, Description, TaskId</param>
+        /// <returns>Success: true</returns>
+        public Boolean UpdateTask(Task task)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = $"update Task Set Title = '{task.Title}', [Description] = '{task.Description}' where Id = {task.Id}";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Update 1 WeekyWork
+        /// </summary>
+        /// <param name="weekyWork">Id, Description, StartTime, AlertTime, Deadline</param>
+        /// <returns></returns>
+        public Boolean UpdateWeekyWork(WeekyWork weekyWork)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = $"update Work set [Description] = '{weekyWork.Description}', StartTime = '{weekyWork.StartTime}', AlertTime = '{weekyWork.AlertTime}', Deadline = '{weekyWork.DeadLine}' where Id = {weekyWork.Id}";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() == 1;
+
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+            return result;
+        }
+
+        
     }
 }

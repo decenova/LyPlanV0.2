@@ -163,7 +163,7 @@ namespace BussinessObject.DataAccess
 
                 cmd = new SqlCommand(SQL, cnn);
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
@@ -204,7 +204,7 @@ namespace BussinessObject.DataAccess
 
                 cmd = new SqlCommand(SQL, cnn);
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
@@ -245,7 +245,7 @@ namespace BussinessObject.DataAccess
                     cnn.Open();
                 }
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
