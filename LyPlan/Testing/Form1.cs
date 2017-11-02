@@ -30,7 +30,8 @@ namespace Testing
             //Create TodoTask and TodoWork
             //todoTask.SaveTodoTask(new TodoWork()
             //{
-            //    Title = "Đi chợ cho mẹ"
+            //    Title = "Đi chợ cho mẹ",
+            //    Description = "Mua 1 con ca"
             //});
             //dgvTask.DataSource = todoTask.GetAllTodoWorkForShow();
 
@@ -40,7 +41,7 @@ namespace Testing
             //{
             //    Title = "Đi chợ cho ba",
             //    Description = "Mua 5 con chó",
-            //    TaskId = 32
+            //    TaskId = 39
             //});
             //dgvTask.DataSource = todoTask.GetAllTodoWorkForShow();
 
@@ -48,8 +49,8 @@ namespace Testing
             //Check TodoWork
             //todoTask.CheckTodo(new TodoWork()
             //{
-            //    StatusId = weekyTask.STATUS_DONE,
-            //    TaskId = 32
+            //    StatusId = WeekyTask.STATUS_DONE,
+            //    TaskId = 39
             //});
             //dgvTask.DataSource = todoTask.GetAllTodoWorkForShow();
 
@@ -82,7 +83,7 @@ namespace Testing
             //{
             //    Title = "this is a node task",
             //    Description = "This node task created by trung",
-            //    SuperTask = 33
+            //    SuperTask = 40
             //});
 
             //------------------------------------
@@ -91,7 +92,7 @@ namespace Testing
             //{
             //    Title = "This node task has been updated",
             //    Description = "Update by Trung",
-            //    Id = 34
+            //    Id = 41
             //});
 
             //Create Update WeekyWork
@@ -100,7 +101,7 @@ namespace Testing
             //Create WeekyWork
             //weekyTask.MakeWorkFromWeekyTask(new Work()
             //{
-            //    TaskId = 34,
+            //    TaskId = 41,
             //    Description = "Do it ASAP",
             //    StartTime = DateTime.Now,
             //    AlertTime = DateTime.Now.AddDays(1),
@@ -112,7 +113,7 @@ namespace Testing
             //Update WeekyWork
             //weekyTask.UpdateWeekyWork(new WeekyWork()
             //{
-            //    Id = 19,
+            //    Id = 22,
             //    Description = "This WeekyWork has been update",
             //    StartTime = DateTime.Now.AddYears(1),
             //    AlertTime = DateTime.Now.AddDays(1).AddYears(1),
@@ -124,7 +125,7 @@ namespace Testing
             //Check WeekyWork
             //weekyTask.ChangeWeekyWorkStatus(19, 5);
             //dgvTask.DataSource = weekyTask.GetWorkForShow();
-            
+
 
         }
 
