@@ -15,13 +15,22 @@ using System.Windows.Shapes;
 namespace LyPlan
 {
     /// <summary>
-    /// Interaction logic for AddWork.xaml
+    /// Interaction logic for TaskForm.xaml
     /// </summary>
-    public partial class AddWork : Window
+    public partial class TaskForm : Window
     {
-        public AddWork()
+        public TaskForm()
         {
             InitializeComponent();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

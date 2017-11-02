@@ -50,7 +50,7 @@
                                 <RowDefinition Height="1*"></RowDefinition>
                             </Grid.RowDefinitions>
                             <Grid Grid.Row="0">
-                                <TextBlock Text="{Binding DayName}" Foreground="#FF00A2DE" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                                <TextBlock Text="{Binding DayName}" Foreground="#FF00A2DE" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"></TextBlock>
                             </Grid>
                             <Grid Grid.Row="1">
                                 <Border BorderBrush="#FF0066AA" BorderThickness="0,0,0,1" Margin="15,0">
@@ -80,7 +80,26 @@
                 <Setter.Value>
                     <DataTemplate DataType="{x:Type bo:WeekyWork}">
                         <Grid>
-                            <TextBlock Text="{Binding Title}" Foreground="Black"/>
+                            <TextBlock Text="{Binding Title}"/>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="ListView" x:Key="listview-task">
+            <Setter Property="MinHeight" Value="24"></Setter>
+            <Setter Property="Background" Value="#ff333333"></Setter>
+            <Setter Property="BorderBrush" Value="#ff00A2DE"></Setter>
+            <Setter Property="BorderThickness" Value="0,0,5,0"></Setter>
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="5,5,5,5"></Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type bo:Task}">
+                        <Grid>
+                            <TextBlock Text="{Binding Title}"/>
                         </Grid>
                     </DataTemplate>
                 </Setter.Value>
@@ -109,6 +128,27 @@
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#9900A2DE"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="Button" x:Key="button-normal">
+            <Setter Property="Background" Value="#00000000"></Setter>
+            <Setter Property="Foreground" Value="#ffcccccc"></Setter>
+            <Setter Property="MinHeight" Value="24"></Setter>
+            <Setter Property="MinWidth" Value="48"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="#ffcccccc" BorderThickness="2,2,2,2">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#ffcccccc"/>
+                    <Setter Property="Foreground" Value="#ff000000"></Setter>
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -263,6 +303,24 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
             <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
             <Setter Property="IsExpanded" Value="True"></Setter>
+        </Style>
+        
+        <!--Form-->
+        <Style TargetType="{x:Type Label}">
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="MinHeight" Value="24"></Setter>
+            <Setter Property="MaxHeight" Value="96"></Setter>
+            <Setter Property="Background" Value="#ff333333"></Setter>
+            <Setter Property="BorderBrush" Value="#ff00A2DE"></Setter>
+            <Setter Property="BorderThickness" Value="0,0,5,0"></Setter>
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="5,5,5,5"></Setter>
         </Style>
     </Application.Resources>
 </Application>
