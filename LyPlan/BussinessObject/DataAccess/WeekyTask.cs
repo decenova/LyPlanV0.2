@@ -11,15 +11,15 @@ namespace BussinessObject.DataAccess
 {
     public class WeekyTask
     {
-        public readonly int STATUS_NOT_DONE = 1;
-        public readonly int STATUS_EARLY = 2;
-        public readonly int STATUS_DOING = 3;
-        public readonly int STATUS_LATE = 4;
-        public readonly int STATUS_DONE = 5;
-        public readonly int STATUS_REMOVED = 6;
+        public static readonly int STATUS_NOT_DONE = 1;
+        public static readonly int STATUS_EARLY = 2;
+        public static readonly int STATUS_DOING = 3;
+        public static readonly int STATUS_LATE = 4;
+        public static readonly int STATUS_DONE = 5;
+        public static readonly int STATUS_REMOVED = 6;
 
-        public readonly int TYPE_TODO = 1;
-        public readonly int TYPE_DAILY = 2;
+        public static readonly int TYPE_TODO = 1;
+        public static readonly int TYPE_DAILY = 2;
 
         /// <summary>
         /// Lấy ra list các  RootWeekyTask để hiển thị
@@ -59,9 +59,11 @@ namespace BussinessObject.DataAccess
         public DataTable GetListRootWeekyTask()
         {
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"select Id, Title, [Description] from Task where TypeId = {TYPE_DAILY} and SuperTask is null";
+            string SQL = "select Id, Title, [Description] from Task where TypeId = @TypeId and SuperTask is null";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
+
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dtWeekyTask = new DataTable();
 
@@ -95,9 +97,12 @@ namespace BussinessObject.DataAccess
         {
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"select Id, Title, [Description] from Task where TypeId = {TYPE_DAILY} and SuperTask = " + taskId;
+            string SQL = "select Id, Title, [Description] from Task where TypeId = @TypeId and SuperTask = @TaskId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
+            cmd.Parameters.AddWithValue("@TaskId", taskId);
+
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dtWeekyTask = new DataTable();
 
@@ -132,9 +137,12 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"insert into Task (Title, [Description], TypeId) values ('{task.Title}', '{task.Description}', {TYPE_DAILY})";
+            string SQL = "insert into Task (Title, [Description], TypeId) values (@Title, @Description, @TypeId)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", task.Title);
+            cmd.Parameters.AddWithValue("@Description", task.Description);
+            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
 
             try
             {
@@ -167,9 +175,13 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"insert into Task (Title, [Description], TypeId, SuperTask) values ('{task.Title}', '{task.Description}', {TYPE_DAILY}, {task.SuperTask})";
+            string SQL = "insert into Task (Title, [Description], TypeId, SuperTask) values (@Title, @Description, @TypeId, @SuperTask)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", task.Title);
+            cmd.Parameters.AddWithValue("@Description", task.Description);
+            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
+            cmd.Parameters.AddWithValue("@SuperTask", task.SuperTask);
 
             try
             {
@@ -202,9 +214,16 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"insert into Work (TaskId, Description, StartTime, Deadline, AlertTime, StatusId) values ({work.TaskId}, '{work.Description}', '{work.StartTime.ToString("yyyy-MM-dd")}', '{work.DeadLine.ToString("yyyy-MM-dd")}', '{work.AlertTime.ToString("yyyy-MM-dd")}', {STATUS_EARLY})";
+            string SQL = "insert into Work (TaskId, Description, StartTime, AlertTime, Deadline, StatusId) values (@TaskId, @Description, @StartTime, @AlertTime, @Deadline, @StatusId)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@TaskId", work.TaskId);
+            cmd.Parameters.AddWithValue("@Description", work.Description);
+            cmd.Parameters.AddWithValue("@StartTime", work.StartTime);
+            cmd.Parameters.AddWithValue("@AlertTime", work.AlertTime);
+            cmd.Parameters.AddWithValue("@Deadline", work.DeadLine);
+            cmd.Parameters.AddWithValue("@StatusId", STATUS_EARLY);
+
 
             try
             {
@@ -299,9 +318,11 @@ namespace BussinessObject.DataAccess
             DataTable result = new DataTable();
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId from Work w inner join Task t on w.TaskId = t.Id where w.StatusId = {STATUS_EARLY}";
+            string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId from Work w inner join Task t on w.TaskId = t.Id where w.StatusId = @StatusId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@StatusId", STATUS_EARLY);
+
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             
             try
@@ -336,9 +357,10 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"update Work set StatusId = {statusId} where Id = {workId}";
+            string SQL = "update Work set StatusId = {statusId} where Id = @WorkId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@WorkId", workId);
             
             try
             {
@@ -372,9 +394,12 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"update Task Set Title = '{task.Title}', [Description] = '{task.Description}' where Id = {task.Id}";
+            string SQL = "update Task Set Title = @Title, [Description] = @Description where Id = @TaskId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", task.Title);
+            cmd.Parameters.AddWithValue("@Description", task.Description);
+            cmd.Parameters.AddWithValue("@TaskId", task.Id);
 
             try
             {
@@ -407,9 +432,14 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"update Work set [Description] = '{weekyWork.Description}', StartTime = '{weekyWork.StartTime}', AlertTime = '{weekyWork.AlertTime}', Deadline = '{weekyWork.DeadLine}' where Id = {weekyWork.Id}";
+            string SQL = "update Work set [Description] = @Description, StartTime = @StartTime, AlertTime = @AlertTime, Deadline = @Deadline where Id = @WorkId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Description", weekyWork.Description);
+            cmd.Parameters.AddWithValue("@StartTime", weekyWork.StartTime);
+            cmd.Parameters.AddWithValue("@AlertTIme", weekyWork.AlertTime);
+            cmd.Parameters.AddWithValue("@Deadline", weekyWork.DeadLine);
+            cmd.Parameters.AddWithValue("@WorkId", weekyWork.Id);
 
             try
             {

@@ -61,10 +61,11 @@ namespace BussinessObject.DataAccess
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
 
-            string SQL = "select Id, [Description] from Work where TaskId = " + taskId + " and StatusId = 1";
+            string SQL = "select Id, [Description] from Work where TaskId = @TaskId and StatusId = 1";
 
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@TaskId", taskId);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dtTodoWork = new DataTable();
 
@@ -136,15 +137,14 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string title = todo.Title;
-            string description = todo.Description;
-
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
 
-            string SQL = $"insert into Task (Title, TypeId) output Inserted.Id values ('{title}', 1)";
+            string SQL = "insert into Task (Title, TypeId) output Inserted.Id values (@Title, @TypeId)";
 
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", todo.Title);
+            cmd.Parameters.AddWithValue("TypeId", WeekyTask.TYPE_TODO);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
 
@@ -159,9 +159,14 @@ namespace BussinessObject.DataAccess
 
                 int newId = int.Parse(dt.Rows[0]["Id"].ToString());
 
-                SQL = $"insert into Work (TaskId, Description, StartTime, StatusId) values ({newId}, '{todo.Description}', '{DateTime.Now.ToString("yyyy-MM-dd")}', 1)";
+                string nSQL = "insert into Work (TaskId, Description, StartTime, StatusId) values (@NewId, @Description, @StartTime, @StatusId)";
 
-                cmd = new SqlCommand(SQL, cnn);
+                cmd = new SqlCommand(nSQL, cnn);
+
+                cmd.Parameters.AddWithValue("@NewId", newId);
+                cmd.Parameters.AddWithValue("@Description", todo.Description);
+                cmd.Parameters.AddWithValue("@StartTime", DateTime.Now.ToString("yyyyMMdd"));
+                cmd.Parameters.AddWithValue("@StatusId", WeekyTask.STATUS_NOT_DONE);
 
                 result = cmd.ExecuteNonQuery() == 1;
             }
@@ -187,9 +192,11 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"update Task set Title = '{newTodo.Title}' where Id = {newTodo.TaskId}";
+            string SQL = "update Task set Title = @Title where Id = @TaskId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", newTodo.Title);
+            cmd.Parameters.AddWithValue("@TaskId", newTodo.TaskId);
 
             try
             {
@@ -200,9 +207,12 @@ namespace BussinessObject.DataAccess
 
                 result = cmd.ExecuteNonQuery() > 0;
 
-                SQL = $"update Work set [Description] = '{newTodo.Description}' where TaskId = {newTodo.TaskId}";
+                string nSQL = "update Work set [Description] = @Description where TaskId = @TaskId";
 
-                cmd = new SqlCommand(SQL, cnn);
+                cmd = new SqlCommand(nSQL, cnn);
+
+                cmd.Parameters.AddWithValue("@Description", newTodo.Description);
+                cmd.Parameters.AddWithValue("@TaskId", newTodo.TaskId);
 
                 result = cmd.ExecuteNonQuery() == 1;
             }
@@ -234,9 +244,12 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"update Work set StatusId = {newTodo.StatusId} where TaskId = {newTodo.TaskId}";
+            string SQL = "update Work set StatusId = @StatusId where TaskId = @TaskId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            cmd.Parameters.AddWithValue("@StatusId", newTodo.StatusId);
+            cmd.Parameters.AddWithValue("@TaskId", newTodo.TaskId);
 
             try
             {
