@@ -207,7 +207,7 @@
             <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
             <Setter Property="ItemTemplate">
                 <Setter.Value>
-                    <HierarchicalDataTemplate DataType="{x:Type bo:Todo}" ItemsSource="{Binding Path=Items}">
+                    <HierarchicalDataTemplate DataType="{x:Type bo:TodoWork}" ItemsSource="{Binding Path=Items}">
                         <Grid Height="24" HorizontalAlignment="Stretch">
                             <ToggleButton Content="{Binding Path=Title}"
                                     VerticalAlignment="Center" 

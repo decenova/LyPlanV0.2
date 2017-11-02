@@ -6,23 +6,21 @@ using System.Threading.Tasks;
 
 namespace BussinessObject.Entities
 {
-    public class Todo
+    public class WeekyWork
     {
-        private int workId;
+        private int id;
         private int taskId;
         private string title;
         private string description;
+        private DateTime startTime;
+        private DateTime deadline;
+        private DateTime alertTime;
         private int statusId;
 
-        public Todo()
+        public int Id
         {
-
-        }
-
-        public int WorkId
-        {
-            get { return workId; }
-            set { workId = value; }
+            get { return id; }
+            set { id = value; }
         }
 
         public int TaskId
@@ -31,16 +29,34 @@ namespace BussinessObject.Entities
             set { taskId = value; }
         }
 
-        public String Title
+        public string Title
         {
             get { return title; }
             set { title = value; }
         }
 
-        public String Description
+        public string Description
         {
             get { return description; }
             set { description = value; }
+        }
+
+        public DateTime StartTime
+        {
+            get { return startTime; }
+            set { startTime = value; }
+        }
+
+        public DateTime DeadLine
+        {
+            get { return deadline; }
+            set { deadline = value; }
+        }
+
+        public DateTime AlertTime
+        {
+            get { return alertTime; }
+            set { alertTime = value; }
         }
 
         public int StatusId
@@ -49,5 +65,4 @@ namespace BussinessObject.Entities
             set { statusId = value; }
         }
     }
-
 }

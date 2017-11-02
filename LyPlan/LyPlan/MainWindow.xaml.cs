@@ -112,7 +112,7 @@ namespace LyPlan
         {
             WeekyTask weekyTask = new WeekyTask();
 
-            foreach (Task task in weekyTask.GetListRootWeekyTaskForShow())
+            foreach (Task task in weekyTask.GetListAllRootWeekyTaskForShow())
             {
                 tvWeekylist.Items.Add(task);
             }
@@ -121,7 +121,7 @@ namespace LyPlan
         private void SetTodo()
         {
             TodoTask todoTask = new TodoTask();
-            foreach (Todo todo in todoTask.GetAllTodoListForShow()) 
+            foreach (TodoWork todo in todoTask.GetAllTodoListForShow()) 
             {
                 tvTodolist.Items.Add(todo);
             }
