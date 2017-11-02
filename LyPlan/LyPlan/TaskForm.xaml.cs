@@ -19,9 +19,25 @@ namespace LyPlan
     /// </summary>
     public partial class TaskForm : Window
     {
+
+        private int taskId;
+        private int supertaskId;
         public TaskForm()
         {
             InitializeComponent();
+        }
+
+        public TaskForm(int taskId)
+        {
+            InitializeComponent();
+            this.taskId = taskId;
+        }
+
+        public TaskForm(int taskId, int supertaskId)
+        {
+            InitializeComponent();
+            this.taskId = taskId;
+            this.supertaskId = supertaskId;
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
