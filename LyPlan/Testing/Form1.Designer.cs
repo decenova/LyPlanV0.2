@@ -38,14 +38,15 @@
             this.dgvTask.Location = new System.Drawing.Point(12, 12);
             this.dgvTask.Name = "dgvTask";
             this.dgvTask.RowTemplate.Height = 24;
-            this.dgvTask.Size = new System.Drawing.Size(486, 235);
+            this.dgvTask.Size = new System.Drawing.Size(1115, 369);
             this.dgvTask.TabIndex = 0;
+            this.dgvTask.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTask_CellContentClick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(510, 393);
+            this.ClientSize = new System.Drawing.Size(1139, 393);
             this.Controls.Add(this.dgvTask);
             this.Name = "Form1";
             this.Text = "Form1";

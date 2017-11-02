@@ -84,6 +84,10 @@
       <Project>{89272942-2d7f-4dbd-aa6e-7898a84d0dd4}</Project>
       <Name>DataProvider</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BussinessObject\BussinessObject.csproj">
+      <Project>{5296EB30-EC73-4933-9515-E17DBC72D404}</Project>
+      <Name>BussinessObject</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

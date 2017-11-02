@@ -16,11 +16,15 @@ namespace BussinessObject.DataAccess
         public readonly int STATUS_DOING = 3;
         public readonly int STATUS_LATE = 4;
         public readonly int STATUS_DONE = 5;
+        public readonly int STATUS_REMOVED = 6;
 
         public readonly int TYPE_TODO = 1;
         public readonly int TYPE_DAILY = 2;
 
-        //lấy ra tất cả các root weekly task 
+        /// <summary>
+        /// Lấy ra list các  RootWeekyTask để hiển thị
+        /// </summary>
+        /// <returns>List các RootTask gồm Id, Title, Description</returns>
         public List<Task> GetListAllRootWeekyTaskForShow()
         {
             List<Task> result = new List<Task>();
@@ -48,7 +52,10 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //Lấy ra datatable root week task
+        /// <summary>
+        /// Lấy DataTable các rootWeekytask
+        /// </summary>
+        /// <returns>DataTable RootWeekyTask gồm Id, Title, Description</returns>
         public DataTable GetListRootWeekyTask()
         {
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
@@ -79,7 +86,11 @@ namespace BussinessObject.DataAccess
             return dtWeekyTask;
         }
 
-        //lấy ra datatable của 1 node weeky task bằng taskId
+        /// <summary>
+        /// Lấy ra DataTable các NodeWeekyTask của 1 RootTask xác định
+        /// </summary>
+        /// <param name="taskId">taskId</param>
+        /// <returns>DataTable các NodeWeekytask</returns>
         public DataTable GetListNodeWeekyTaskByTaskId(int taskId)
         {
 
@@ -111,7 +122,11 @@ namespace BussinessObject.DataAccess
             return dtWeekyTask;
         }
 
-        //Save 1 cái root task
+        /// <summary>
+        /// Tạo 1 root task
+        /// </summary>
+        /// <param name="task">Title, Description</param>
+        /// <returns>Success: true</returns>
         public Boolean SaveRootTask(Task task)
         {
             Boolean result = false;
@@ -128,7 +143,7 @@ namespace BussinessObject.DataAccess
                     cnn.Open();
                 }
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
@@ -142,7 +157,11 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //save 1 node task
+        /// <summary>
+        /// Tạo 1 node task
+        /// </summary>
+        /// <param name="task">Title, Description, SuperTask</param>
+        /// <returns>Success: true</returns>
         public Boolean SaveNodeTask(Task task)
         {
             Boolean result = false;
@@ -159,7 +178,7 @@ namespace BussinessObject.DataAccess
                     cnn.Open();
                 }
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
@@ -173,7 +192,11 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //Save 1 work từ week task
+        /// <summary>
+        /// Tạo 1 Work từ cái NodeTask
+        /// </summary>
+        /// <param name="work">TaskId, Description, StartTime, ArletTime, DeadLine</param>
+        /// <returns>Success: true</returns>
         public Boolean MakeWorkFromWeekyTask(Work work)
         {
             Boolean result = false;
@@ -190,7 +213,7 @@ namespace BussinessObject.DataAccess
                     cnn.Open();
                 }
 
-                result = cmd.ExecuteNonQuery() > 0;
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {
@@ -203,7 +226,10 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //Lấy 1 list tất cả các work theo ngày trong tuần
+        /// <summary>
+        /// Lấy 1 list các DayInWeek để hiển thị
+        /// </summary>
+        /// <returns>List DayInWeek</returns>
         public List<DayInWeek> GetListDayInWeekForShow()
         {
             List<DayInWeek> result = new List<DayInWeek>();
@@ -264,7 +290,10 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //Lấy 1 datatable tất cả các work chưa hoàn thành để hiển thị
+        /// <summary>
+        /// Lấy DataTable Work chưa hoàn thành để hiển thị
+        /// </summary>
+        /// <returns>DataTable Work</returns>
         public DataTable GetWorkForShow()
         {
             DataTable result = new DataTable();
@@ -296,13 +325,18 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        //Check done cho 1 work
-        public Boolean CheckDoneWeekyWork(int workId)
+        /// <summary>
+        /// Change status cho WeekyWok
+        /// </summary>
+        /// <param name="workId">workId</param>
+        /// <param name="statusId">statusId</param>
+        /// <returns>Success: true</returns>
+        public Boolean ChangeWeekyWorkStatus(int workId, int statusId)
         {
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"update Work set StatusId = {STATUS_DONE} where Id = {workId}";
+            string SQL = $"update Work set StatusId = {statusId} where Id = {workId}";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             
@@ -326,5 +360,78 @@ namespace BussinessObject.DataAccess
 
             return result;
         }
+
+
+        /// <summary>
+        /// Update Task
+        /// </summary>
+        /// <param name="task">Title, Description, TaskId</param>
+        /// <returns>Success: true</returns>
+        public Boolean UpdateTask(Task task)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = $"update Task Set Title = '{task.Title}', [Description] = '{task.Description}' where Id = {task.Id}";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Update 1 WeekyWork
+        /// </summary>
+        /// <param name="weekyWork">Id, Description, StartTime, AlertTime, Deadline</param>
+        /// <returns></returns>
+        public Boolean UpdateWeekyWork(WeekyWork weekyWork)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = $"update Work set [Description] = '{weekyWork.Description}', StartTime = '{weekyWork.StartTime}', AlertTime = '{weekyWork.AlertTime}', Deadline = '{weekyWork.DeadLine}' where Id = {weekyWork.Id}";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() == 1;
+
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+            return result;
+        }
+
+        
     }
 }

@@ -19,9 +19,16 @@ namespace LyPlan
     /// </summary>
     public partial class GoalForm : Window
     {
+        private int goalId;
         public GoalForm()
         {
             InitializeComponent();
+        }
+
+        public GoalForm(int goalId)
+        {
+            InitializeComponent();
+            this.goalId = goalId;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
