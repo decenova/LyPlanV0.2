@@ -86,6 +86,25 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="ListView" x:Key="listview-task">
+            <Setter Property="MinHeight" Value="24"></Setter>
+            <Setter Property="Background" Value="#ff333333"></Setter>
+            <Setter Property="BorderBrush" Value="#ff00A2DE"></Setter>
+            <Setter Property="BorderThickness" Value="0,0,5,0"></Setter>
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="5,5,5,5"></Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type bo:Task}">
+                        <Grid>
+                            <TextBlock Text="{Binding Title}"/>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
 
         <!--Button-->
 
@@ -294,6 +313,7 @@
         </Style>
         <Style TargetType="{x:Type TextBox}">
             <Setter Property="MinHeight" Value="24"></Setter>
+            <Setter Property="MaxHeight" Value="96"></Setter>
             <Setter Property="Background" Value="#ff333333"></Setter>
             <Setter Property="BorderBrush" Value="#ff00A2DE"></Setter>
             <Setter Property="BorderThickness" Value="0,0,5,0"></Setter>

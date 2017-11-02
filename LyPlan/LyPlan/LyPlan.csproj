@@ -62,7 +62,9 @@
     <Compile Include="GoalForm.xaml.cs">
       <DependentUpon>GoalForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TaskDemo.cs" />
+    <Compile Include="TaskForm.xaml.cs">
+      <DependentUpon>TaskForm.xaml</DependentUpon>
+    </Compile>
     <Page Include="GoalForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -79,6 +81,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="TaskForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

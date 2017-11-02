@@ -23,5 +23,16 @@ namespace LyPlan
         {
             InitializeComponent();
         }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btnAddTask_Click(object sender, RoutedEventArgs e)
+        {
+            TaskForm taskForm = new TaskForm();
+            taskForm.ShowDialog();
+        }
     }
 }

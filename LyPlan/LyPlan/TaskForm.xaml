@@ -1,11 +1,11 @@
-﻿<Window x:Class="LyPlan.GoalForm"
+﻿<Window x:Class="LyPlan.TaskForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LyPlan"
         mc:Ignorable="d"
-        Title="Goal" Width="384" Height="300" MinWidth="384" MinHeight="300" WindowStartupLocation="CenterScreen" Icon="resource/ic_schedule_white_24px.png" SizeToContent="Height">
+        Title="Task" Width="384" Height="200" MinWidth="384" MinHeight="200" WindowStartupLocation="CenterScreen" Icon="resource/ic_schedule_white_24px.png" SizeToContent="Height">
     <Grid Style="{StaticResource background-dark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"></RowDefinition>
@@ -23,7 +23,6 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
-                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label>Title:</Label>
             <TextBox Grid.Column="1"/>
@@ -31,19 +30,6 @@
             <TextBox AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto" 
                      Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Top"/>
-
-            <Label Grid.Row="2">Task:</Label>
-            <Grid Grid.Row="2" Grid.Column="1">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"></RowDefinition>
-                    <RowDefinition Height="auto"></RowDefinition>
-                </Grid.RowDefinitions>
-                <ListView Style="{StaticResource listview-task}" Grid.Row="0">
-                </ListView>
-                <Button x:Name="btnAddTask" Style="{StaticResource button-square}" Grid.Row="1" Width="24" Height="24" HorizontalAlignment="Right" Margin="0,0,5,0" Click="btnAddTask_Click">
-                    <Image Source="resource/ic_add_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
-                </Button>
-            </Grid>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -53,7 +39,7 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="5"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnAdd" Content="Add" Grid.Column="1" Style="{StaticResource button-normal}" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+            <Button x:Name="btnAdd" Content="Add" Grid.Column="1" Style="{StaticResource button-normal}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnAdd_Click"></Button>
             <Button x:Name="btnCancel" Content="Cancel" Grid.Column="3" Style="{StaticResource button-normal}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnCancel_Click"/>
         </Grid>
     </Grid>

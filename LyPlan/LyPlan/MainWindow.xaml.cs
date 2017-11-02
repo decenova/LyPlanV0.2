@@ -25,6 +25,8 @@ namespace LyPlan
     /// </summary>
     public partial class MainWindow : Window
     {
+        private GoalForm goalForm;
+        private TaskForm taskForm;
         public MainWindow()
         {
             InitializeComponent();
@@ -134,8 +136,17 @@ namespace LyPlan
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            GoalForm goalForm = new GoalForm();
-            goalForm.ShowDialog();
+            if (tabWeekylist.IsSelected) { 
+                goalForm = new GoalForm();
+                goalForm.ShowDialog();
+            }
+            else
+            {
+                taskForm = new TaskForm();
+                taskForm.ShowDialog();
+            }
+                
+            
         }
     }
     
