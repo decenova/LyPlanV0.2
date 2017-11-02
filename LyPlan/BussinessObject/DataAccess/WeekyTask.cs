@@ -228,6 +228,7 @@ namespace BussinessObject.DataAccess
                 WeekyWork weekyWork = new WeekyWork();
                 weekyWork.Id = int.Parse(row["Id"].ToString());
                 weekyWork.TaskId = int.Parse(row["TaskId"].ToString());
+                weekyWork.Title = row["Title"].ToString();
                 weekyWork.Description = row["Description"].ToString();
                 weekyWork.StartTime = DateTime.Parse(row["StartTime"].ToString());
                 weekyWork.AlertTime = DateTime.Parse(row["AlertTime"].ToString());
