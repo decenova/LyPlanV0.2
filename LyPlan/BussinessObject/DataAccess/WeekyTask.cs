@@ -19,7 +19,9 @@ namespace BussinessObject.DataAccess
 
         public readonly int TYPE_TODO = 1;
         public readonly int TYPE_DAILY = 2;
-        public List<Task> GetListRootWeekyTaskForShow()
+
+        //lấy ra tất cả các root weekly task 
+        public List<Task> GetListAllRootWeekyTaskForShow()
         {
             List<Task> result = new List<Task>();
 
@@ -45,6 +47,8 @@ namespace BussinessObject.DataAccess
 
             return result;
         }
+
+        //Lấy ra datatable root week task
         public DataTable GetListRootWeekyTask()
         {
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
@@ -75,6 +79,7 @@ namespace BussinessObject.DataAccess
             return dtWeekyTask;
         }
 
+        //lấy ra datatable của 1 node weeky task bằng taskId
         public DataTable GetListNodeWeekyTaskByTaskId(int taskId)
         {
 
@@ -106,6 +111,7 @@ namespace BussinessObject.DataAccess
             return dtWeekyTask;
         }
 
+        //Save 1 cái root task
         public Boolean SaveRootTask(Task task)
         {
             Boolean result = false;
@@ -136,6 +142,7 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
+        //save 1 node task
         public Boolean SaveNodeTask(Task task)
         {
             Boolean result = false;
@@ -166,6 +173,7 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
+        //Save 1 work từ week task
         public Boolean MakeWorkFromWeekyTask(Work work)
         {
             Boolean result = false;
@@ -195,6 +203,7 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
+        //Lấy 1 list tất cả các work theo ngày trong tuần
         public List<DayInWeek> GetListDayInWeekForShow()
         {
             List<DayInWeek> result = new List<DayInWeek>();
@@ -216,37 +225,37 @@ namespace BussinessObject.DataAccess
 
             foreach (DataRow row in GetWorkForShow().Rows)
             {
-                Work work = new Work();
-                work.Id = int.Parse(row["Id"].ToString());
-                work.TaskId = int.Parse(row["TaskId"].ToString());
-                work.Description = row["Description"].ToString();
-                work.StartTime = DateTime.Parse(row["StartTime"].ToString());
-                work.AlertTime = DateTime.Parse(row["AlertTime"].ToString());
-                work.DeadLine = DateTime.Parse(row["Deadline"].ToString());
-                work.StatusId = int.Parse(row["StatusId"].ToString());
+                WeekyWork weekyWork = new WeekyWork();
+                weekyWork.Id = int.Parse(row["Id"].ToString());
+                weekyWork.TaskId = int.Parse(row["TaskId"].ToString());
+                weekyWork.Description = row["Description"].ToString();
+                weekyWork.StartTime = DateTime.Parse(row["StartTime"].ToString());
+                weekyWork.AlertTime = DateTime.Parse(row["AlertTime"].ToString());
+                weekyWork.DeadLine = DateTime.Parse(row["Deadline"].ToString());
+                weekyWork.StatusId = int.Parse(row["StatusId"].ToString());
 
-                switch (work.StartTime.DayOfWeek.ToString())
+                switch (weekyWork.StartTime.DayOfWeek.ToString())
                 {
                     case "Monday":
-                        monday.MorningTask.Add(work);
+                        monday.MorningTask.Add(weekyWork);
                         break;
                     case "Tuesday":
-                        tuesday.MorningTask.Add(work);
+                        tuesday.MorningTask.Add(weekyWork);
                         break;
                     case "Wednesday":
-                        wednesday.MorningTask.Add(work);
+                        wednesday.MorningTask.Add(weekyWork);
                         break;
                     case "Thursday":
-                        thursday.MorningTask.Add(work);
+                        thursday.MorningTask.Add(weekyWork);
                         break;
                     case "Friday":
-                        friday.MorningTask.Add(work);
+                        friday.MorningTask.Add(weekyWork);
                         break;
                     case "Saturday":
-                        saturday.MorningTask.Add(work);
+                        saturday.MorningTask.Add(weekyWork);
                         break;
                     case "Sunday":
-                        sunday.MorningTask.Add(work);
+                        sunday.MorningTask.Add(weekyWork);
                         break;
                 }
             }
@@ -254,12 +263,13 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
+        //Lấy 1 datatable tất cả các work chưa hoàn thành để hiển thị
         public DataTable GetWorkForShow()
         {
             DataTable result = new DataTable();
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = $"select Id, TaskId, [Description], StartTime, AlertTime, Deadline, StatusId from Work where StatusId = {STATUS_EARLY}";
+            string SQL = $"select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId from Work w inner join Task t on w.TaskId = t.Id where w.StatusId = {STATUS_EARLY}";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -272,6 +282,37 @@ namespace BussinessObject.DataAccess
                 }
 
                 da.Fill(result);
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+
+        //Check done cho 1 work
+        public Boolean CheckDoneWeekyWork(int workId)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = $"update Work set StatusId = {STATUS_DONE} where Id = {workId}";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() == 1;
             }
             catch (SqlException se)
             {

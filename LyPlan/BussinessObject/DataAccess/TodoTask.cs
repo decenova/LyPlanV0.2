@@ -94,13 +94,13 @@ namespace BussinessObject.DataAccess
         }
 
         //lấy ra tất cả các todo để show
-        public List<Todo> GetAllTodoListForShow()
+        public List<TodoWork> GetAllTodoListForShow()
         {
-            List<Todo> result = new List<Todo>();
+            List<TodoWork> result = new List<TodoWork>();
 
             foreach (DataRow row in GetTodoTasks().Rows)
             {
-                Todo todo = new Todo();
+                TodoWork todo = new TodoWork();
                 Work work = GetTodoWorkForShow(int.Parse(row["Id"].ToString()));
 
                 Console.WriteLine(row["Id"].ToString());
@@ -118,7 +118,7 @@ namespace BussinessObject.DataAccess
         }
 
         //Lưu todo task và work
-        public Boolean SaveTodoTask(Todo todo)
+        public Boolean SaveTodoTask(TodoWork todo)
         {
             Boolean result = false;
 
@@ -164,7 +164,7 @@ namespace BussinessObject.DataAccess
         }
 
         //Update todo task và work
-        public Boolean UpdateTodo(Todo newTodo)
+        public Boolean UpdateTodo(TodoWork newTodo)
         {
             Boolean result = false;
 
@@ -201,7 +201,7 @@ namespace BussinessObject.DataAccess
         }
 
         //Thay đổi trạng thái todo work
-        public Boolean CheckTodo(Todo newTodo)
+        public Boolean CheckTodo(TodoWork newTodo)
         {
             Boolean result = false;
 
