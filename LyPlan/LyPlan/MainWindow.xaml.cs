@@ -127,7 +127,11 @@ namespace LyPlan
             }
         }
 
-
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            AddWork addWork = new AddWork();
+            addWork.ShowDialog();
+        }
     }
     
 }

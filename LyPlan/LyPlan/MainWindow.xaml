@@ -30,7 +30,7 @@
                     <Button Style="{StaticResource button-square}">
                         <Image Source="resource/ic_schedule_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>
-                    <Button Style="{StaticResource button-square}">
+                    <Button Style="{StaticResource button-square}" Click="Button_Click">
                         <Image Source="resource/ic_timeline_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>
                 </StackPanel>
