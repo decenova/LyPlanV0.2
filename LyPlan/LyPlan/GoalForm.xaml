@@ -1,0 +1,40 @@
+﻿<Window x:Class="LyPlan.GoalForm"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:LyPlan"
+        mc:Ignorable="d"
+        Title="GoalForm" Width="384" Height="300">
+    <Grid Style="{StaticResource background-dark}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="48"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="48"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <TextBlock Text="Form" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-2,0,0,0" Padding="24,0,0,0" FontSize="18"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label>Title:</Label>
+            <TextBox Grid.Column="1"/>
+            <Label Grid.Row="1">Description:</Label>
+            <TextBox AcceptsReturn="True" 
+                     VerticalScrollBarVisibility="Auto" 
+                     Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Top"/>
+        </Grid>
+        <WrapPanel Grid.Row="2">
+            <Button Content="Add" Style="{StaticResource button-normal}"></Button>
+            <Button Content="Cancle" Style="{StaticResource button-normal}"></Button>
+        </WrapPanel>
+    </Grid>
+</Window>

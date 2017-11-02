@@ -24,18 +24,18 @@
             <Grid Width="48" Grid.Column="0">
                 <Grid Style="{StaticResource background-dark-transparent}"></Grid>
                 <StackPanel>
-                    <Button Style="{StaticResource button-square}">
+                    <Button x:Name="btnMenu" Style="{StaticResource button-square}">
                         <Image Source="resource/ic_menu_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>
-                    <Button Style="{StaticResource button-square}">
+                    <Button x:Name="btnSchedule" Style="{StaticResource button-square}">
                         <Image Source="resource/ic_schedule_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>
-                    <Button Style="{StaticResource button-square}" Click="Button_Click">
+                    <Button x:Name="btnTimeline" Style="{StaticResource button-square}" Click="Button_Click">
                         <Image Source="resource/ic_timeline_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>
                 </StackPanel>
                 <StackPanel VerticalAlignment="Bottom">
-                    <Button Style="{StaticResource button-square}">
+                    <Button x:Name="btnSetting" Style="{StaticResource button-square}">
                         <Image Source="resource/ic_settings_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>
                 </StackPanel>
@@ -46,9 +46,12 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Style="{StaticResource button-square}">
+                    <Button x:Name="btnAdd" Style="{StaticResource button-square}" Click="btnAdd_Click">
                         <Image Source="resource/ic_add_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>
+                </StackPanel>
+                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left">
+                    <DatePicker />
                 </StackPanel>
                 <Grid Grid.Row="1">
                     <Grid Height="51" VerticalAlignment="Top">

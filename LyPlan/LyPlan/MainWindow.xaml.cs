@@ -129,8 +129,13 @@ namespace LyPlan
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            AddWork addWork = new AddWork();
-            addWork.ShowDialog();
+            
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            GoalForm goalForm = new GoalForm();
+            goalForm.ShowDialog();
         }
     }
     
