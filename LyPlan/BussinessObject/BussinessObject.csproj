@@ -41,8 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataAccess\TodoTask.cs" />
-    <Compile Include="DataAccess\WeekyTask.cs" />
+    <Compile Include="DataAccess\TodoTaskData.cs" />
+    <Compile Include="DataAccess\WeekyTaskData.cs" />
     <Compile Include="Entities\DayInWeek.cs" />
     <Compile Include="Entities\Task.cs" />
     <Compile Include="Entities\TodoWork.cs" />

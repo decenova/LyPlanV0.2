@@ -27,13 +27,18 @@ namespace LyPlan
     {
         private GoalForm goalForm;
         private TaskForm taskForm;
+        private TodoForm todoForm;
+        private ObservableCollection<Task> weekyList;
+        private ObservableCollection<TodoWork> todoList;
         public MainWindow()
         {
             InitializeComponent();
+            weekyList = new ObservableCollection<Task>();
+            todoList = new ObservableCollection<TodoWork>();
 
             //testing
-            WeekyTask weekyTask = new WeekyTask();
-            TodoTask todoTask = new TodoTask();
+            WeekyTaskData weekyTask = new WeekyTaskData();
+            TodoTaskData todoTask = new TodoTaskData();
             //test insert root task
             //weekyTask.SaveRootTask(new Task() { Title = "Lalaland", Description = "Lalaland is a movie" 
             //test insert node task
@@ -70,7 +75,7 @@ namespace LyPlan
 
         private void SetWeekyWork()
         {
-            WeekyTask weekyTask = new WeekyTask();
+            WeekyTaskData weekyTask = new WeekyTaskData();
 
             List<DayInWeek> listDayInWeek = weekyTask.GetListDayInWeekForShow();
             
@@ -105,21 +110,25 @@ namespace LyPlan
 
         private void SetWeeky()
         {
-            WeekyTask weekyTask = new WeekyTask();
-
+            WeekyTaskData weekyTask = new WeekyTaskData();
+            weekyList.Clear();
             foreach (Task task in weekyTask.GetListAllRootWeekyTaskForShow())
             {
-                tvWeekylist.Items.Add(task);
+                
+                weekyList.Add(task);
             }
+            tvWeekylist.ItemsSource = weekyList;
         }
 
         private void SetTodo()
         {
-            TodoTask todoTask = new TodoTask();
+            TodoTaskData todoTask = new TodoTaskData();
+            todoList.Clear();
             foreach (TodoWork todo in todoTask.GetAllTodoWorkForShow()) 
             {
-                tvTodolist.Items.Add(todo);
+                todoList.Add(todo);
             }
+            tvTodolist.ItemsSource = todoList;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -135,8 +144,8 @@ namespace LyPlan
             }
             else
             {
-                taskForm = new TaskForm();
-                taskForm.ShowDialog();
+                todoForm = new TodoForm(todoList);
+                todoForm.ShowDialog();
             }
                 
             

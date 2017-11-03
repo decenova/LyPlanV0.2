@@ -9,7 +9,7 @@ using System.Text;
 
 namespace BussinessObject.DataAccess
 {
-    public class WeekyTask
+    public class WeekyTaskData
     {
         public static readonly int STATUS_NOT_DONE = 1;
         public static readonly int STATUS_EARLY = 2;

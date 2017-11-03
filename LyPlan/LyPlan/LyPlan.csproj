@@ -65,6 +65,9 @@
     <Compile Include="TaskForm.xaml.cs">
       <DependentUpon>TaskForm.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TodoForm.xaml.cs">
+      <DependentUpon>TodoForm.xaml</DependentUpon>
+    </Compile>
     <Page Include="GoalForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -82,6 +85,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="TaskForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="TodoForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

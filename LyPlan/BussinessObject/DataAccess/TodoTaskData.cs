@@ -9,9 +9,9 @@ using System.Text;
 
 namespace BussinessObject.DataAccess
 {
-    public class TodoTask
+    public class TodoTaskData
     {
-        public TodoTask()
+        public TodoTaskData()
         {
 
         }
@@ -144,7 +144,7 @@ namespace BussinessObject.DataAccess
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@Title", todo.Title);
-            cmd.Parameters.AddWithValue("TypeId", WeekyTask.TYPE_TODO);
+            cmd.Parameters.AddWithValue("TypeId", WeekyTaskData.TYPE_TODO);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
 
@@ -166,7 +166,7 @@ namespace BussinessObject.DataAccess
                 cmd.Parameters.AddWithValue("@NewId", newId);
                 cmd.Parameters.AddWithValue("@Description", todo.Description);
                 cmd.Parameters.AddWithValue("@StartTime", DateTime.Now.ToString("yyyyMMdd"));
-                cmd.Parameters.AddWithValue("@StatusId", WeekyTask.STATUS_NOT_DONE);
+                cmd.Parameters.AddWithValue("@StatusId", WeekyTaskData.STATUS_NOT_DONE);
 
                 result = cmd.ExecuteNonQuery() == 1;
             }

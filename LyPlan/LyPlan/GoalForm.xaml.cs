@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BussinessObject.DataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace LyPlan
     public partial class GoalForm : Window
     {
         private int goalId;
+        private ObservableCollection<Task> weekyList;
         public GoalForm()
         {
             InitializeComponent();
@@ -40,6 +42,11 @@ namespace LyPlan
         {
             TaskForm taskForm = new TaskForm();
             taskForm.ShowDialog();
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

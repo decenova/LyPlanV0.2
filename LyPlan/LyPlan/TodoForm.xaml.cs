@@ -2,6 +2,7 @@
 using BussinessObject.Entities;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,29 +18,32 @@ using System.Windows.Shapes;
 namespace LyPlan
 {
     /// <summary>
-    /// Interaction logic for TaskForm.xaml
+    /// Interaction logic for TodoForm.xaml
     /// </summary>
-    public partial class TaskForm : Window
+    public partial class TodoForm : Window
     {
-
-        public TaskForm()
+        private ObservableCollection<TodoWork> todoList;
+        public TodoForm(ObservableCollection<TodoWork> todoList)
         {
             InitializeComponent();
+            this.todoList = todoList;
         }
-
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             TodoTaskData todoTask = new TodoTaskData();
-            todoTask.SaveTodoTask(new TodoWork()
+            TodoWork todoWork = new TodoWork()
             {
                 Title = txtTitle.Text,
                 Description = txtDescription.Text
-            });
+            };
+            todoTask.SaveTodoTask(todoWork);
+            todoList.Add(todoWork);
         }
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
     }
+    
 }

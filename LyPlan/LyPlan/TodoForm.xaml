@@ -1,11 +1,11 @@
-﻿<Window x:Class="LyPlan.TaskForm"
+﻿<Window x:Class="LyPlan.TodoForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LyPlan"
         mc:Ignorable="d"
-        Title="Task" Width="384" Height="200" MinWidth="384" MinHeight="200" WindowStartupLocation="CenterScreen" Icon="resource/ic_schedule_white_24px.png" SizeToContent="Height">
+       Title="Todolist" Width="384" Height="200" MinWidth="384" MinHeight="200" WindowStartupLocation="CenterScreen" Icon="resource/ic_schedule_white_24px.png" SizeToContent="Height">
     <Grid Style="{StaticResource background-dark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"></RowDefinition>
@@ -13,7 +13,7 @@
             <RowDefinition Height="48"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
-            <TextBlock Text="Task" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-2,0,0,0" Padding="24,0,0,0" FontSize="18"/>
+            <TextBlock Text="Todo" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="-2,0,0,0" Padding="24,0,0,0" FontSize="18"/>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -44,3 +44,4 @@
         </Grid>
     </Grid>
 </Window>
+
