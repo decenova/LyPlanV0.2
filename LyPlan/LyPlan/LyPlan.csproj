@@ -138,5 +138,9 @@
       <Name>BussinessObject</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resource\ic_edit_white_24px.png" />
+    <Resource Include="resource\ic_move_white_24px.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

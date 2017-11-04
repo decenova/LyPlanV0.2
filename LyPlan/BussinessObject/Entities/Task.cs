@@ -18,7 +18,7 @@ namespace BussinessObject.Entities
         private string title;
         private string description;
         private int typeId;
-        private int superTask; //Lưu id của task cha
+        private int superTask = -1; //Lưu id của task cha
         private ObservableCollection<Task> items;
 
         public Task()

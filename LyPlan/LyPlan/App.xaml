@@ -158,6 +158,27 @@
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
             <Setter Property="Foreground" Value="#ffffffff"></Setter>
         </Style>
+        <Style TargetType="ToggleButton" x:Key="toggle-button-square" BasedOn="{StaticResource toggle-button}">
+            <Setter Property="Height" Value="48"></Setter>
+            <Setter Property="Width" Value="48"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="#ffcccccc" BorderThickness="0,0,0,0">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#9900A2DE"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="#ff888888"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="ToggleButton" x:Key="toggle-button-todolist" BasedOn="{StaticResource toggle-button}">
             <Setter Property="Template">
                 <Setter.Value>
@@ -170,15 +191,16 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="#9900A2DE"/>
                 </Trigger>
-                <MultiDataTrigger>
+                <!--<MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding ElementName=tabTodolist, Path=IsSelected}" Value="true"></Condition>
+                        <Condition Binding="{Binding ElementName=btnEdit, Path=IsChecked}" Value="false"></Condition>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Value="true"></Condition>
                     </MultiDataTrigger.Conditions>
                     <MultiDataTrigger.Setters>
                         <Setter Property="Foreground" Value="#ff888888"/>
                     </MultiDataTrigger.Setters>
-                </MultiDataTrigger>
+                </MultiDataTrigger>-->
             </Style.Triggers>
         </Style>
         <Style TargetType="ToggleButton" x:Key="toggle-button-weeky" BasedOn="{StaticResource toggle-button}">
@@ -193,15 +215,16 @@
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground" Value="#9900A2DE"/>
                 </Trigger>
-                <MultiDataTrigger>
+                <!--<MultiDataTrigger>
                     <MultiDataTrigger.Conditions>
                         <Condition Binding="{Binding ElementName=tabWeekylist, Path=IsSelected}" Value="true"></Condition>
+                        <Condition Binding="{Binding ElementName=btnEdit, Path=IsChecked}" Value="false"></Condition>
                         <Condition Binding="{Binding RelativeSource={RelativeSource Self}, Path=IsChecked}" Value="true"></Condition>
                     </MultiDataTrigger.Conditions>
                     <MultiDataTrigger.Setters>
                         <Setter Property="Foreground" Value="#9900A2DE"/>
                     </MultiDataTrigger.Setters>
-                </MultiDataTrigger>
+                </MultiDataTrigger>-->
             </Style.Triggers>
         </Style>
         <Style TargetType="Image" x:Key="button-icon">
@@ -253,7 +276,7 @@
 
         <!--TreeView-->
 
-        <Style TargetType="TreeView" x:Key="todoListStyle">
+        <!--<Style TargetType="TreeView" x:Key="todoListStyle">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
             <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
@@ -266,9 +289,10 @@
                             <ToggleButton Content="{Binding Path=Title}"
                                     VerticalAlignment="Center" 
                                     HorizontalAlignment="Stretch" FontSize="16"
-                                    Style="{StaticResource toggle-button-todolist}">
+                                    Style="{StaticResource toggle-button-todolist}"
+                                          Click="tvTodolist_Item_Selected">
                             </ToggleButton>
-                            <!--<TextBlock Text="{Binding Path=Title}"></TextBlock>-->
+                            --><!--<TextBlock Text="{Binding Path=Title}"></TextBlock>--><!--
                         </Grid>
                     </HierarchicalDataTemplate>
                 </Setter.Value>
@@ -287,19 +311,20 @@
                             <ToggleButton Content="{Binding Path=Title}" 
                                             VerticalAlignment="Center" 
                                             HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
-                                            Style="{StaticResource toggle-button-weeky}">
+                                            Style="{StaticResource toggle-button-weeky}" 
+                                          Click="tvTodolist_Item_Selected">
                             </ToggleButton>
-                            <!--<TextBlock Text="{Binding Path=Title}"></TextBlock>-->
+                            --><!--<TextBlock Text="{Binding Path=Title}"></TextBlock>--><!--
                         </Grid>
                     </HierarchicalDataTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
         <Style TargetType="TreeViewItem">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
             <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
-            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <!--<Setter Property="Foreground" Value="#ffffffff"></Setter>-->
             <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
             <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
             <Setter Property="IsExpanded" Value="True"></Setter>

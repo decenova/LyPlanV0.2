@@ -16,7 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using BussinessObject.Entities;
 using System.Collections.ObjectModel;
-
+using System.Windows.Controls.Primitives;
 
 namespace LyPlan
 {
@@ -26,51 +26,22 @@ namespace LyPlan
     public partial class MainWindow : Window
     {
         private GoalForm goalForm;
-        private TaskForm taskForm;
         private TodoForm todoForm;
+        private TaskForm taskForm;
         private ObservableCollection<Task> weekyList;
         private ObservableCollection<TodoWork> todoList;
+        private ObservableCollection<TodoWork> doneList;
         public MainWindow()
         {
             InitializeComponent();
             weekyList = new ObservableCollection<Task>();
             todoList = new ObservableCollection<TodoWork>();
+            doneList = new ObservableCollection<TodoWork>();
 
-            //testing
-            WeekyTaskData weekyTask = new WeekyTaskData();
-            TodoTaskData todoTask = new TodoTaskData();
-            //test insert root task
-            //weekyTask.SaveRootTask(new Task() { Title = "Lalaland", Description = "Lalaland is a movie" 
-            //test insert node task
-            //weekyTask.SaveNodeTask(new Task() { Title = "Chapter 1", Description = "Chapter1", SuperTask = 20 });
-            //test make work from weeky task
-            //weekyTask.MakeWorkFromWeekyTask(new Work()
-            //{
-            //    TaskId = 23,
-            //    Description = "Monday",
-            //    StartTime = DateTime.Now,
-            //    AlertTime = DateTime.Now.AddDays(1),
-            //    DeadLine = DateTime.Now.AddDays(2)                
-            //});
-            //test update todo
-            //todoTask.UpdateTodo(new Todo()
-            //{
-            //    TaskId = 1,
-            //    WorkId = 1,
-            //    Title = "clean cai con cac",
-            //    Description = "clean con cacccccccc"
-            //});
-            //test check todo
-            //todoTask.CheckTodo(new Todo()
-            //{
-            //    TaskId = 1,
-            //    StatusId = 5
-            //});
-
-            
             SetTodo();
             SetWeeky();
             SetWeekyWork();
+            tvDonelist.ItemsSource = doneList;
         }
 
         private void SetWeekyWork()
@@ -78,7 +49,7 @@ namespace LyPlan
             WeekyTaskData weekyTask = new WeekyTaskData();
 
             List<DayInWeek> listDayInWeek = weekyTask.GetListDayInWeekForShow();
-            
+
             foreach (DayInWeek day in listDayInWeek)
             {
                 switch (day.DayName)
@@ -114,7 +85,6 @@ namespace LyPlan
             weekyList.Clear();
             foreach (Task task in weekyTask.GetListAllRootWeekyTaskForShow())
             {
-                
                 weekyList.Add(task);
             }
             tvWeekylist.ItemsSource = weekyList;
@@ -124,22 +94,58 @@ namespace LyPlan
         {
             TodoTaskData todoTask = new TodoTaskData();
             todoList.Clear();
-            foreach (TodoWork todo in todoTask.GetAllTodoWorkForShow()) 
+            foreach (TodoWork todo in todoTask.GetAllTodoWorkForShow())
             {
                 todoList.Add(todo);
             }
             tvTodolist.ItemsSource = todoList;
         }
 
+        public void ClearSelection(TreeView inputTreeview)
+        {
+            var selected = inputTreeview.SelectedItem;
+            if (selected == null)
+                return;
+            var treeViewItem = ContainerFromItem(inputTreeview, selected) as TreeViewItem;
+            if (treeViewItem != null)
+                treeViewItem.IsSelected = false;
+        }
+
+        public TreeViewItem ContainerFromItem(TreeView treeView, object item)
+        {
+            var treeViewItem = treeView.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+            if (treeViewItem != null)
+                return treeViewItem;
+            return ContainerFromItem(treeView.ItemContainerGenerator, treeView.Items, item);
+        }
+
+        private TreeViewItem ContainerFromItem(ItemContainerGenerator parentItemContainerGenerator, ItemCollection itemCollection, object item)
+        {
+            foreach (var node in itemCollection)
+            {
+                var treeViewItemParent = parentItemContainerGenerator.ContainerFromItem(node) as TreeViewItem;
+                if (treeViewItemParent == null)
+                    return null;
+                var treeViewItemNode = treeViewItemParent.ItemContainerGenerator.ContainerFromItem(item) as TreeViewItem;
+                if (treeViewItemNode != null)
+                    return treeViewItemNode;
+                var res = ContainerFromItem(treeViewItemParent.ItemContainerGenerator, treeViewItemParent.Items, item);
+                if (res != null)
+                    return res;
+            }
+            return null;
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            if (tabWeekylist.IsSelected) { 
-                goalForm = new GoalForm();
+            if (tabWeekylist.IsSelected)
+            {
+                goalForm = new GoalForm(weekyList);
                 goalForm.ShowDialog();
             }
             else
@@ -147,9 +153,75 @@ namespace LyPlan
                 todoForm = new TodoForm(todoList);
                 todoForm.ShowDialog();
             }
-                
-            
+        }
+
+        private void tvTodolist_Item_Selected(object sender, RoutedEventArgs e)
+        {
+            dynamic data = sender;
+            TodoWork todoWork = data.SelectedItem;
+            if (btnEdit.IsChecked == true)
+            {
+                todoForm = new TodoForm(todoWork, todoList);
+                todoForm.ShowDialog();
+                ClearSelection(tvTodolist);
+            }
+            else
+            {
+                TodoTaskData todoTaskData = new TodoTaskData();
+                if (todoWork.StatusId == 5)
+                {
+                    todoWork.StatusId = 1;
+                    if (todoTaskData.CheckTodo(todoWork))
+                    {
+                        todoList.Add(todoWork);
+                        doneList.Remove(todoWork);
+                    }
+                }
+                else
+                {
+                    todoWork.StatusId = 5;
+                    if (todoTaskData.CheckTodo(todoWork))
+                    {
+                        doneList.Add(todoWork);
+                        todoList.Remove(todoWork);
+                    }
+                }
+            }
+        }
+
+        private void tvWeekylist_Item_Selected(object sender, RoutedEventArgs e)
+        {
+            if (btnEdit.IsChecked == true)
+            {
+                dynamic data = sender;
+                BussinessObject.Entities.Task task = data.SelectedItem;
+                if (task.SuperTask == -1)
+                {
+                    goalForm = new GoalForm(task, weekyList);
+                    goalForm.ShowDialog();
+                }
+                else
+                {
+                    taskForm = new TaskForm(task, weekyList);
+                    taskForm.ShowDialog();
+                    SetWeeky();
+                }
+                //todoForm.ShowDialog();
+                ClearSelection(tvWeekylist);
+            }
+        }
+
+        private void btnEdit_Checked(object sender, RoutedEventArgs e)
+        {
+            btnMove.IsChecked = false;
+            ClearSelection(tvTodolist);
+            ClearSelection(tvWeekylist);
+        }
+
+        private void btnMove_Checked(object sender, RoutedEventArgs e)
+        {
+            btnEdit.IsChecked = false;
         }
     }
-    
+
 }

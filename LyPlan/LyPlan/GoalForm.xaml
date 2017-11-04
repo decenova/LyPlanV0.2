@@ -26,11 +26,11 @@
                 <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label>Title:</Label>
-            <TextBox Grid.Column="1"/>
+            <TextBox x:Name="txtTitle" Grid.Column="1"/>
             <Label Grid.Row="1">Description:</Label>
-            <TextBox AcceptsReturn="True"
+            <TextBox x:Name="txtDescription" AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto" 
-                     Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Top"/>
+                     Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Top" TextWrapping="WrapWithOverflow"/>
 
             <Label Grid.Row="2">Task:</Label>
             <Grid Grid.Row="2" Grid.Column="1">
@@ -38,7 +38,7 @@
                     <RowDefinition Height="auto"></RowDefinition>
                     <RowDefinition Height="auto"></RowDefinition>
                 </Grid.RowDefinitions>
-                <ListView Style="{StaticResource listview-task}" Grid.Row="0">
+                <ListView x:Name="lvNodeTask" Style="{StaticResource listview-task}" Grid.Row="0">
                 </ListView>
                 <Button x:Name="btnAddTask" Style="{StaticResource button-square}" Grid.Row="1" Width="24" Height="24" HorizontalAlignment="Right" Margin="0,0,5,0" Click="btnAddTask_Click">
                     <Image Source="resource/ic_add_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
@@ -53,7 +53,8 @@
                 <ColumnDefinition Width="auto"></ColumnDefinition>
                 <ColumnDefinition Width="5"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Button x:Name="btnAdd" Content="Add" Grid.Column="1" Style="{StaticResource button-normal}" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
+            <Button x:Name="btnAdd" Content="Add" Grid.Column="1" Style="{StaticResource button-normal}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnAdd_Click"></Button>
+            <Button x:Name="btnUpdate" Content="Update" Grid.Column="1" Style="{StaticResource button-normal}" HorizontalAlignment="Center" VerticalAlignment="Center"></Button>
             <Button x:Name="btnCancel" Content="Cancel" Grid.Column="3" Style="{StaticResource button-normal}" HorizontalAlignment="Center" VerticalAlignment="Center" Click="btnCancel_Click"/>
         </Grid>
     </Grid>

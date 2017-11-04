@@ -42,7 +42,7 @@ namespace BussinessObject.DataAccess
                     nodeTask.Id = int.Parse(nodeRow["Id"].ToString());
                     nodeTask.Title = nodeRow["Title"].ToString();
                     nodeTask.Description = nodeRow["Description"].ToString();
-
+                    nodeTask.SuperTask = rootTask.Id;
                     rootTask.Items.Add(nodeTask);
                 }
 
@@ -86,6 +86,37 @@ namespace BussinessObject.DataAccess
             }
 
             return dtWeekyTask;
+        }
+
+        //Lay id cua nut moi vua insert
+        public DataTable GetInsertRootTaskId()
+        {
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = "select top 1 Id from Task where SuperTask is null order by Id desc";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dtRootTaskId = new DataTable();
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(dtRootTaskId);
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return dtRootTaskId;
         }
 
         /// <summary>
