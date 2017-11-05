@@ -95,18 +95,18 @@ namespace LyPlan
                 Description = txtDescription.Text
             };
 
-            weekyList.Add(roottask);
             if (weekyTaskData.SaveRootTask(roottask))
             {
+                weekyList.Add(roottask);
                 DataTable dtId = weekyTaskData.GetInsertTaskId();
-                dynamic superId = dtId.Select()[0].ItemArray[0];
+                roottask.Id = dtId.Select()[0].ItemArray[0] as dynamic;
                 foreach (dynamic node in nodeList)
                 {
-                    node.SuperTask = superId;
+                    node.SuperTask = roottask.Id;
                     if (weekyTaskData.SaveNodeTask(node))
                     {
                         dtId = weekyTaskData.GetInsertTaskId();
-                        node.Id = dtId.Select()[0].ItemArray[0];
+                        node.Id = dtId.Select()[0].ItemArray[0] as dynamic;
                         roottask.Items.Add(node);
                     }
                 }

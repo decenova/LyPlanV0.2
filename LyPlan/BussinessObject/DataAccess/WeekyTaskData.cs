@@ -89,10 +89,10 @@ namespace BussinessObject.DataAccess
         }
 
         //Lay id cua nut moi vua insert
-        public DataTable GetInsertRootTaskId()
+        public DataTable GetInsertTaskId()
         {
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = "select top 1 Id from Task where SuperTask is null order by Id desc";
+            string SQL = "select top 1 Id from Task where TypeId = 2 order by Id desc";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -349,7 +349,9 @@ namespace BussinessObject.DataAccess
             DataTable result = new DataTable();
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId from Work w inner join Task t on w.TaskId = t.Id where w.StatusId = @StatusId";
+            string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
+                " from Work w inner join Task t on w.TaskId = t.Id" +
+                " where w.StatusId = @StatusId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@StatusId", STATUS_EARLY);

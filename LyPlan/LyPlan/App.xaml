@@ -6,6 +6,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
 
+        
         <!--Grid-->
 
         <Style TargetType="Grid" x:Key="background-light">

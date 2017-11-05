@@ -108,7 +108,7 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <DatePicker x:Name="dpTime" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" />
+                    <DatePicker x:Name="dpTime" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Foreground="#FF1A1A1A" SelectedDateFormat="Short" FirstDayOfWeek="Monday" />
                     <ToggleButton x:Name="btnMove" Style="{StaticResource toggle-button-square}" Checked="btnMove_Checked">
                         <Image Source="resource/ic_move_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </ToggleButton>
@@ -124,7 +124,7 @@
                         <Border BorderBrush="#E5000000" BorderThickness="0,0,0,1"></Border>
                     </Grid>
                     <TabControl>
-                        <TabItem Header="To do list" Name="tabTodolist">
+                        <TabItem Header="To do list" Name="tabTodolist" MouseLeftButtonDown="tabTodolist_MouseLeftButtonUp">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"></RowDefinition>
@@ -140,7 +140,7 @@
                                 </TreeView>
                             </Grid>
                         </TabItem>
-                        <TabItem Header="Weeky plan" Name="tabWeekylist">
+                        <TabItem Header="Weeky plan" Name="tabWeekylist" MouseLeftButtonDown="tabWeekylist_MouseLeftButtonUp">
                             <TreeView x:Name="tvWeekylist" Style="{StaticResource weekyListStyle}"
                                       TreeViewItem.Selected="tvWeekylist_Item_Selected">
 

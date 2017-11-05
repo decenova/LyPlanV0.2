@@ -37,6 +37,7 @@ namespace LyPlan
             weekyList = new ObservableCollection<Task>();
             todoList = new ObservableCollection<TodoWork>();
             doneList = new ObservableCollection<TodoWork>();
+            dpTime.SelectedDate = DateTime.Now;
 
             SetTodo();
             SetWeeky();
@@ -163,7 +164,6 @@ namespace LyPlan
             {
                 todoForm = new TodoForm(todoWork, todoList);
                 todoForm.ShowDialog();
-                ClearSelection(tvTodolist);
             }
             else
             {
@@ -207,7 +207,6 @@ namespace LyPlan
                     SetWeeky();
                 }
                 //todoForm.ShowDialog();
-                ClearSelection(tvWeekylist);
             }
         }
 
@@ -221,6 +220,18 @@ namespace LyPlan
         private void btnMove_Checked(object sender, RoutedEventArgs e)
         {
             btnEdit.IsChecked = false;
+        }
+
+        private void tabTodolist_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ClearSelection(tvTodolist);
+            ClearSelection(tvWeekylist);
+        }
+
+        private void tabWeekylist_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ClearSelection(tvTodolist);
+            ClearSelection(tvWeekylist);
         }
     }
 
