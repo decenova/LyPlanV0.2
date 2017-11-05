@@ -67,6 +67,9 @@ namespace LyPlan
                 Title = txtTitle.Text,
                 Description = txtDescription.Text
             });
+            txtTitle.Text = "";
+            txtDescription.Text = "";
+            tbHeader.Text = "Add more";
         }
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -95,22 +98,19 @@ namespace LyPlan
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
-            //WeekyTaskData weekyTaskData = new WeekyTaskData();
-            //if (!validInput())
-            //{
-            //    return;
-            //}
-            //task.Title = txtTitle.Text;
-            //task.Description = txtDescription.Text;
-            //if (weekyTaskData.CheckTask(6,task.Id))
-            //{
-            //    CollectionViewSource.GetDefaultView(nodeList).Refresh();
-            //    this.Close();
-            //}
-            //else
-            //{
-            //    tbMessage.Text = "Update fail! Please try again";
-            //}
+            WeekyTaskData weekyTaskData = new WeekyTaskData();
+            if (!validInput())
+            {
+                return;
+            }
+            if (weekyTaskData.RemoveTask(task))
+            {
+                this.Close();
+            }
+            else
+            {
+                tbMessage.Text = "Delete fail! Please try again";
+            }
         }
     }
 }

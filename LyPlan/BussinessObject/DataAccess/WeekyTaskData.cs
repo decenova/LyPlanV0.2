@@ -493,6 +493,37 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        
+        public Boolean RemoveTask(Task task)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = "update Task set TypeId = @TypeId where Id = @Id";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            cmd.Parameters.AddWithValue("@TypeId", 3);
+            cmd.Parameters.AddWithValue("@Id", task.Id);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
     }
 }

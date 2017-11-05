@@ -51,9 +51,24 @@ namespace LyPlan
             InitializeComponent();
             this.weekyList = weekyList;
             this.task = task;
+            txtTitle.Text = task.Title;
+            txtDescription.Text = task.Description;
             nodeList = new ObservableCollection<BussinessObject.Entities.Task>();
             lvNodeTask.ItemsSource = nodeList;
+            lvNodeTaskOld.ItemsSource = task.Items;
             btnAdd.Visibility = Visibility.Hidden;
+            lvNodeTaskOld.Visibility = Visibility.Visible;
+
+        }
+
+        private bool validInput()
+        {
+            if (txtTitle.Text.Length == 0)
+            {
+                tbMessage.Text = "Title can't be blank";
+                return false;
+            }
+            return true;
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -69,6 +84,10 @@ namespace LyPlan
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
+            if (!validInput())
+            {
+                return;
+            }
             WeekyTaskData weekyTaskData = new WeekyTaskData();
             BussinessObject.Entities.Task roottask = new BussinessObject.Entities.Task()
             {
@@ -77,14 +96,61 @@ namespace LyPlan
             };
 
             weekyList.Add(roottask);
-            weekyTaskData.SaveRootTask(roottask);
-            DataTable dtSuperId = weekyTaskData.GetInsertRootTaskId();
-            dynamic superId = dtSuperId.Select()[0].ItemArray[0];
-            foreach (dynamic node in nodeList)
+            if (weekyTaskData.SaveRootTask(roottask))
             {
-                node.SuperTask = superId;
-                weekyTaskData.SaveNodeTask(node);
-                roottask.Items.Add(node);
+                DataTable dtSuperId = weekyTaskData.GetInsertRootTaskId();
+                dynamic superId = dtSuperId.Select()[0].ItemArray[0];
+                foreach (dynamic node in nodeList)
+                {
+                    node.SuperTask = superId;
+                    weekyTaskData.SaveNodeTask(node);
+                    roottask.Items.Add(node);
+                }
+            }
+            else
+            {
+                tbMessage.Text = "Add fail! Please try again.";
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            WeekyTaskData weekyTaskData = new WeekyTaskData();
+            if (weekyTaskData.RemoveTask(task))
+            {
+                this.Close();
+            }
+            else
+            {
+                tbMessage.Text = "Delete fail! Please try again";
+            }
+        }
+
+        private void btnUpdate_Click(object sender, RoutedEventArgs e)
+        {
+            WeekyTaskData weekyTaskData = new WeekyTaskData();
+            task.Title = txtTitle.Text;
+            task.Description = txtDescription.Text;
+            if (weekyTaskData.UpdateTask(task))
+            {
+                
+                foreach (dynamic node in nodeList)
+                {
+                    node.SuperTask = task.Id;
+                    if (weekyTaskData.SaveNodeTask(node))
+                    {
+                        task.Items.Add(node);
+                    }
+                    else
+                    {
+
+                    }
+                }
+                this.Close();
+            }
+            else
+            {
+                tbMessage.Text = "Update fail! Please try again";
             }
         }
     }
