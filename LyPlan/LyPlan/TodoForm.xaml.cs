@@ -33,7 +33,7 @@ namespace LyPlan
             btnEdit.Content = "Add";
         }
 
-        public TodoForm(TodoWork todoWork ,ObservableCollection<TodoWork> todoList)
+        public TodoForm(TodoWork todoWork, ObservableCollection<TodoWork> todoList)
         {
             InitializeComponent();
             btnDelete.Visibility = Visibility.Visible;
@@ -69,17 +69,26 @@ namespace LyPlan
                     Title = txtTitle.Text,
                     Description = txtDescription.Text
                 };
-                if (todoTaskData.SaveTodoTask(newTodoWork)) {
+                if (todoTaskData.SaveTodoTask(newTodoWork))
+                {
                     DataTable InsertId = todoTaskData.GetInsertTodoTaskId();
-                    newTodoWork.TaskId = InsertId.Select()[0].ItemArray[0] as dynamic;
+                    try
+                    {
+                        newTodoWork.TaskId = InsertId.Select()[0].ItemArray[0] as dynamic;
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                     todoList.Add(newTodoWork);
                     this.Close();
-                } else
+                }
+                else
                 {
                     tbMessage.Text = "Add fail! Please try again";
                 }
-                
-            } else
+
+            }
+            else
             {
                 todoWork.Title = txtTitle.Text;
                 todoWork.Description = txtDescription.Text;
@@ -88,12 +97,12 @@ namespace LyPlan
                     CollectionViewSource.GetDefaultView(todoList).Refresh();
                     this.Close();
                 }
-                 else
+                else
                 {
                     tbMessage.Text = "Update fail! Please try again";
                 }
             }
-            
+
         }
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
@@ -115,5 +124,5 @@ namespace LyPlan
             }
         }
     }
-    
+
 }

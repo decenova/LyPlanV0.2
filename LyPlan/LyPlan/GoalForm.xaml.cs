@@ -98,17 +98,25 @@ namespace LyPlan
             if (weekyTaskData.SaveRootTask(roottask))
             {
                 weekyList.Add(roottask);
-                DataTable dtId = weekyTaskData.GetInsertTaskId();
-                roottask.Id = dtId.Select()[0].ItemArray[0] as dynamic;
-                foreach (dynamic node in nodeList)
+                try
                 {
-                    node.SuperTask = roottask.Id;
-                    if (weekyTaskData.SaveNodeTask(node))
+                    DataTable dtId = weekyTaskData.GetInsertTaskId();
+                    roottask.Id = dtId.Select()[0].ItemArray[0] as dynamic;
+                    foreach (dynamic node in nodeList)
                     {
-                        dtId = weekyTaskData.GetInsertTaskId();
-                        node.Id = dtId.Select()[0].ItemArray[0] as dynamic;
-                        roottask.Items.Add(node);
+                        node.SuperTask = roottask.Id;
+                        if (weekyTaskData.SaveNodeTask(node))
+                        {
+                            dtId = weekyTaskData.GetInsertTaskId();
+                            node.Id = dtId.Select()[0].ItemArray[0] as dynamic;
+                            roottask.Items.Add(node);
+                        }
                     }
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    tbMessage.Text = "Something fail! Please try again.";
                 }
             }
             else
@@ -138,7 +146,7 @@ namespace LyPlan
             task.Description = txtDescription.Text;
             if (weekyTaskData.UpdateTask(task))
             {
-                
+
                 foreach (dynamic node in nodeList)
                 {
                     node.SuperTask = task.Id;

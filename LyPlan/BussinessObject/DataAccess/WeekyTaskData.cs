@@ -6,6 +6,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
+using DataProvider;
 
 namespace BussinessObject.DataAccess
 {
@@ -58,7 +59,7 @@ namespace BussinessObject.DataAccess
         /// <returns>DataTable RootWeekyTask gồm Id, Title, Description</returns>
         public DataTable GetListRootWeekyTask()
         {
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select Id, Title, [Description] from Task where TypeId = @TypeId and SuperTask is null";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -78,7 +79,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -91,7 +92,7 @@ namespace BussinessObject.DataAccess
         //Lay id cua nut moi vua insert
         public DataTable GetInsertTaskId()
         {
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select top 1 Id from Task where TypeId = 2 order by Id desc";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -109,7 +110,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -127,7 +128,7 @@ namespace BussinessObject.DataAccess
         public DataTable GetListNodeWeekyTaskByTaskId(int taskId)
         {
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select Id, Title, [Description] from Task where TypeId = @TypeId and SuperTask = @TaskId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -148,7 +149,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -167,7 +168,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "insert into Task (Title, [Description], TypeId) values (@Title, @Description, @TypeId)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -186,7 +187,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -205,7 +206,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "insert into Task (Title, [Description], TypeId, SuperTask) values (@Title, @Description, @TypeId, @SuperTask)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -225,7 +226,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -244,7 +245,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "insert into Work (TaskId, StartTime, StatusId)" +
                 " values (@TaskId, @StartTime, @StatusId)";
             SqlConnection cnn = new SqlConnection(strConnection);
@@ -265,7 +266,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -276,7 +277,7 @@ namespace BussinessObject.DataAccess
         //Lay id cua nut moi vua insert
         public DataTable GetInsertWorkId()
         {
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select top 1 Id from Work order by Id desc";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -294,7 +295,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -459,7 +460,7 @@ namespace BussinessObject.DataAccess
         {
             DataTable result = new DataTable();
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
                 " from Work w inner join Task t on w.TaskId = t.Id" +
                 " where t.TypeId = @TypeId" +
@@ -481,7 +482,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -499,7 +500,7 @@ namespace BussinessObject.DataAccess
         {
             DataTable result = new DataTable();
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
                 " from Work w inner join Task t on w.TaskId = t.Id" +
                 " where t.TypeId = @TypeId" +
@@ -524,7 +525,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -544,7 +545,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "update Work set StatusId = @statusId where Id = @WorkId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -562,7 +563,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -582,7 +583,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "update Task Set Title = @Title, [Description] = @Description where Id = @TaskId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -601,7 +602,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -620,7 +621,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             //string SQL = "update Work set [Description] = @Description, StartTime = @StartTime, AlertTime = @AlertTime, Deadline = @Deadline where Id = @WorkId";
             string SQL = "update Work set [Description] = @Description where Id = @WorkId";
             SqlConnection cnn = new SqlConnection(strConnection);
@@ -640,7 +641,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -653,7 +654,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "update Task set TypeId = @TypeId where Id = @Id";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -672,7 +673,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -685,7 +686,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "delete Work where Id = @Id";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -703,7 +704,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {

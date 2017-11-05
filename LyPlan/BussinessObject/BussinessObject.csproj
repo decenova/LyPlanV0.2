@@ -52,6 +52,11 @@
     <Compile Include="Entities\Work.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\BackEnd\DataProvider.csproj">
+      <Project>{89272942-2d7f-4dbd-aa6e-7898a84d0dd4}</Project>
+      <Name>DataProvider</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

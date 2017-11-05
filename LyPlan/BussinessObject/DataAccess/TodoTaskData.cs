@@ -22,7 +22,7 @@ namespace BussinessObject.DataAccess
         /// <returns>1 datatable các Task gồm (id, title)</returns>
         private DataTable GetTodoTasks()
         {
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select t.Id as Id, t.Title as Title, w.Description, w.StatusId from Task t inner join Work w on t.Id = w.TaskId where TypeId = 1 and StatusId = 1";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -40,7 +40,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -59,7 +59,7 @@ namespace BussinessObject.DataAccess
         {
             Work result = null;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
 
             string SQL = "select Id, [Description] from Work where TaskId = @TaskId and StatusId = 1";
 
@@ -91,7 +91,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -134,7 +134,7 @@ namespace BussinessObject.DataAccess
         /// <returns></returns>
         public DataTable GetInsertTodoTaskId()
         {
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select top 1 Id from Task where TypeId = 1 order by Id desc";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -152,7 +152,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                //throw new Exception("Error: " + se.Message);
             }
             finally
             {
@@ -171,7 +171,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
 
             string SQL = "insert into Task (Title, TypeId) output Inserted.Id values (@Title, @TypeId)";
 
@@ -206,7 +206,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -225,7 +225,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "update Task set Title = @Title where Id = @TaskId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -252,7 +252,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
@@ -277,7 +277,7 @@ namespace BussinessObject.DataAccess
         {
             Boolean result = false;
 
-            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "update Work set StatusId = @StatusId where TaskId = @TaskId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -296,7 +296,7 @@ namespace BussinessObject.DataAccess
             }
             catch (SqlException se)
             {
-                throw new Exception("Error: " + se.Message);
+                result = false;
             }
             finally
             {
