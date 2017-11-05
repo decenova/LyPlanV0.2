@@ -21,8 +21,8 @@ namespace Testing
 
             //testing
 
-            TodoTask todoTask = new TodoTask();
-            WeekyTask weekyTask = new WeekyTask();
+            TodoTaskData todoTask = new TodoTaskData();
+            WeekyTaskData weekyTask = new WeekyTaskData();
 
             //Create Update Check Todo
 
