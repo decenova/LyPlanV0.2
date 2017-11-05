@@ -42,7 +42,7 @@ namespace BussinessObject.DataAccess
                     nodeTask.Id = int.Parse(nodeRow["Id"].ToString());
                     nodeTask.Title = nodeRow["Title"].ToString();
                     nodeTask.Description = nodeRow["Description"].ToString();
-
+                    nodeTask.SuperTask = rootTask.Id;
                     rootTask.Items.Add(nodeTask);
                 }
 
@@ -86,6 +86,37 @@ namespace BussinessObject.DataAccess
             }
 
             return dtWeekyTask;
+        }
+
+        //Lay id cua nut moi vua insert
+        public DataTable GetInsertTaskId()
+        {
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = "select top 1 Id from Task where TypeId = 2 order by Id desc";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dtRootTaskId = new DataTable();
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(dtRootTaskId);
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return dtRootTaskId;
         }
 
         /// <summary>
@@ -318,7 +349,9 @@ namespace BussinessObject.DataAccess
             DataTable result = new DataTable();
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId from Work w inner join Task t on w.TaskId = t.Id where w.StatusId = @StatusId";
+            string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
+                " from Work w inner join Task t on w.TaskId = t.Id" +
+                " where w.StatusId = @StatusId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@StatusId", STATUS_EARLY);
@@ -462,6 +495,37 @@ namespace BussinessObject.DataAccess
             return result;
         }
 
-        
+        public Boolean RemoveTask(Task task)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = "update Task set TypeId = @TypeId where Id = @Id";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            cmd.Parameters.AddWithValue("@TypeId", 3);
+            cmd.Parameters.AddWithValue("@Id", task.Id);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
     }
 }

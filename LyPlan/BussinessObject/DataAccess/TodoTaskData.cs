@@ -129,6 +129,40 @@ namespace BussinessObject.DataAccess
         }
 
         /// <summary>
+        /// Lấy id vừa insert
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetInsertTodoTaskId()
+        {
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = "select top 1 Id from Task where TypeId = 1 order by Id desc";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dtTodoTask = new DataTable();
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(dtTodoTask);
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return dtTodoTask;
+        }
+
+        /// <summary>
         /// Lưu todo task và work
         /// </summary>
         /// <param name="todo">Title và Description</param>
