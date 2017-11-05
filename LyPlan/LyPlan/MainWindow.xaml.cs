@@ -324,6 +324,18 @@ namespace LyPlan
             data.UnselectAll();
         }
 
+        private void btnSetting_Click(object sender, RoutedEventArgs e)
+        {
+            setDateTime();
+        }
+
+        private void btnMenu_Click(object sender, RoutedEventArgs e)
+        {
+            if (columMenu.Width.Equals(new GridLength(48)))
+                columMenu.Width = new GridLength(200);
+            else
+                columMenu.Width = new GridLength(48);
+        }
     }
 
 }

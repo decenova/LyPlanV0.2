@@ -37,6 +37,14 @@
             </Setter>
         </Style>
 
+        <Style TargetType="TextBlock" x:Key="menu-style">
+            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="0,0,0,0"></Setter>
+        </Style>
+        
         <!--Content Control-->
         <!--<Style TargetType="{x:Type ContentControl}" x:Key="content-day-in-week">
             <Setter Property="Template">

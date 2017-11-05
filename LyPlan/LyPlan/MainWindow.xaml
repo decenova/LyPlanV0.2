@@ -7,7 +7,7 @@
         xmlns:bo ="clr-namespace:BussinessObject.Entities;assembly=BussinessObject"
         mc:Ignorable="d"
         Title="LyPlanV0.3" 
-        MinWidth="768" MinHeight="535" Height="600" Visibility="Visible" 
+        MinWidth="840" MinHeight="535" Height="600" Visibility="Visible" 
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
         <Style TargetType="{x:Type ContentControl}" x:Key="content-day-in-week">
@@ -81,47 +81,68 @@
         </Grid>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="48"></ColumnDefinition>
-                <ColumnDefinition MinWidth="300" Width="*"></ColumnDefinition>
+                <ColumnDefinition x:Name="columMenu" Width="48"></ColumnDefinition>
+                <ColumnDefinition MinWidth="200" Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="5"></ColumnDefinition>
                 <ColumnDefinition MinWidth="400" Width="3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid Width="48" Grid.Column="0">
-                <Grid Style="{StaticResource background-dark-transparent}"></Grid>
-                <StackPanel>
-                    <Button x:Name="btnMenu" Style="{StaticResource button-square}">
-                        <Image Source="resource/ic_menu_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
-                    </Button>
-                    <Button x:Name="btnSchedule" Style="{StaticResource button-square}">
+            <Grid Grid.Column="0" HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                    <Grid Grid.ColumnSpan="2" Style="{StaticResource background-dark-transparent}"></Grid>
+                <Grid>
+                    <StackPanel>
+                        <Button x:Name="btnMenu" Style="{StaticResource button-square}" Click="btnMenu_Click">
+                            <Image Source="resource/ic_menu_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        </Button>
+                        <!--<Button x:Name="btnSchedule" Style="{StaticResource button-square}">
                         <Image Source="resource/ic_schedule_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>
                     <Button x:Name="btnTimeline" Style="{StaticResource button-square}" Click="Button_Click">
                         <Image Source="resource/ic_timeline_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
-                    </Button>
-                </StackPanel>
-                <StackPanel VerticalAlignment="Bottom">
-                    <Button x:Name="btnSetting" Style="{StaticResource button-square}">
-                        <Image Source="resource/ic_settings_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
-                    </Button>
-                </StackPanel>
+                    </Button>-->
+                        <ToggleButton x:Name="btnMove" Style="{StaticResource toggle-button-square}" Checked="btnMove_Checked">
+                            <Image Source="resource/ic_move_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        </ToggleButton>
+                        <ToggleButton x:Name="btnEdit" Style="{StaticResource toggle-button-square}" Checked="btnEdit_Checked">
+                            <Image Source="resource/ic_edit_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        </ToggleButton>
+                        <Button x:Name="btnAdd" Style="{StaticResource button-square}" Click="btnAdd_Click">
+                            <Image Source="resource/ic_add_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        </Button>
+                    </StackPanel>
+                    <StackPanel VerticalAlignment="Bottom">
+                        <Button x:Name="btnSetting" Style="{StaticResource button-square}" Click="btnSetting_Click">
+                            <Image Source="resource/ic_today_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="48"></RowDefinition>
+                        <RowDefinition Height="48"></RowDefinition>
+                        <RowDefinition Height="48"></RowDefinition>
+                        <RowDefinition Height="48"></RowDefinition>
+                        <RowDefinition Height="*"></RowDefinition>
+                        <RowDefinition Height="48"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Menu" Grid.Row="0" Style="{StaticResource menu-style}"></TextBlock>
+                    <TextBlock Text="Add to week" Grid.Row="1" Style="{StaticResource menu-style}"></TextBlock>
+                    <TextBlock Text="Edit" Grid.Row="2" Style="{StaticResource menu-style}"></TextBlock>
+                    <TextBlock Text="Add" Grid.Row="3" Style="{StaticResource menu-style}"></TextBlock>
+                    <TextBlock Text="Today" Grid.Row="5" Style="{StaticResource menu-style}"></TextBlock>
+                </Grid>
             </Grid>
             <Grid Style="{StaticResource background-dark}" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="48"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Grid Grid.Row="0" HorizontalAlignment="Stretch">
                     <DatePicker x:Name="dpTime" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Foreground="#FF1A1A1A" SelectedDateFormat="Short" FirstDayOfWeek="Monday" SelectedDateChanged="dpTime_SelectedDateChanged" />
-                    <ToggleButton x:Name="btnMove" Style="{StaticResource toggle-button-square}" Checked="btnMove_Checked">
-                        <Image Source="resource/ic_move_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
-                    </ToggleButton>
-                    <ToggleButton x:Name="btnEdit" Style="{StaticResource toggle-button-square}" Checked="btnEdit_Checked">
-                        <Image Source="resource/ic_edit_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
-                    </ToggleButton>
-                    <Button x:Name="btnAdd" Style="{StaticResource button-square}" Click="btnAdd_Click">
-                        <Image Source="resource/ic_add_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
-                    </Button>
-                </StackPanel>
+                </Grid>
                 <Grid Grid.Row="1">
                     <Grid Height="51" VerticalAlignment="Top">
                         <Border BorderBrush="#E5000000" BorderThickness="0,0,0,1"></Border>
