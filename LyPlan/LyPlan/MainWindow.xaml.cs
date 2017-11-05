@@ -29,6 +29,7 @@ namespace LyPlan
         private GoalForm goalForm;
         private TodoForm todoForm;
         private TaskForm taskForm;
+        private WorkForm workForm;
         private ObservableCollection<Task> weekyList;
         private ObservableCollection<TodoWork> todoList;
         private ObservableCollection<TodoWork> doneList;
@@ -57,7 +58,7 @@ namespace LyPlan
             dynamic setTime = dpTime.SelectedDate;
             tbWeek.Text = "Week " + cal.GetWeekOfYear(setTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
         }
-        
+
         private DateTime getDateTimeOfWeek(DateTime dateTime, DayOfWeek dayOfWeek)
         {
             int input1 = dateTime.DayOfWeek - DayOfWeek.Sunday;
@@ -74,7 +75,7 @@ namespace LyPlan
         {
             WeekyTaskData weekyTask = new WeekyTaskData();
             dynamic setTime = dpTime.SelectedDate;
-            DateTime startTime = getDateTimeOfWeek(setTime,DayOfWeek.Monday);
+            DateTime startTime = getDateTimeOfWeek(setTime, DayOfWeek.Monday);
             DateTime endTime = startTime.AddDays(7).Date;
             List<DayInWeek> listDayInWeek = weekyTask.GetListDayInWeekForShow(startTime, endTime);
 
@@ -270,7 +271,8 @@ namespace LyPlan
 
         private void ListView_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            if (tabWeekylist.IsSelected) { 
+            if (tabWeekylist.IsSelected)
+            {
                 if (btnMove.IsChecked == true && tvWeekylist.SelectedItem != null)
                 {
                     BussinessObject.Entities.Task task = tvWeekylist.SelectedItem as dynamic;
@@ -287,12 +289,41 @@ namespace LyPlan
                     if (weekyTaskData.MakeWorkFromWeekyTask(work))
                     {
                         DayInWeek dataContext = data.DataContext as DayInWeek;
+                        DataTable dtId = weekyTaskData.GetInsertWorkId();
+                        work.Id = dtId.Select()[0].ItemArray[0] as dynamic;
                         dataContext.MorningTask.Add(new WeekyWork(task, work));
-                        CollectionViewSource.GetDefaultView(dataContext.MorningTask).Refresh();
+                        //CollectionViewSource.GetDefaultView(dataContext.MorningTask).Refresh();
                     }
                 }
             }
         }
+
+
+        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dynamic data = sender;
+            if (data.SelectedItem == null)
+                return;
+            if (btnEdit.IsChecked == true)
+            {
+                workForm = new WorkForm(data.SelectedItem, data.DataContext.MorningTask);
+                workForm.ShowDialog();
+            }
+            else if (btnMove.IsChecked == false)
+            {
+                WeekyTaskData weekyTaskData = new WeekyTaskData();
+                WeekyWork weekyWork = data.SelectedItem;
+                if (weekyWork.StatusId == 2)
+                {
+                    if (weekyTaskData.ChangeWeekyWorkStatus(weekyWork.Id, 5))
+                    {
+                        data.DataContext.MorningTask.Remove(weekyWork);
+                    }
+                }
+            }
+            data.UnselectAll();
+        }
+
     }
 
 }

@@ -273,7 +273,36 @@ namespace BussinessObject.DataAccess
             }
             return result;
         }
+        //Lay id cua nut moi vua insert
+        public DataTable GetInsertWorkId()
+        {
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = "select top 1 Id from Work order by Id desc";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dtRootTaskId = new DataTable();
 
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(dtRootTaskId);
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return dtRootTaskId;
+        }
         /// <summary>
         /// Lấy 1 list các DayInWeek để hiển thị
         /// </summary>
@@ -381,30 +410,46 @@ namespace BussinessObject.DataAccess
                 switch (weekyWork.StartTime.DayOfWeek.ToString())
                 {
                     case "Monday":
-                        monday.MorningTask.Add(weekyWork);
+                        addWeekyWorkToDay(monday, weekyWork);
                         break;
                     case "Tuesday":
-                        tuesday.MorningTask.Add(weekyWork);
+                        addWeekyWorkToDay(tuesday, weekyWork);
                         break;
                     case "Wednesday":
-                        wednesday.MorningTask.Add(weekyWork);
+                        addWeekyWorkToDay(wednesday, weekyWork);
                         break;
                     case "Thursday":
-                        thursday.MorningTask.Add(weekyWork);
+                        addWeekyWorkToDay(thursday, weekyWork);
                         break;
                     case "Friday":
-                        friday.MorningTask.Add(weekyWork);
+                        addWeekyWorkToDay(friday, weekyWork);
                         break;
                     case "Saturday":
-                        saturday.MorningTask.Add(weekyWork);
+                        addWeekyWorkToDay(saturday, weekyWork);
                         break;
                     case "Sunday":
-                        sunday.MorningTask.Add(weekyWork);
+                        addWeekyWorkToDay(sunday, weekyWork);
                         break;
                 }
             }
 
             return result;
+        }
+
+        private void addWeekyWorkToDay(DayInWeek dayInWeek, WeekyWork weekyWork)
+        {
+            switch (weekyWork.StatusId)
+            {
+                case 2:
+                case 3:
+                case 4:
+                case 1:
+                    dayInWeek.MorningTask.Add(weekyWork);
+                    break;
+                case 5:
+                    dayInWeek.EverningTask.Add(weekyWork);
+                    break;
+            }
         }
         /// <summary>
         /// Lấy DataTable Work chưa hoàn thành để hiển thị
@@ -417,7 +462,8 @@ namespace BussinessObject.DataAccess
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
             string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
                 " from Work w inner join Task t on w.TaskId = t.Id" +
-                " where t.TypeId = @TypeId";
+                " where t.TypeId = @TypeId" +
+                " and StatusId in (1,2,3,4,5)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
@@ -457,7 +503,8 @@ namespace BussinessObject.DataAccess
             string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
                 " from Work w inner join Task t on w.TaskId = t.Id" +
                 " where t.TypeId = @TypeId" +
-                " and StartTime between @start and @end";
+                " and StartTime between @start and @end" +
+                " and StatusId in (1,2,3,4,5)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
@@ -498,11 +545,12 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = "update Work set StatusId = {statusId} where Id = @WorkId";
+            string SQL = "update Work set StatusId = @statusId where Id = @WorkId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@WorkId", workId);
-            
+            cmd.Parameters.AddWithValue("@statusId", statusId);
+
             try
             {
                 if (cnn.State == ConnectionState.Closed)
@@ -573,13 +621,11 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = "update Work set [Description] = @Description, StartTime = @StartTime, AlertTime = @AlertTime, Deadline = @Deadline where Id = @WorkId";
+            //string SQL = "update Work set [Description] = @Description, StartTime = @StartTime, AlertTime = @AlertTime, Deadline = @Deadline where Id = @WorkId";
+            string SQL = "update Work set [Description] = @Description where Id = @WorkId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@Description", weekyWork.Description);
-            cmd.Parameters.AddWithValue("@StartTime", weekyWork.StartTime);
-            cmd.Parameters.AddWithValue("@AlertTIme", weekyWork.AlertTime);
-            cmd.Parameters.AddWithValue("@Deadline", weekyWork.DeadLine);
             cmd.Parameters.AddWithValue("@WorkId", weekyWork.Id);
 
             try
@@ -614,6 +660,37 @@ namespace BussinessObject.DataAccess
 
             cmd.Parameters.AddWithValue("@TypeId", 3);
             cmd.Parameters.AddWithValue("@Id", task.Id);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+        public Boolean DeleteWork(WeekyWork weekyWork)
+        {
+            Boolean result = false;
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = "delete Work where Id = @Id";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+
+            cmd.Parameters.AddWithValue("@Id", weekyWork.Id);
 
             try
             {

@@ -76,7 +76,7 @@
                 </Setter.Value>
             </Setter>
         </Style>-->
-        <Style TargetType="ListView" x:Key="listview-day-in-week">
+        <!--<Style TargetType="ListView" x:Key="listview-day-in-week">
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate DataType="{x:Type bo:WeekyWork}">
@@ -87,6 +87,17 @@
                 </Setter.Value>
             </Setter>
         </Style>
+        <Style TargetType="ListView" x:Key="listviewdone-day-in-week">
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <DataTemplate DataType="{x:Type bo:WeekyWork}">
+                        <Grid>
+                            <TextBlock Text="{Binding Title}" Foreground="Gray"></TextBlock>
+                        </Grid>
+                    </DataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>-->
         <Style TargetType="ListView" x:Key="listview-task">
             <Setter Property="MinHeight" Value="24"></Setter>
             <Setter Property="Background" Value="#ff333333"></Setter>
