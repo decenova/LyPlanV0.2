@@ -8,10 +8,10 @@ namespace BussinessObject.Entities
 {
     public class DayInWeek
     {
-        public string DayName { get; set; }
+        public DayOfWeek DayName { get; set; }
         public List<WeekyWork> MorningTask { get; set; }
         public List<WeekyWork> EverningTask { get; set; }
-        public DayInWeek(string dayName)
+        public DayInWeek(DayOfWeek dayName)
         {
             DayName = dayName;
             MorningTask = new List<WeekyWork>();

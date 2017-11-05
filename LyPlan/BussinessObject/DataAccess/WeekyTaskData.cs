@@ -245,14 +245,12 @@ namespace BussinessObject.DataAccess
             Boolean result = false;
 
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
-            string SQL = "insert into Work (TaskId, Description, StartTime, AlertTime, Deadline, StatusId) values (@TaskId, @Description, @StartTime, @AlertTime, @Deadline, @StatusId)";
+            string SQL = "insert into Work (TaskId, StartTime, StatusId)" +
+                " values (@TaskId, @StartTime, @StatusId)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@TaskId", work.TaskId);
-            cmd.Parameters.AddWithValue("@Description", work.Description);
             cmd.Parameters.AddWithValue("@StartTime", work.StartTime);
-            cmd.Parameters.AddWithValue("@AlertTime", work.AlertTime);
-            cmd.Parameters.AddWithValue("@Deadline", work.DeadLine);
             cmd.Parameters.AddWithValue("@StatusId", STATUS_EARLY);
 
 
@@ -283,13 +281,13 @@ namespace BussinessObject.DataAccess
         public List<DayInWeek> GetListDayInWeekForShow()
         {
             List<DayInWeek> result = new List<DayInWeek>();
-            DayInWeek monday    = new DayInWeek("Monday");
-            DayInWeek tuesday   = new DayInWeek("Tuesday");
-            DayInWeek wednesday = new DayInWeek("Wednesday");
-            DayInWeek thursday  = new DayInWeek("Thursday");
-            DayInWeek friday    = new DayInWeek("Friday");
-            DayInWeek saturday  = new DayInWeek("Saturday");
-            DayInWeek sunday    = new DayInWeek("Sunday");
+            DayInWeek monday = new DayInWeek(DayOfWeek.Monday);
+            DayInWeek tuesday = new DayInWeek(DayOfWeek.Tuesday);
+            DayInWeek wednesday = new DayInWeek(DayOfWeek.Wednesday);
+            DayInWeek thursday = new DayInWeek(DayOfWeek.Thursday);
+            DayInWeek friday = new DayInWeek(DayOfWeek.Friday);
+            DayInWeek saturday = new DayInWeek(DayOfWeek.Saturday);
+            DayInWeek sunday = new DayInWeek(DayOfWeek.Sunday);
 
             result.Add(monday);
             result.Add(tuesday);
@@ -306,9 +304,12 @@ namespace BussinessObject.DataAccess
                 weekyWork.TaskId = int.Parse(row["TaskId"].ToString());
                 weekyWork.Title = row["Title"].ToString();
                 weekyWork.Description = row["Description"].ToString();
-                weekyWork.StartTime = DateTime.Parse(row["StartTime"].ToString());
-                weekyWork.AlertTime = DateTime.Parse(row["AlertTime"].ToString());
-                weekyWork.DeadLine = DateTime.Parse(row["Deadline"].ToString());
+                if (row["StartTime"].ToString().Length > 0)
+                    weekyWork.StartTime = DateTime.Parse(row["StartTime"].ToString());
+                if (row["AlertTime"].ToString().Length > 0)
+                    weekyWork.AlertTime = DateTime.Parse(row["AlertTime"].ToString());
+                if (row["Deadline"].ToString().Length > 0)
+                    weekyWork.DeadLine = DateTime.Parse(row["Deadline"].ToString());
                 weekyWork.StatusId = int.Parse(row["StatusId"].ToString());
 
                 switch (weekyWork.StartTime.DayOfWeek.ToString())
@@ -339,7 +340,72 @@ namespace BussinessObject.DataAccess
 
             return result;
         }
+        /// <summary>
+        /// Lấy 1 list các DayInWeek để hiển thị
+        /// </summary>
+        /// <returns>List DayInWeek</returns>
+        public List<DayInWeek> GetListDayInWeekForShow(DateTime startTime, DateTime endTime)
+        {
+            List<DayInWeek> result = new List<DayInWeek>();
+            DayInWeek monday = new DayInWeek(DayOfWeek.Monday);
+            DayInWeek tuesday = new DayInWeek(DayOfWeek.Tuesday);
+            DayInWeek wednesday = new DayInWeek(DayOfWeek.Wednesday);
+            DayInWeek thursday = new DayInWeek(DayOfWeek.Thursday);
+            DayInWeek friday = new DayInWeek(DayOfWeek.Friday);
+            DayInWeek saturday = new DayInWeek(DayOfWeek.Saturday);
+            DayInWeek sunday = new DayInWeek(DayOfWeek.Sunday);
 
+            result.Add(monday);
+            result.Add(tuesday);
+            result.Add(wednesday);
+            result.Add(thursday);
+            result.Add(friday);
+            result.Add(saturday);
+            result.Add(sunday);
+
+            foreach (DataRow row in GetWorkForShow(startTime,endTime).Rows)
+            {
+                WeekyWork weekyWork = new WeekyWork();
+                weekyWork.Id = int.Parse(row["Id"].ToString());
+                weekyWork.TaskId = int.Parse(row["TaskId"].ToString());
+                weekyWork.Title = row["Title"].ToString();
+                weekyWork.Description = row["Description"].ToString();
+                if (row["StartTime"].ToString().Length > 0)
+                    weekyWork.StartTime = DateTime.Parse(row["StartTime"].ToString());
+                if (row["AlertTime"].ToString().Length > 0)
+                    weekyWork.AlertTime = DateTime.Parse(row["AlertTime"].ToString());
+                if (row["Deadline"].ToString().Length > 0)
+                    weekyWork.DeadLine = DateTime.Parse(row["Deadline"].ToString());
+                weekyWork.StatusId = int.Parse(row["StatusId"].ToString());
+
+                switch (weekyWork.StartTime.DayOfWeek.ToString())
+                {
+                    case "Monday":
+                        monday.MorningTask.Add(weekyWork);
+                        break;
+                    case "Tuesday":
+                        tuesday.MorningTask.Add(weekyWork);
+                        break;
+                    case "Wednesday":
+                        wednesday.MorningTask.Add(weekyWork);
+                        break;
+                    case "Thursday":
+                        thursday.MorningTask.Add(weekyWork);
+                        break;
+                    case "Friday":
+                        friday.MorningTask.Add(weekyWork);
+                        break;
+                    case "Saturday":
+                        saturday.MorningTask.Add(weekyWork);
+                        break;
+                    case "Sunday":
+                        sunday.MorningTask.Add(weekyWork);
+                        break;
+                }
+            }
+
+            return result;
+        }
         /// <summary>
         /// Lấy DataTable Work chưa hoàn thành để hiển thị
         /// </summary>
@@ -351,13 +417,55 @@ namespace BussinessObject.DataAccess
             string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
             string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
                 " from Work w inner join Task t on w.TaskId = t.Id" +
-                " where w.StatusId = @StatusId";
+                " where t.TypeId = @TypeId";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
-            cmd.Parameters.AddWithValue("@StatusId", STATUS_EARLY);
+            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
 
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(result);
+            }
+            catch (SqlException se)
+            {
+                throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Lấy DataTable Work chưa hoàn thành để hiển thị
+        /// </summary>
+        /// <returns>DataTable Work</returns>
+        public DataTable GetWorkForShow(DateTime startTime, DateTime endTime)
+        {
+            DataTable result = new DataTable();
+
+            string strConnection = ConfigurationManager.ConnectionStrings["LyPlan"].ConnectionString;
+            string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
+                " from Work w inner join Task t on w.TaskId = t.Id" +
+                " where t.TypeId = @TypeId" +
+                " and StartTime between @start and @end";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
+            cmd.Parameters.AddWithValue("@start", startTime);
+            cmd.Parameters.AddWithValue("@end", endTime);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
             try
             {
                 if (cnn.State == ConnectionState.Closed)

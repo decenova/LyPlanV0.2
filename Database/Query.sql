@@ -13,4 +13,7 @@ where TypeId = 1 and StatusId = 1
 
 select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId
                  from Work w inner join Task t on w.TaskId = t.Id
-                 where t.TypeId = 2
+                 where t.TypeId = 2 and StartTime between '2017-01-01' and '2017-11-11'
+
+delete Work
+delete Task

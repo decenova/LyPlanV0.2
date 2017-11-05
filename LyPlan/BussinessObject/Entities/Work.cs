@@ -12,8 +12,8 @@ namespace BussinessObject.Entities
         private int taskId;
         private string description;
         private DateTime startTime;
-        private DateTime deadline;
-        private DateTime alertTime;
+        private DateTime? deadline;
+        private DateTime? alertTime;
         private int statusId;
 
         public int Id
@@ -40,13 +40,13 @@ namespace BussinessObject.Entities
             set { startTime = value; }
         }
 
-        public DateTime DeadLine
+        public DateTime? DeadLine
         {
             get { return deadline; }
             set { deadline = value; }
         }
 
-        public DateTime AlertTime
+        public DateTime? AlertTime
         {
             get { return alertTime; }
             set { alertTime = value; }

@@ -10,62 +10,43 @@
         MinWidth="768" MinHeight="535" Height="600" Visibility="Visible" 
         WindowStartupLocation="CenterScreen">
     <Window.Resources>
-        <Style TargetType="TreeView" x:Key="todoListStyle">
-            <Setter Property="Background" Value="#00000000"></Setter>
-            <Setter Property="BorderBrush" Value="#00000000"></Setter>
-            <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
-            <Setter Property="Foreground" Value="#ffffffff"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-            <Setter Property="ItemTemplate">
+        <Style TargetType="{x:Type ContentControl}" x:Key="content-day-in-week">
+            <Setter Property="Template">
                 <Setter.Value>
-                    <HierarchicalDataTemplate DataType="{x:Type bo:TodoWork}" ItemsSource="{Binding Path=Items}">
-                        <Grid Height="24" HorizontalAlignment="Stretch">
-                            <!--<ToggleButton Content="{Binding Path=Title}"
-                                    VerticalAlignment="Center" 
-                                    HorizontalAlignment="Stretch" FontSize="16"
-                                    Style="{StaticResource toggle-button-todolist}"
-                                          >
-                            </ToggleButton>-->
-                            <TextBlock Text="{Binding Path=Title}" Foreground="White"></TextBlock>
+                    <ControlTemplate TargetType="{x:Type ContentControl}">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="48"></RowDefinition>
+                                <RowDefinition Height="1"></RowDefinition>
+                                <RowDefinition Height="1*"></RowDefinition>
+                                <!--<RowDefinition Height="1"></RowDefinition>
+                                <RowDefinition Height="1*"></RowDefinition>-->
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <TextBlock Text="{Binding DayName}" Foreground="#FF00A2DE" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"></TextBlock>
+                            </Grid>
+                            <Grid Grid.Row="1">
+                                <Border BorderBrush="#FF0066AA" BorderThickness="0,0,0,1" Margin="15,0">
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="2">
+                                <ListView ItemsSource="{Binding MorningTask}" BorderBrush="{x:Null}"
+                                          Style="{DynamicResource listview-day-in-week}" 
+                                          MouseUp="ListView_MouseUp">
+
+                                </ListView>
+                            </Grid>
+                            <!--<Grid Grid.Row="3">
+                                <Border BorderBrush="#FF0066AA" BorderThickness="0,0,0,1" Margin="15,0">
+                                </Border>
+                            </Grid>
+                            <Grid Grid.Row="4">
+                                <ListView ItemsSource="{Binding NightTask}" BorderBrush="{x:Null}"
+                                          Style="{DynamicResource listview-day-in-week}"
+                                          MouseUp="ListView_MouseUp"></ListView>
+                            </Grid>-->
                         </Grid>
-                    </HierarchicalDataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style TargetType="TreeView" x:Key="doneListStyle">
-            <Setter Property="Background" Value="#00000000"></Setter>
-            <Setter Property="BorderBrush" Value="#00000000"></Setter>
-            <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-            <Setter Property="ItemTemplate">
-                <Setter.Value>
-                    <HierarchicalDataTemplate DataType="{x:Type bo:TodoWork}" ItemsSource="{Binding Path=Items}">
-                        <Grid Height="24" HorizontalAlignment="Stretch">
-                            <TextBlock Text="{Binding Path=Title}" Foreground="Gray" ></TextBlock>
-                        </Grid>
-                    </HierarchicalDataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <Style TargetType="TreeView" x:Key="weekyListStyle">
-            <Setter Property="Background" Value="#00000000"></Setter>
-            <Setter Property="BorderBrush" Value="#00000000"></Setter>
-            <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
-            <Setter Property="Foreground" Value="#ffffffff"></Setter>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
-            <Setter Property="ItemTemplate">
-                <Setter.Value>
-                    <HierarchicalDataTemplate DataType="{x:Type bo:Task}" ItemsSource="{Binding Path=Items}">
-                        <Grid Height="24" HorizontalAlignment="Stretch">
-                            <!--<ToggleButton Content="{Binding Path=Title}" 
-                                            VerticalAlignment="Center" 
-                                            HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
-                                            Style="{StaticResource toggle-button-weeky}" 
-                                          Click="tvWeekylist_Item_Selected">
-                            </ToggleButton>-->
-                            <TextBlock Text="{Binding Path=Title}" Foreground="White"></TextBlock>
-                        </Grid>
-                    </HierarchicalDataTemplate>
+                    </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -108,7 +89,7 @@
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <DatePicker x:Name="dpTime" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Foreground="#FF1A1A1A" SelectedDateFormat="Short" FirstDayOfWeek="Monday" />
+                    <DatePicker x:Name="dpTime" BorderBrush="{x:Null}" VerticalContentAlignment="Center" HorizontalContentAlignment="Stretch" Foreground="#FF1A1A1A" SelectedDateFormat="Short" FirstDayOfWeek="Monday" SelectedDateChanged="dpTime_SelectedDateChanged" />
                     <ToggleButton x:Name="btnMove" Style="{StaticResource toggle-button-square}" Checked="btnMove_Checked">
                         <Image Source="resource/ic_move_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </ToggleButton>
@@ -155,7 +136,9 @@
                     <RowDefinition Height="48"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0"></Grid>
+                <Grid Grid.Row="0" Margin="5,0,0,0">
+                    <TextBlock x:Name="tbWeek" Text="Week" Foreground="#FF3366FF" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" FontSize="24" FontFamily="Segoe UI Semibold" FontWeight="Bold"/>
+                </Grid>
                 <Grid Grid.Row="1" Margin="5,0,5,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition></ColumnDefinition>

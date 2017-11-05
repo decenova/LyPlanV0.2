@@ -38,7 +38,7 @@
         </Style>
 
         <!--Content Control-->
-        <Style TargetType="{x:Type ContentControl}" x:Key="content-day-in-week">
+        <!--<Style TargetType="{x:Type ContentControl}" x:Key="content-day-in-week">
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ContentControl}">
@@ -75,7 +75,7 @@
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>
+        </Style>-->
         <Style TargetType="ListView" x:Key="listview-day-in-week">
             <Setter Property="ItemTemplate">
                 <Setter.Value>
@@ -277,7 +277,7 @@
 
         <!--TreeView-->
 
-        <!--<Style TargetType="TreeView" x:Key="todoListStyle">
+        <Style TargetType="TreeView" x:Key="todoListStyle">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>
             <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
@@ -287,13 +287,28 @@
                 <Setter.Value>
                     <HierarchicalDataTemplate DataType="{x:Type bo:TodoWork}" ItemsSource="{Binding Path=Items}">
                         <Grid Height="24" HorizontalAlignment="Stretch">
-                            <ToggleButton Content="{Binding Path=Title}"
+                            <!--<ToggleButton Content="{Binding Path=Title}"
                                     VerticalAlignment="Center" 
                                     HorizontalAlignment="Stretch" FontSize="16"
                                     Style="{StaticResource toggle-button-todolist}"
-                                          Click="tvTodolist_Item_Selected">
-                            </ToggleButton>
-                            --><!--<TextBlock Text="{Binding Path=Title}"></TextBlock>--><!--
+                                          >
+                            </ToggleButton>-->
+                            <TextBlock Text="{Binding Path=Title}" Foreground="White"></TextBlock>
+                        </Grid>
+                    </HierarchicalDataTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TreeView" x:Key="doneListStyle">
+            <Setter Property="Background" Value="#00000000"></Setter>
+            <Setter Property="BorderBrush" Value="#00000000"></Setter>
+            <Setter Property="BorderThickness" Value="0,0,0,0"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"></Setter>
+            <Setter Property="ItemTemplate">
+                <Setter.Value>
+                    <HierarchicalDataTemplate DataType="{x:Type bo:TodoWork}" ItemsSource="{Binding Path=Items}">
+                        <Grid Height="24" HorizontalAlignment="Stretch">
+                            <TextBlock Text="{Binding Path=Title}" Foreground="Gray" ></TextBlock>
                         </Grid>
                     </HierarchicalDataTemplate>
                 </Setter.Value>
@@ -309,18 +324,18 @@
                 <Setter.Value>
                     <HierarchicalDataTemplate DataType="{x:Type bo:Task}" ItemsSource="{Binding Path=Items}">
                         <Grid Height="24" HorizontalAlignment="Stretch">
-                            <ToggleButton Content="{Binding Path=Title}" 
+                            <!--<ToggleButton Content="{Binding Path=Title}" 
                                             VerticalAlignment="Center" 
                                             HorizontalAlignment="Stretch" Cursor="Hand" FontSize="16"
                                             Style="{StaticResource toggle-button-weeky}" 
-                                          Click="tvTodolist_Item_Selected">
-                            </ToggleButton>
-                            --><!--<TextBlock Text="{Binding Path=Title}"></TextBlock>--><!--
+                                          Click="tvWeekylist_Item_Selected">
+                            </ToggleButton>-->
+                            <TextBlock Text="{Binding Path=Title}" Foreground="White"></TextBlock>
                         </Grid>
                     </HierarchicalDataTemplate>
                 </Setter.Value>
             </Setter>
-        </Style>-->
+        </Style>
         <Style TargetType="TreeViewItem">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="BorderBrush" Value="#00000000"></Setter>

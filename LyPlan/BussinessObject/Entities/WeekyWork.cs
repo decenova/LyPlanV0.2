@@ -13,10 +13,25 @@ namespace BussinessObject.Entities
         private string title;
         private string description;
         private DateTime startTime;
-        private DateTime deadline;
-        private DateTime alertTime;
+        private DateTime? deadline;
+        private DateTime? alertTime;
         private int statusId;
 
+        public WeekyWork()
+        {
+
+        }
+        public WeekyWork(Task task, Work work)
+        {
+            id = work.Id;
+            taskId = task.Id;
+            title = task.Title;
+            description = work.Description;
+            startTime = work.StartTime;
+            deadline = work.DeadLine;
+            alertTime = work.AlertTime;
+            statusId = work.StatusId;
+        }
         public int Id
         {
             get { return id; }
@@ -47,13 +62,13 @@ namespace BussinessObject.Entities
             set { startTime = value; }
         }
 
-        public DateTime DeadLine
+        public DateTime? DeadLine
         {
             get { return deadline; }
             set { deadline = value; }
         }
 
-        public DateTime AlertTime
+        public DateTime? AlertTime
         {
             get { return alertTime; }
             set { alertTime = value; }

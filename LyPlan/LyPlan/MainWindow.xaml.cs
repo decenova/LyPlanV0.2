@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using BussinessObject.Entities;
 using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
+using System.Globalization;
 
 namespace LyPlan
 {
@@ -31,49 +32,75 @@ namespace LyPlan
         private ObservableCollection<Task> weekyList;
         private ObservableCollection<TodoWork> todoList;
         private ObservableCollection<TodoWork> doneList;
+
+        private DateTimeFormatInfo dfi;
+        private System.Globalization.Calendar cal;
         public MainWindow()
         {
             InitializeComponent();
             weekyList = new ObservableCollection<Task>();
             todoList = new ObservableCollection<TodoWork>();
             doneList = new ObservableCollection<TodoWork>();
-            dpTime.SelectedDate = DateTime.Now;
+            dfi = DateTimeFormatInfo.CurrentInfo;
+            cal = dfi.Calendar;
 
+            setDateTime();
             SetTodo();
             SetWeeky();
             SetWeekyWork();
             tvDonelist.ItemsSource = doneList;
         }
 
+        private void setDateTime()
+        {
+            dpTime.SelectedDate = DateTime.Now;
+            dynamic setTime = dpTime.SelectedDate;
+            tbWeek.Text = "Week " + cal.GetWeekOfYear(setTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+        }
+        
+        private DateTime getDateTimeOfWeek(DateTime dateTime, DayOfWeek dayOfWeek)
+        {
+            int input1 = dateTime.DayOfWeek - DayOfWeek.Sunday;
+            if (input1 == 0)
+                input1 = 7;
+            int input2 = dayOfWeek - DayOfWeek.Sunday;
+            if (input2 == 0)
+                input2 = 7;
+            int distance = input1 - input2;
+            return dateTime.AddDays(-distance).Date;
+        }
+
         private void SetWeekyWork()
         {
             WeekyTaskData weekyTask = new WeekyTaskData();
-
-            List<DayInWeek> listDayInWeek = weekyTask.GetListDayInWeekForShow();
+            dynamic setTime = dpTime.SelectedDate;
+            DateTime startTime = getDateTimeOfWeek(setTime,DayOfWeek.Monday);
+            DateTime endTime = startTime.AddDays(7).Date;
+            List<DayInWeek> listDayInWeek = weekyTask.GetListDayInWeekForShow(startTime, endTime);
 
             foreach (DayInWeek day in listDayInWeek)
             {
                 switch (day.DayName)
                 {
-                    case "Monday":
+                    case DayOfWeek.Monday:
                         cMonday.DataContext = day;
                         break;
-                    case "Tuesday":
+                    case DayOfWeek.Tuesday:
                         cTuesday.DataContext = day;
                         break;
-                    case "Wednesday":
+                    case DayOfWeek.Wednesday:
                         cWednesday.DataContext = day;
                         break;
-                    case "Thursday":
+                    case DayOfWeek.Thursday:
                         cThursday.DataContext = day;
                         break;
-                    case "Friday":
+                    case DayOfWeek.Friday:
                         cFriday.DataContext = day;
                         break;
-                    case "Saturday":
+                    case DayOfWeek.Saturday:
                         cSaturday.DataContext = day;
                         break;
-                    case "Sunday":
+                    case DayOfWeek.Sunday:
                         cSunday.DataContext = day;
                         break;
                 }
@@ -232,6 +259,39 @@ namespace LyPlan
         {
             ClearSelection(tvTodolist);
             ClearSelection(tvWeekylist);
+        }
+
+        private void dpTime_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dynamic setTime = dpTime.SelectedDate;
+            tbWeek.Text = "Week " + cal.GetWeekOfYear(setTime, dfi.CalendarWeekRule, dfi.FirstDayOfWeek);
+            SetWeekyWork();
+        }
+
+        private void ListView_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (tabWeekylist.IsSelected) { 
+                if (btnMove.IsChecked == true && tvWeekylist.SelectedItem != null)
+                {
+                    BussinessObject.Entities.Task task = tvWeekylist.SelectedItem as dynamic;
+                    dynamic data = sender as dynamic;
+                    DayInWeek dayInWeek = data.DataContext as DayInWeek;
+                    dynamic setTime = dpTime.SelectedDate;
+                    DateTime startDay = getDateTimeOfWeek(setTime, dayInWeek.DayName);
+                    Work work = new Work()
+                    {
+                        TaskId = task.Id,
+                        StartTime = startDay
+                    };
+                    WeekyTaskData weekyTaskData = new WeekyTaskData();
+                    if (weekyTaskData.MakeWorkFromWeekyTask(work))
+                    {
+                        DayInWeek dataContext = data.DataContext as DayInWeek;
+                        dataContext.MorningTask.Add(new WeekyWork(task, work));
+                        CollectionViewSource.GetDefaultView(dataContext.MorningTask).Refresh();
+                    }
+                }
+            }
         }
     }
 
