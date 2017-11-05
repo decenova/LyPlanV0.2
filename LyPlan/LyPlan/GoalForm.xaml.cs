@@ -98,13 +98,17 @@ namespace LyPlan
             weekyList.Add(roottask);
             if (weekyTaskData.SaveRootTask(roottask))
             {
-                DataTable dtSuperId = weekyTaskData.GetInsertRootTaskId();
-                dynamic superId = dtSuperId.Select()[0].ItemArray[0];
+                DataTable dtId = weekyTaskData.GetInsertTaskId();
+                dynamic superId = dtId.Select()[0].ItemArray[0];
                 foreach (dynamic node in nodeList)
                 {
                     node.SuperTask = superId;
-                    weekyTaskData.SaveNodeTask(node);
-                    roottask.Items.Add(node);
+                    if (weekyTaskData.SaveNodeTask(node))
+                    {
+                        dtId = weekyTaskData.GetInsertTaskId();
+                        node.Id = dtId.Select()[0].ItemArray[0];
+                        roottask.Items.Add(node);
+                    }
                 }
             }
             else
@@ -118,6 +122,7 @@ namespace LyPlan
             WeekyTaskData weekyTaskData = new WeekyTaskData();
             if (weekyTaskData.RemoveTask(task))
             {
+                weekyList.Remove(task);
                 this.Close();
             }
             else
@@ -139,11 +144,9 @@ namespace LyPlan
                     node.SuperTask = task.Id;
                     if (weekyTaskData.SaveNodeTask(node))
                     {
+                        DataTable dtId = weekyTaskData.GetInsertTaskId();
+                        node.Id = dtId.Select()[0].ItemArray[0] as dynamic;
                         task.Items.Add(node);
-                    }
-                    else
-                    {
-
                     }
                 }
                 this.Close();

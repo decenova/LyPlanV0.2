@@ -99,10 +99,6 @@ namespace LyPlan
         private void btnDelete_Click(object sender, RoutedEventArgs e)
         {
             WeekyTaskData weekyTaskData = new WeekyTaskData();
-            if (!validInput())
-            {
-                return;
-            }
             if (weekyTaskData.RemoveTask(task))
             {
                 this.Close();
