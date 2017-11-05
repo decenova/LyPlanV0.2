@@ -12,11 +12,16 @@ select t.Id as Id, t.Title as Title, w.Description, w.StatusId
 from Task t inner join Work w on t.Id = w.TaskId 
 where TypeId = 1 and StatusId = 1
 
-select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId
+select count(w.Id)
                  from Work w inner join Task t on w.TaskId = t.Id
                  where t.TypeId = 2 
-				 and StartTime between '2017-01-01' and '2017-11-11' 
+				 and StartTime between '2017-11-06' and '2017-11-14' 
 				 and StatusId in (1,2,3,4,5)
+select count(w.Id)
+                 from Work w inner join Task t on w.TaskId = t.Id
+                 where t.TypeId = 2 
+				 and StartTime between '2017-11-06' and '2017-11-14' 
+				 and StatusId = 5
 
 delete Work
 delete Task

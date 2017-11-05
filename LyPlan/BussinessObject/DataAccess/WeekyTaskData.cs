@@ -713,5 +713,60 @@ namespace BussinessObject.DataAccess
 
             return result;
         }
+        public double GetProcess(DateTime startTime, DateTime endTime)
+        {
+            double result;
+            DataTable allWork = new DataTable();
+            DataTable doneWork = new DataTable();
+            string strConnection = DataProvider.DataProvider.getConnectionString();
+            SqlConnection cnn = new SqlConnection(strConnection);
+            string SQL1 = "select count(w.Id)" +
+                " from Work w inner join Task t on w.TaskId = t.Id" +
+                " where t.TypeId = @TypeId" +
+                " and StartTime between @start and @end" +
+                " and StatusId in (1,2,3,4,5)";
+            string SQL2 = "select count(w.Id)" +
+                " from Work w inner join Task t on w.TaskId = t.Id" +
+                " where t.TypeId = @TypeId" +
+                " and StartTime between @start and @end" +
+                " and StatusId = 5";
+            SqlCommand cmd1 = new SqlCommand(SQL1, cnn);
+            cmd1.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
+            cmd1.Parameters.AddWithValue("@start", startTime);
+            cmd1.Parameters.AddWithValue("@end", endTime);
+            SqlCommand cmd2 = new SqlCommand(SQL2, cnn);
+            cmd2.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
+            cmd2.Parameters.AddWithValue("@start", startTime);
+            cmd2.Parameters.AddWithValue("@end", endTime);
+            SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
+            SqlDataAdapter da2 = new SqlDataAdapter(cmd2);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da1.Fill(allWork);
+                da2.Fill(doneWork);
+                double all = allWork.Select()[0].ItemArray[0] as dynamic;
+                double done = doneWork.Select()[0].ItemArray[0] as dynamic;
+                if (all == 0)
+                    result = 0;
+                else
+                    result = done / all * 100;
+            }
+            catch (SqlException se)
+            {
+                result = 0;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+            
+            return result;
+        }
     }
 }

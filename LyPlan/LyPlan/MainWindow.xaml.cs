@@ -51,7 +51,11 @@ namespace LyPlan
             SetWeekyWork();
             tvDonelist.ItemsSource = doneList;
         }
-
+        private void setProccess(DateTime startTime, DateTime endTime)
+        {
+            WeekyTaskData weekyTask = new WeekyTaskData();
+            processBar.Value = weekyTask.GetProcess(startTime,endTime);
+        }
         private void setDateTime()
         {
             dpTime.SelectedDate = DateTime.Now;
@@ -78,7 +82,7 @@ namespace LyPlan
             DateTime startTime = getDateTimeOfWeek(setTime, DayOfWeek.Monday);
             DateTime endTime = startTime.AddDays(7).Date;
             List<DayInWeek> listDayInWeek = weekyTask.GetListDayInWeekForShow(startTime, endTime);
-
+            setProccess(startTime, endTime);
             foreach (DayInWeek day in listDayInWeek)
             {
                 switch (day.DayName)
@@ -292,6 +296,9 @@ namespace LyPlan
                         DataTable dtId = weekyTaskData.GetInsertWorkId();
                         work.Id = dtId.Select()[0].ItemArray[0] as dynamic;
                         dataContext.MorningTask.Add(new WeekyWork(task, work));
+                        DateTime startTime = getDateTimeOfWeek(setTime, DayOfWeek.Monday);
+                        DateTime endTime = startTime.AddDays(7).Date;
+                        setProccess(startTime, endTime);
                         //CollectionViewSource.GetDefaultView(dataContext.MorningTask).Refresh();
                     }
                 }
@@ -308,6 +315,10 @@ namespace LyPlan
             {
                 workForm = new WorkForm(data.SelectedItem, data.DataContext.MorningTask);
                 workForm.ShowDialog();
+                dynamic setTime = dpTime.SelectedDate;
+                DateTime startTime = getDateTimeOfWeek(setTime, DayOfWeek.Monday);
+                DateTime endTime = startTime.AddDays(7).Date;
+                setProccess(startTime, endTime);
             }
             else if (btnMove.IsChecked == false)
             {
@@ -318,6 +329,10 @@ namespace LyPlan
                     if (weekyTaskData.ChangeWeekyWorkStatus(weekyWork.Id, 5))
                     {
                         data.DataContext.MorningTask.Remove(weekyWork);
+                        dynamic setTime = dpTime.SelectedDate;
+                        DateTime startTime = getDateTimeOfWeek(setTime, DayOfWeek.Monday);
+                        DateTime endTime = startTime.AddDays(7).Date;
+                        setProccess(startTime, endTime);
                     }
                 }
             }

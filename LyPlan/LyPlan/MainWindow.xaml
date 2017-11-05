@@ -181,6 +181,12 @@
                 </Grid.RowDefinitions>
                 <Grid Grid.Row="0" Margin="5,0,0,0">
                     <TextBlock x:Name="tbWeek" Text="Week" Foreground="#FF3366FF" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10,0,0,0" FontSize="24" FontFamily="Segoe UI Semibold" FontWeight="Bold"/>
+                    <ProgressBar x:Name="processBar" Width="200" Height="10"
+                                 VerticalAlignment="Center" 
+                                 HorizontalAlignment="Right"
+                                 Margin="0,0,10,0" 
+                                 Background="#FFEEEDEA"
+                                 Foreground="#FF229EED"/>
                 </Grid>
                 <Grid Grid.Row="1" Margin="5,0,5,0">
                     <Grid.ColumnDefinitions>
