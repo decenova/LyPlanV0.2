@@ -61,7 +61,7 @@ namespace BussinessObject.DataAccess
 
             string strConnection = DataProvider.DataProvider.getConnectionString();
 
-            string SQL = "select Id, [Description] from Work where TaskId = @TaskId and StatusId = 1";
+            string SQL = "select Id, [Description],StartTime , Deadline, AlertTime from Work where TaskId = @TaskId and StatusId = 1";
 
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -86,6 +86,11 @@ namespace BussinessObject.DataAccess
 
                     result.Id = int.Parse(row["Id"].ToString());
                     result.Description = row["Description"].ToString();
+                    result.StartTime = row["StartTime"] as dynamic;
+                    if (!row.IsNull(3))
+                        result.DeadLine = row["Deadline"] as dynamic;
+                    if (!row.IsNull(4))
+                        result.AlertTime = row["AlertTime"] as dynamic;
                 }
                 
             }
@@ -121,7 +126,10 @@ namespace BussinessObject.DataAccess
                 todo.Title = row["Title"].ToString();
                 todo.Description = work.Description;
                 todo.StatusId = 1;
-
+                if (work.DeadLine != null)
+                    todo.Deadline = work.DeadLine as dynamic;
+                if (work.AlertTime != null)
+                    todo.AlertTime = work.AlertTime as dynamic;
                 result.Add(todo);
             }
 
@@ -178,7 +186,7 @@ namespace BussinessObject.DataAccess
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
             cmd.Parameters.AddWithValue("@Title", todo.Title);
-            cmd.Parameters.AddWithValue("TypeId", WeekyTaskData.TYPE_TODO);
+            cmd.Parameters.AddWithValue("@TypeId", WeekyTaskData.TYPE_TODO);
             SqlDataAdapter da = new SqlDataAdapter(cmd);
             DataTable dt = new DataTable();
 
@@ -215,6 +223,106 @@ namespace BussinessObject.DataAccess
 
             return result;
         }
+        public Boolean SaveTodoTaskWithDealine(TodoWork todo)
+        {
+            Boolean result = false;
+
+            string strConnection = DataProvider.DataProvider.getConnectionString();
+
+            string SQL = "insert into Task (Title, TypeId) output Inserted.Id values (@Title, @TypeId)";
+
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", todo.Title);
+            cmd.Parameters.AddWithValue("@TypeId", WeekyTaskData.TYPE_TODO);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(dt);
+
+                int newId = int.Parse(dt.Rows[0]["Id"].ToString());
+
+                string nSQL = "insert into Work (TaskId, Description, StartTime, Deadline, StatusId) values (@NewId, @Description, @StartTime, @Dealine, @StatusId)";
+
+                cmd = new SqlCommand(nSQL, cnn);
+
+                cmd.Parameters.AddWithValue("@NewId", newId);
+                cmd.Parameters.AddWithValue("@Description", todo.Description);
+                cmd.Parameters.AddWithValue("@StartTime", DateTime.Now.ToString("yyyyMMdd"));
+                cmd.Parameters.AddWithValue("@Dealine", todo.Deadline);
+                cmd.Parameters.AddWithValue("@StatusId", WeekyTaskData.STATUS_NOT_DONE);
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+
+        public Boolean SaveTodoTaskWithAlert(TodoWork todo)
+        {
+            Boolean result = false;
+
+            string strConnection = DataProvider.DataProvider.getConnectionString();
+
+            string SQL = "insert into Task (Title, TypeId) output Inserted.Id values (@Title, @TypeId)";
+
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", todo.Title);
+            cmd.Parameters.AddWithValue("@TypeId", WeekyTaskData.TYPE_TODO);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(dt);
+
+                int newId = int.Parse(dt.Rows[0]["Id"].ToString());
+
+                string nSQL = "insert into Work (TaskId, Description, StartTime, Deadline, AlertTime, StatusId) values (@NewId, @Description, @StartTime, @Dealine, @AlertTime, @StatusId)";
+
+                cmd = new SqlCommand(nSQL, cnn);
+
+                cmd.Parameters.AddWithValue("@NewId", newId);
+                cmd.Parameters.AddWithValue("@Description", todo.Description);
+                cmd.Parameters.AddWithValue("@StartTime", DateTime.Now.ToString("yyyyMMdd"));
+                cmd.Parameters.AddWithValue("@Dealine", todo.Deadline);
+                cmd.Parameters.AddWithValue("@AlertTime", todo.AlertTime);
+                cmd.Parameters.AddWithValue("@StatusId", WeekyTaskData.STATUS_NOT_DONE);
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
 
         /// <summary>
         /// Update todo task và work
@@ -241,11 +349,97 @@ namespace BussinessObject.DataAccess
 
                 result = cmd.ExecuteNonQuery() > 0;
 
-                string nSQL = "update Work set [Description] = @Description where TaskId = @TaskId";
+                string nSQL = "update Work set [Description] = @Description, Deadline = @Deadline, AlertTime = @AlertTime where TaskId = @TaskId";
 
                 cmd = new SqlCommand(nSQL, cnn);
 
                 cmd.Parameters.AddWithValue("@Description", newTodo.Description);
+                cmd.Parameters.AddWithValue("@TaskId", newTodo.TaskId);
+                cmd.Parameters.AddWithValue("@Deadline", DBNull.Value);
+                cmd.Parameters.AddWithValue("@AlertTime", DBNull.Value);
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                result = false;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+        public Boolean UpdateTodoWithDeadline(TodoWork newTodo)
+        {
+            Boolean result = false;
+
+            string strConnection = DataProvider.DataProvider.getConnectionString();
+            string SQL = "update Task set Title = @Title where Id = @TaskId";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", newTodo.Title);
+            cmd.Parameters.AddWithValue("@TaskId", newTodo.TaskId);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() > 0;
+
+                string nSQL = "update Work set [Description] = @Description, Deadline = @Deadline, AlertTime = @AlertTime where TaskId = @TaskId";
+
+                cmd = new SqlCommand(nSQL, cnn);
+
+                cmd.Parameters.AddWithValue("@Description", newTodo.Description);
+                cmd.Parameters.AddWithValue("@Deadline", newTodo.Deadline);
+                cmd.Parameters.AddWithValue("@AlertTime", DBNull.Value);
+                cmd.Parameters.AddWithValue("@TaskId", newTodo.TaskId);
+
+                result = cmd.ExecuteNonQuery() == 1;
+            }
+            catch (SqlException se)
+            {
+                result = false;
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
+        public Boolean UpdateTodoWithAlertTime(TodoWork newTodo)
+        {
+            Boolean result = false;
+
+            string strConnection = DataProvider.DataProvider.getConnectionString();
+            string SQL = "update Task set Title = @Title where Id = @TaskId";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@Title", newTodo.Title);
+            cmd.Parameters.AddWithValue("@TaskId", newTodo.TaskId);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                result = cmd.ExecuteNonQuery() > 0;
+
+                string nSQL = "update Work set [Description] = @Description, Deadline = @Deadline, AlertTime = @AlertTime where TaskId = @TaskId";
+
+                cmd = new SqlCommand(nSQL, cnn);
+
+                cmd.Parameters.AddWithValue("@Description", newTodo.Description);
+                cmd.Parameters.AddWithValue("@Deadline", newTodo.Deadline);
+                cmd.Parameters.AddWithValue("@AlertTime", newTodo.AlertTime);
                 cmd.Parameters.AddWithValue("@TaskId", newTodo.TaskId);
 
                 result = cmd.ExecuteNonQuery() == 1;
@@ -307,3 +501,4 @@ namespace BussinessObject.DataAccess
         }
     }
 }
+

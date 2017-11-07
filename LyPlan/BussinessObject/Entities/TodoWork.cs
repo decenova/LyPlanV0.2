@@ -13,7 +13,8 @@ namespace BussinessObject.Entities
         private string title;
         private string description;
         private int statusId;
-
+        public DateTime Deadline { get; set; }
+        public DateTime AlertTime { get; set; }
         public TodoWork()
         {
 

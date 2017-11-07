@@ -720,22 +720,18 @@ namespace BussinessObject.DataAccess
             DataTable doneWork = new DataTable();
             string strConnection = DataProvider.DataProvider.getConnectionString();
             SqlConnection cnn = new SqlConnection(strConnection);
-            string SQL1 = "select count(w.Id)" +
-                " from Work w inner join Task t on w.TaskId = t.Id" +
-                " where t.TypeId = @TypeId" +
-                " and StartTime between @start and @end" +
-                " and StatusId in (1,2,3,4,5)";
-            string SQL2 = "select count(w.Id)" +
-                " from Work w inner join Task t on w.TaskId = t.Id" +
-                " where t.TypeId = @TypeId" +
-                " and StartTime between @start and @end" +
+            string SQL1 = "select count(Id)" +
+                " from Work" +
+                " where StartTime between @start and @end" +
+                " and StatusId in (2,3,4,5)";
+            string SQL2 = "select count(Id)" +
+                " from Work" +
+                " where StartTime between @start and @end" +
                 " and StatusId = 5";
             SqlCommand cmd1 = new SqlCommand(SQL1, cnn);
-            cmd1.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
             cmd1.Parameters.AddWithValue("@start", startTime);
             cmd1.Parameters.AddWithValue("@end", endTime);
             SqlCommand cmd2 = new SqlCommand(SQL2, cnn);
-            cmd2.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
             cmd2.Parameters.AddWithValue("@start", startTime);
             cmd2.Parameters.AddWithValue("@end", endTime);
             SqlDataAdapter da1 = new SqlDataAdapter(cmd1);
@@ -773,14 +769,12 @@ namespace BussinessObject.DataAccess
             DataTable result = new DataTable();
             int numOfWork = 0;
             string strConnection = DataProvider.DataProvider.getConnectionString();
-            string SQL = "select count(w.Id)" +
-                " from Work w inner join Task t on w.TaskId = t.Id" +
-                " where t.TypeId = @TypeId" +
-                " and StartTime between @start and @end" +
+            string SQL = "select count(Id)" +
+                " from Work" +
+                " where Deadline between @start and @end" +
                 " and StatusId in (1,2,3,4)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
-            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
             cmd.Parameters.AddWithValue("@start", startTime);
             cmd.Parameters.AddWithValue("@end", endTime);
 
@@ -813,12 +807,11 @@ namespace BussinessObject.DataAccess
             string strConnection = DataProvider.DataProvider.getConnectionString();
             string SQL = "select t.Title, w.[Description]" +
                 " from Work w inner join Task t on w.TaskId = t.Id" +
-                " where t.TypeId = @TypeId" +
+                " where t.TypeId in (1,2)" +
                 " and AlertTime between @start and @end" +
                 " and StatusId in (1,2,3,4)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
-            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
             cmd.Parameters.AddWithValue("@start", startTime);
             cmd.Parameters.AddWithValue("@end", endTime);
 

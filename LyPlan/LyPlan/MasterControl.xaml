@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LyPlan"
         mc:Ignorable="d"
-        Title="LyPlan Control" Height="100" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Activated="Window_Activated">
+        Title="LyPlan Control" Height="100" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Activated="Window_Activated" Icon="resource/lyplanv2.ico">
     <Grid Background="#FF333333" >
         <TextBlock Text="LyPlan is running..." Style="{StaticResource menu-style}" Margin="20,0,0,0"></TextBlock>
     </Grid>

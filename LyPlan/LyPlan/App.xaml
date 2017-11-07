@@ -6,7 +6,9 @@
              StartupUri="MasterControl.xaml" Exit="Application_Exit" ShutdownMode="OnMainWindowClose">
     <Application.Resources>
 
-        
+        <Style TargetType="Window">
+            <Setter Property="Icon" Value="resource/lyplanv2.ico"></Setter>
+        </Style>
         <!--Grid-->
 
         <Style TargetType="Grid" x:Key="background-light">
@@ -44,7 +46,7 @@
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="0,0,0,0"></Setter>
         </Style>
-        
+
         <!--Content Control-->
         <!--<Style TargetType="{x:Type ContentControl}" x:Key="content-day-in-week">
             <Setter Property="Template">
@@ -402,7 +404,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch"></Setter>
             <Setter Property="IsExpanded" Value="True"></Setter>
         </Style>
-        
+
         <!--Form-->
         <Style TargetType="{x:Type Label}">
             <Setter Property="Foreground" Value="#ffffffff"></Setter>
@@ -420,5 +422,40 @@
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="Margin" Value="5,5,5,5"></Setter>
         </Style>
+        <Style TargetType="{x:Type TextBox}" x:Key="timetextbox">
+            <Setter Property="MinHeight" Value="24"></Setter>
+            <Setter Property="MaxHeight" Value="96"></Setter>
+            <Setter Property="MinWidth" Value="24"></Setter>
+            <Setter Property="Background" Value="#ff333333"></Setter>
+            <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
+            <Setter Property="BorderThickness" Value="0"></Setter>
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="Margin" Value="5,5,5,5"></Setter>
+        </Style>
+
+        <Style TargetType="DatePicker" x:Key="datepicker-style">
+            <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Height" Value="24"></Setter>
+            <Setter Property="MinHeight" Value="20"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+            <Setter Property="Width" Value="24"></Setter>
+        </Style>
+        
+        <Style TargetType="DatePickerTextBox" x:Key="datepickertextbox-style">
+            <Setter Property="BorderBrush" Value="{x:Null}"></Setter>
+            <Setter Property="Padding" Value="0"></Setter>
+            <Setter Property="Margin" Value="5"></Setter>
+            <Setter Property="Height" Value="24"></Setter>
+            <Setter Property="MinHeight" Value="20"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Stretch"></Setter>
+            <Setter Property="Background" Value="#ff333333"></Setter>
+            <Setter Property="Foreground" Value="#ffffffff"></Setter>
+        </Style>
+        
+        
     </Application.Resources>
 </Application>

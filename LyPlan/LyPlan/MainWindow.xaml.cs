@@ -325,8 +325,6 @@ namespace LyPlan
             {
                 WeekyTaskData weekyTaskData = new WeekyTaskData();
                 WeekyWork weekyWork = data.SelectedItem;
-                if (weekyWork.StatusId == 2)
-                {
                     if (weekyTaskData.ChangeWeekyWorkStatus(weekyWork.Id, 5))
                     {
                         data.DataContext.MorningTask.Remove(weekyWork);
@@ -335,7 +333,6 @@ namespace LyPlan
                         DateTime endTime = startTime.AddDays(7).Date;
                         setProccess(startTime, endTime);
                     }
-                }
             }
             data.UnselectAll();
         }

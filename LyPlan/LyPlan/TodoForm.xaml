@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LyPlan"
         mc:Ignorable="d"
-       Title="Todolist" Width="384" Height="200" MinWidth="384" MinHeight="200" WindowStartupLocation="CenterScreen" Icon="resource/ic_schedule_white_24px.png" SizeToContent="Height">
+       Title="Todolist" MinWidth="384" MinHeight="200" WindowStartupLocation="CenterScreen" Icon="resource/ic_schedule_white_24px.png" SizeToContent="Height" Width="300">
     <Grid Style="{StaticResource background-dark}">
         <Grid.RowDefinitions>
             <RowDefinition Height="48"></RowDefinition>
@@ -24,6 +24,8 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"></RowDefinition>
                 <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="auto"></RowDefinition>
             </Grid.RowDefinitions>
             <Label>Title:</Label>
             <TextBox x:Name="txtTitle" Grid.Column="1"/>
@@ -31,6 +33,23 @@
             <TextBox x:Name="txtDescription" AcceptsReturn="True"
                      VerticalScrollBarVisibility="Auto" 
                      Grid.Row="1" Grid.Column="1" VerticalContentAlignment="Top" TextWrapping="WrapWithOverflow"/>
+            <Label Grid.Row="2">Deadline:</Label>
+            <Grid Grid.Row="2" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="auto"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="txtHour" Grid.Column="0" Style="{StaticResource timetextbox}" PreviewTextInput="txtHour_PreviewTextInput" LostFocus="txtHour_LostFocus" MaxLength="2" Text="0" HorizontalContentAlignment="Right" Padding="0,0,2,0"/>
+                <TextBlock Grid.Column="1" Text=":" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16" ></TextBlock>
+                <TextBox x:Name="txtMinute" Grid.Column="2" Style="{StaticResource timetextbox}" MaxLength="2" PreviewTextInput="txtMinute_PreviewTextInput" LostFocus="txtMinute_LostFocus" Text="0" HorizontalContentAlignment="Right" Padding="0,0,2,0"></TextBox>
+                <TextBox Grid.Column="3" Text="{Binding Path=SelectedDate, ElementName=dpDate, Mode=OneWay, StringFormat='dd/MM/yyyy'}" IsEnabled="False" MaxLength="10"/>
+                <DatePicker x:Name="dpDate" Grid.Column="4" Style="{StaticResource datepicker-style}" Background="{x:Null}" SelectedDateChanged="dpDate_SelectedDateChanged"/>
+            </Grid>
+            <Label Grid.Row="3">Alert before:</Label>
+            <ComboBox x:Name="cbAlert" Grid.Row="3" Grid.Column="1" Margin="5" MinHeight="24" HorizontalAlignment="Left" IsEnabled="False"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

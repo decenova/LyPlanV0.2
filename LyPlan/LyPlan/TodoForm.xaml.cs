@@ -28,6 +28,7 @@ namespace LyPlan
         public TodoForm(ObservableCollection<TodoWork> todoList)
         {
             InitializeComponent();
+            setUpCbAlert();
             btnDelete.Visibility = Visibility.Hidden;
             this.todoList = todoList;
             btnEdit.Content = "Add";
@@ -36,12 +37,43 @@ namespace LyPlan
         public TodoForm(TodoWork todoWork, ObservableCollection<TodoWork> todoList)
         {
             InitializeComponent();
+            setUpCbAlert();
             btnDelete.Visibility = Visibility.Visible;
             this.todoList = todoList;
             this.todoWork = todoWork;
             btnEdit.Content = "Update";
             txtTitle.Text = todoWork.Title;
             txtDescription.Text = todoWork.Description;
+            setTimeForm();
+        }
+
+        private void setTimeForm()
+        {
+            if (!todoWork.Deadline.Equals(DateTime.MinValue))
+            {
+                txtHour.Text = todoWork.Deadline.Hour.ToString();
+                txtMinute.Text = todoWork.Deadline.Minute.ToString();
+                dpDate.SelectedDate = todoWork.Deadline;
+                if (!todoWork.AlertTime.Equals(DateTime.MinValue))
+                {
+                    TimeSpan time = todoWork.Deadline.Subtract(todoWork.AlertTime);
+                    int minute = time.Minutes;
+                    foreach (AlertMinute.AMinute item in cbAlert.ItemsSource as List<AlertMinute.AMinute>)
+                    {
+                        if (item.Value == minute)
+                        {
+                            cbAlert.SelectedItem = item;
+                        }
+                    }
+                }
+            }
+        }
+
+        private void setUpCbAlert()
+        {
+            cbAlert.ItemsSource = new AlertMinute().ListMinute;
+            cbAlert.DisplayMemberPath = "Name";
+            cbAlert.SelectedIndex = 0;
         }
 
         private bool validInput()
@@ -61,6 +93,7 @@ namespace LyPlan
                 return;
             }
 
+            bool check = false;
             TodoTaskData todoTaskData = new TodoTaskData();
             if (btnEdit.Content.Equals("Add"))
             {
@@ -69,7 +102,22 @@ namespace LyPlan
                     Title = txtTitle.Text,
                     Description = txtDescription.Text
                 };
-                if (todoTaskData.SaveTodoTask(newTodoWork))
+                DateTime? deadline = GetDateTimeFromForm();
+                if (deadline == null)
+                    check = todoTaskData.SaveTodoTask(newTodoWork);
+                else
+                {
+                    newTodoWork.Deadline = deadline as dynamic;
+                    dynamic minute = (cbAlert.SelectedValue as dynamic).Value;
+                    if (minute != null)
+                    {
+                        newTodoWork.AlertTime = newTodoWork.Deadline.AddMinutes(-1 * minute);
+                        check = todoTaskData.SaveTodoTaskWithAlert(newTodoWork);
+                    }
+                    else
+                        check = todoTaskData.SaveTodoTaskWithDealine(newTodoWork);
+                }
+                if (check)
                 {
                     DataTable InsertId = todoTaskData.GetInsertTodoTaskId();
                     try
@@ -92,7 +140,27 @@ namespace LyPlan
             {
                 todoWork.Title = txtTitle.Text;
                 todoWork.Description = txtDescription.Text;
-                if (todoTaskData.UpdateTodo(todoWork))
+                DateTime? deadline = GetDateTimeFromForm();
+                if (deadline == null)
+                {
+                    check = todoTaskData.UpdateTodo(todoWork);
+                }
+                else
+                {
+                    todoWork.Deadline = deadline as dynamic;
+                    dynamic minute = (cbAlert.SelectedValue as dynamic).Value;
+                    if (minute != null)
+                    {
+                        todoWork.AlertTime = todoWork.Deadline.AddMinutes(-1 * minute);
+                        check = todoTaskData.UpdateTodoWithAlertTime(todoWork);
+                    }
+                    else
+                    {
+                        check = todoTaskData.UpdateTodoWithDeadline(todoWork);
+                        todoWork.AlertTime = new DateTime();
+                    }
+                }
+                if (check)
                 {
                     CollectionViewSource.GetDefaultView(todoList).Refresh();
                     this.Close();
@@ -122,6 +190,64 @@ namespace LyPlan
             {
                 tbMessage.Text = "Delete fail! Please try again";
             }
+        }
+
+
+        private void txtHour_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+                e.Handled = true;
+        }
+
+        private void txtHour_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtHour.Text.Length == 0)
+                txtHour.Text = "0";
+            int hour = int.Parse(txtHour.Text);
+            if (hour > 23)
+                hour = 23;
+            if (hour < 0)
+                hour = 0;
+            txtHour.Text = hour + "";
+        }
+
+        private void txtMinute_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            if (!char.IsDigit(e.Text, e.Text.Length - 1))
+                e.Handled = true;
+        }
+
+        private void txtMinute_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (txtMinute.Text.Length == 0)
+                txtMinute.Text = "0";
+            int minute = int.Parse(txtMinute.Text);
+            if (minute > 59)
+                minute = 59;
+            if (minute < 0)
+                minute = 0;
+            txtMinute.Text = minute + "";
+        }
+
+        private DateTime? GetDateTimeFromForm()
+        {
+            DateTime? dateTime = dpDate.SelectedDate;
+            if (dateTime != null)
+            {
+                DateTime d = dateTime as dynamic;
+                d = d.AddHours(int.Parse(txtHour.Text));
+                d = d.AddMinutes(int.Parse(txtMinute.Text));
+                dateTime = d;
+            }
+            return dateTime;
+        }
+
+        private void dpDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dpDate.SelectedDate != null)
+                cbAlert.IsEnabled = true;
+            else
+                cbAlert.IsEnabled = false;
         }
     }
 
