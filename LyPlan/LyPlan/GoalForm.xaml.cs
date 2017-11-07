@@ -44,6 +44,7 @@ namespace LyPlan
             nodeList = new ObservableCollection<BussinessObject.Entities.Task>();
             lvNodeTask.ItemsSource = nodeList;
             btnUpdate.Visibility = Visibility.Hidden;
+            btnDelete.Visibility = Visibility.Hidden;
         }
 
         public GoalForm(BussinessObject.Entities.Task task, ObservableCollection<BussinessObject.Entities.Task> weekyList)
@@ -63,7 +64,7 @@ namespace LyPlan
 
         private bool validInput()
         {
-            if (txtTitle.Text.Length == 0)
+            if (txtTitle.Text.Trim().Length == 0)
             {
                 tbMessage.Text = "Title can't be blank";
                 return false;

@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:LyPlan"
              xmlns:bo ="clr-namespace:BussinessObject.Entities;assembly=BussinessObject"
-             StartupUri="MainWindow.xaml">
+             StartupUri="MasterControl.xaml" Exit="Application_Exit" ShutdownMode="OnMainWindowClose">
     <Application.Resources>
 
         
@@ -13,7 +13,7 @@
             <Setter Property="Background" Value="#ffffffff"></Setter>
         </Style>
         <Style TargetType="Grid" x:Key="background-light-transparent">
-            <Setter Property="Background" Value="#ccffffff"></Setter>
+            <Setter Property="Background" Value="#cccceeff"></Setter>
         </Style>
         <Style TargetType="Grid" x:Key="background-dark">
             <Setter Property="Background" Value="#FF1A1A1A"></Setter>
@@ -38,7 +38,7 @@
         </Style>
 
         <Style TargetType="TextBlock" x:Key="menu-style">
-            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="FontSize" Value="16"></Setter>
             <Setter Property="Foreground" Value="#ffffffff"></Setter>
             <Setter Property="HorizontalAlignment" Value="Left"></Setter>
             <Setter Property="VerticalAlignment" Value="Center"></Setter>
@@ -151,6 +151,24 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style TargetType="Button" x:Key="button-rect" BasedOn="{StaticResource button}">
+            <Setter Property="Height" Value="48"></Setter>
+            <Setter Property="Width" Value="auto"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{x:Null}">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#9900A2DE"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
         <Style TargetType="Button" x:Key="button-normal">
             <Setter Property="Background" Value="#00000000"></Setter>
             <Setter Property="Foreground" Value="#ffcccccc"></Setter>
@@ -196,6 +214,26 @@
                 </Trigger>
                 <Trigger Property="IsChecked" Value="True">
                     <Setter Property="Background" Value="#ff888888"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="ToggleButton" x:Key="toggle-button-rect" BasedOn="{StaticResource toggle-button}">
+            <Setter Property="Height" Value="48"></Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="#ffcccccc" BorderThickness="0,0,0,0">
+                            <ContentPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#9900A2DE"/>
+                </Trigger>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Background" Value="#cc33A2DE"/>
                 </Trigger>
             </Style.Triggers>
         </Style>

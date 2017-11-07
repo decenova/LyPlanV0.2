@@ -87,15 +87,17 @@
                 <ColumnDefinition MinWidth="400" Width="3*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid Grid.Column="0" HorizontalAlignment="Stretch">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="48"></ColumnDefinition>
-                    <ColumnDefinition Width="*"></ColumnDefinition>
-                </Grid.ColumnDefinitions>
-                    <Grid Grid.ColumnSpan="2" Style="{StaticResource background-dark-transparent}"></Grid>
-                <Grid>
-                    <StackPanel>
-                        <Button x:Name="btnMenu" Style="{StaticResource button-square}" Click="btnMenu_Click">
-                            <Image Source="resource/ic_menu_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                <Grid Style="{StaticResource background-dark-transparent}"></Grid>
+                <StackPanel>
+                        <Button x:Name="btnMenu" Style="{StaticResource button-rect}" Click="btnMenu_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="resource/ic_menu_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                                <TextBlock Text="Menu" Grid.Column="1" Style="{StaticResource menu-style}"></TextBlock>
+                            </Grid>
                         </Button>
                         <!--<Button x:Name="btnSchedule" Style="{StaticResource button-square}">
                         <Image Source="resource/ic_schedule_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
@@ -103,23 +105,51 @@
                     <Button x:Name="btnTimeline" Style="{StaticResource button-square}" Click="Button_Click">
                         <Image Source="resource/ic_timeline_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
                     </Button>-->
-                        <ToggleButton x:Name="btnMove" Style="{StaticResource toggle-button-square}" Checked="btnMove_Checked">
-                            <Image Source="resource/ic_move_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        <ToggleButton x:Name="btnMove" Style="{StaticResource toggle-button-rect}" Checked="btnMove_Checked" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="resource/ic_move_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                                <TextBlock Text="Add to week" Grid.Column="1" Style="{StaticResource menu-style}"></TextBlock>
+                            </Grid>
                         </ToggleButton>
-                        <ToggleButton x:Name="btnEdit" Style="{StaticResource toggle-button-square}" Checked="btnEdit_Checked">
-                            <Image Source="resource/ic_edit_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        <ToggleButton x:Name="btnEdit" Style="{StaticResource toggle-button-rect}" Checked="btnEdit_Checked" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="resource/ic_edit_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                                <TextBlock Text="Edit" Grid.Column="1" Style="{StaticResource menu-style}"></TextBlock>
+                            </Grid>
                         </ToggleButton>
-                        <Button x:Name="btnAdd" Style="{StaticResource button-square}" Click="btnAdd_Click">
-                            <Image Source="resource/ic_add_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        <Button x:Name="btnAdd" Style="{StaticResource button-rect}" Click="btnAdd_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="resource/ic_add_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                                <TextBlock Text="Add" Grid.Column="1" Style="{StaticResource menu-style}"></TextBlock>
+                            </Grid>
                         </Button>
                     </StackPanel>
                     <StackPanel VerticalAlignment="Bottom">
-                        <Button x:Name="btnSetting" Style="{StaticResource button-square}" Click="btnSetting_Click">
-                            <Image Source="resource/ic_today_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                        <Button x:Name="btnSetting" Style="{StaticResource button-rect}" Click="btnSetting_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="48"></ColumnDefinition>
+                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                </Grid.ColumnDefinitions>
+                                <Image Source="resource/ic_today_white_24px.png" StretchDirection="UpOnly" Stretch="None"/>
+                                <TextBlock Text="Today" Grid.Column="1" Style="{StaticResource menu-style}"></TextBlock>
+                            </Grid>
                         </Button>
                     </StackPanel>
                 </Grid>
-                <Grid Grid.Column="1">
+                <!--<Grid Grid.Column="1">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="48"></RowDefinition>
                         <RowDefinition Height="48"></RowDefinition>
@@ -133,8 +163,8 @@
                     <TextBlock Text="Edit" Grid.Row="2" Style="{StaticResource menu-style}"></TextBlock>
                     <TextBlock Text="Add" Grid.Row="3" Style="{StaticResource menu-style}"></TextBlock>
                     <TextBlock Text="Today" Grid.Row="5" Style="{StaticResource menu-style}"></TextBlock>
-                </Grid>
-            </Grid>
+                </Grid>-->
+            
             <Grid Style="{StaticResource background-dark}" Grid.Column="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="48"></RowDefinition>

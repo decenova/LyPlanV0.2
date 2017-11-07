@@ -48,7 +48,7 @@ namespace LyPlan
 
         private bool validInput()
         {
-            if (txtTitle.Text.Length == 0)
+            if (txtTitle.Text.Trim().Length == 0)
             {
                 tbMessage.Text = "Title can't be blank";
                 return false;

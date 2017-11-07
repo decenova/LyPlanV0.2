@@ -768,5 +768,81 @@ namespace BussinessObject.DataAccess
             
             return result;
         }
+        public int GetNumOfWork(DateTime startTime, DateTime endTime)
+        {
+            DataTable result = new DataTable();
+            int numOfWork = 0;
+            string strConnection = DataProvider.DataProvider.getConnectionString();
+            string SQL = "select count(w.Id)" +
+                " from Work w inner join Task t on w.TaskId = t.Id" +
+                " where t.TypeId = @TypeId" +
+                " and StartTime between @start and @end" +
+                " and StatusId in (1,2,3,4)";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
+            cmd.Parameters.AddWithValue("@start", startTime);
+            cmd.Parameters.AddWithValue("@end", endTime);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(result);
+                numOfWork = result.Select()[0].ItemArray[0] as dynamic;
+            }
+            catch (SqlException se)
+            {
+                //throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return numOfWork;
+        }
+        public DataTable GetAlertWork(DateTime startTime, DateTime endTime)
+        {
+            DataTable result = new DataTable();
+            string strConnection = DataProvider.DataProvider.getConnectionString();
+            string SQL = "select t.Title, w.[Description]" +
+                " from Work w inner join Task t on w.TaskId = t.Id" +
+                " where t.TypeId = @TypeId" +
+                " and AlertTime between @start and @end" +
+                " and StatusId in (1,2,3,4)";
+            SqlConnection cnn = new SqlConnection(strConnection);
+            SqlCommand cmd = new SqlCommand(SQL, cnn);
+            cmd.Parameters.AddWithValue("@TypeId", TYPE_DAILY);
+            cmd.Parameters.AddWithValue("@start", startTime);
+            cmd.Parameters.AddWithValue("@end", endTime);
+
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+
+            try
+            {
+                if (cnn.State == ConnectionState.Closed)
+                {
+                    cnn.Open();
+                }
+
+                da.Fill(result);
+            }
+            catch (SqlException se)
+            {
+                //throw new Exception("Error: " + se.Message);
+            }
+            finally
+            {
+                cnn.Close();
+            }
+
+            return result;
+        }
     }
 }

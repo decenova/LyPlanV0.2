@@ -18,6 +18,7 @@ using BussinessObject.Entities;
 using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
 using System.Globalization;
+using System.IO;
 
 namespace LyPlan
 {
@@ -347,7 +348,7 @@ namespace LyPlan
         private void btnMenu_Click(object sender, RoutedEventArgs e)
         {
             if (columMenu.Width.Equals(new GridLength(48)))
-                columMenu.Width = new GridLength(200);
+                columMenu.Width = new GridLength(248);
             else
                 columMenu.Width = new GridLength(48);
         }
