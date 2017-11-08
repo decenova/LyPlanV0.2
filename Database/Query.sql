@@ -32,9 +32,19 @@ select count(w.Id)
 				 and StatusId = 5
 select t.Title, w.[Description]
                  from Work w inner join Task t on w.TaskId = t.Id
-                 where t.TypeId = 2 
-				 and AlertTime between '2017-11-07 02:27:00' and '2017-11-07 09:27:00' 
+                 where t.TypeId = 1 
+				 and AlertTime between '2017-11-08 02:35:00' and '2017-11-08 09:36:00' 
 				 and StatusId in (1,2,3,4)
+
+select *
+                 from Task t inner join Work w on t.Id = w.TaskId
+                 where ((StartTime between '2017-11-08' and '2017-11-09' and t.TypeId = 2)
+				 or (Deadline between '2017-11-08' and '2017-11-09'  and t.TypeId = 1))
+				 and StatusId in (1,2,3,4)
+
+select *
+from Work, Task
+where Work.TaskId = Task.Id
 
 delete Work
 delete Task

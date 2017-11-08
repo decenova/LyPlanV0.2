@@ -504,7 +504,7 @@ namespace BussinessObject.DataAccess
             string SQL = "select w.Id, TaskId, t.Title, w.[Description], StartTime, AlertTime, Deadline, StatusId" +
                 " from Work w inner join Task t on w.TaskId = t.Id" +
                 " where t.TypeId = @TypeId" +
-                " and StartTime between @start and @end" +
+                " and StartTime >= @start and StartTime < @end" +
                 " and StatusId in (1,2,3,4,5)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);
@@ -722,11 +722,11 @@ namespace BussinessObject.DataAccess
             SqlConnection cnn = new SqlConnection(strConnection);
             string SQL1 = "select count(Id)" +
                 " from Work" +
-                " where StartTime between @start and @end" +
+                " where StartTime >= @start and StartTime < @end" +
                 " and StatusId in (2,3,4,5)";
             string SQL2 = "select count(Id)" +
                 " from Work" +
-                " where StartTime between @start and @end" +
+                " where StartTime >= @start and StartTime < @end" +
                 " and StatusId = 5";
             SqlCommand cmd1 = new SqlCommand(SQL1, cnn);
             cmd1.Parameters.AddWithValue("@start", startTime);
@@ -769,9 +769,10 @@ namespace BussinessObject.DataAccess
             DataTable result = new DataTable();
             int numOfWork = 0;
             string strConnection = DataProvider.DataProvider.getConnectionString();
-            string SQL = "select count(Id)" +
-                " from Work" +
-                " where Deadline between @start and @end" +
+            string SQL = "select count(w.Id)" +
+                " from Task t inner join Work w on t.Id = w.TaskId" +
+                " where ((StartTime >= @start and StartTime < @end and t.TypeId = 2)" +
+                "           or(Deadline >= @start and Deadline < @end and t.TypeId = 1))" +
                 " and StatusId in (1,2,3,4)";
             SqlConnection cnn = new SqlConnection(strConnection);
             SqlCommand cmd = new SqlCommand(SQL, cnn);

@@ -49,7 +49,7 @@ namespace LyPlan
         private void setTimer()
         {
             timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMinutes(1);
+            timer.Interval = TimeSpan.FromSeconds(30);
             timer.Tick += timer_Tick;
             timer.Start();
         }
@@ -128,7 +128,7 @@ namespace LyPlan
 
         private int getWorkInDay()
         {
-            DateTime startTime = DateTime.Now;
+            DateTime startTime = DateTime.Now.Date;
             DateTime endTime = startTime.AddDays(1).Date;
             WeekyTaskData weekyTask = new WeekyTaskData();
             return weekyTask.GetNumOfWork(startTime, endTime);
@@ -136,7 +136,7 @@ namespace LyPlan
         private DataTable getAlertWorkInDay()
         {
             DateTime startTime = DateTime.Now;
-            DateTime endTime = new DateTime(startTime.AddMinutes(1).Ticks);
+            DateTime endTime = new DateTime(startTime.AddSeconds(30).Ticks);
             WeekyTaskData weekyTask = new WeekyTaskData();
             return weekyTask.GetAlertWork(startTime, endTime);
         }
