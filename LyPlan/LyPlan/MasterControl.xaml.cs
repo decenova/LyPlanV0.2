@@ -79,7 +79,7 @@ namespace LyPlan
         {
             try
             {
-                notify.Icon = new System.Drawing.Icon("lyplanv2.ico");
+                notify.Icon = new System.Drawing.Icon("./lyplanv2.ico");
             }
             catch (Exception e)
             {
