@@ -108,6 +108,7 @@ namespace LyPlan
             }
             notify.Visible = true;
             setContextMenuComponent();
+            notify.DoubleClick += menuItem1_Click;
             notify.ShowBalloonTip(1000, "Việc cần làm", "Hôm nay còn " + getWorkInDay() + " việc chưa làm.", System.Windows.Forms.ToolTipIcon.None);
         }
 
@@ -115,6 +116,7 @@ namespace LyPlan
         {
             this.Visibility = Visibility.Collapsed;
         }
+
 
         private void menuItem1_Click(object Sender, EventArgs e)
         {
