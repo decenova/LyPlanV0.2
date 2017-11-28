@@ -1,5 +1,6 @@
 ﻿using BussinessObject.DataAccess;
 using BussinessObject.Entities;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -33,6 +34,7 @@ namespace LyPlan
         public MasterControl()
         {
             InitializeComponent();
+            //SetStartWithWindows();
             notify = new System.Windows.Forms.NotifyIcon();
             try
             {
@@ -40,10 +42,28 @@ namespace LyPlan
             }
             catch{
             }
-            mainWindow = new MainWindow();
-            mainWindow.Closed += mainWindow_Closed;
-            mainWindow.Show();
             setTimer();
+        }
+
+        private void SetStartWithWindows()
+        {
+            RegistryKey regkey = Registry.CurrentUser.CreateSubKey("Software\\LyPlan");
+            //mo registry khoi dong cung win
+            RegistryKey regstart = Registry.CurrentUser.CreateSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run");
+            string keyvalue = "1";
+            //string subkey = "Software\\ManhQuyen";
+            try
+            {
+                //chen gia tri key
+                regkey.SetValue("Index", keyvalue);
+                //regstart.SetValue("taoregistrytronghethong", "E:\\Studing\\Bai Tap\\CSharp\\Channel 4\\bai temp\\tao registry trong he thong\\tao registry trong he thong\\bin\\Debug\\tao registry trong he thong.exe");
+                regstart.SetValue("LapLich", AppDomain.CurrentDomain.BaseDirectory + "LyPlan.exe");
+                ////dong tien trinh ghi key
+                //regkey.Close();
+            }
+            catch (System.Exception ex)
+            {
+            }
         }
 
         private void setTimer()
@@ -80,6 +100,7 @@ namespace LyPlan
             try
             {
                 notify.Icon = new System.Drawing.Icon("lyplanv2.ico");
+                notify.Icon = System.Drawing.Icon.ExtractAssociatedIcon(System.Reflection.Assembly.GetEntryAssembly().ManifestModule.Name);
             }
             catch (Exception e)
             {
@@ -100,6 +121,7 @@ namespace LyPlan
             if (mainWindow == null)
             {
                 mainWindow = new MainWindow();
+                mainWindow.Closed += mainWindow_Closed;
                 mainWindow.Show();
             } else
             {
